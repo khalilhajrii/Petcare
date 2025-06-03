@@ -47,22 +47,37 @@ jobs:
       working-directory: ./backend
       run: npm run build
 
-  build-and-push:
-    needs: test
-    runs-on: ubuntu-latest
-    
-    steps:
+
+build-and-push:
+  needs: test
+  runs-on: ubuntu-latest
+  permissions:
+    packages: write  # Required to push to GHCR
+    contents: read   # Required to checkout code
+  
+  steps:
     - uses: actions/checkout@v4
     
-    - name: Login to Docker Hub
-      if: github.ref == 'refs/heads/main'
+    # Login to GitHub Container Registry (no credentials needed)
+    - name: Log in to GHCR
       uses: docker/login-action@v2
       with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}  # Automatically available in actions
     
-    - name: Build and push backend image
+    - name: Build and push to GHCR
       working-directory: ./backend
       run: |
-        docker build -t your-dockerhub-username/backend:latest -f Dockerfile.prod .
-        docker push your-dockerhub-username/backend:latest
+        # Get repository owner/name (converts to lowercase)
+        REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+        
+        # Build with two tags: latest and git SHA
+        docker build \
+          -t ghcr.io/$REPO_NAME/backend:latest \
+          -t ghcr.io/$REPO_NAME/backend:${{ github.sha }} \
+          -f Dockerfile.prod .
+        
+        # Push both tags
+        docker push ghcr.io/$REPO_NAME/backend:latest
+        docker push ghcr.io/$REPO_NAME/backend:${{ github.sha }}
