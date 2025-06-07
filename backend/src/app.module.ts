@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './Entity/user.entity';
-import { Role } from './Entity/role.entity';
-import { Pet } from './Entity/pet.entity';
-import { VaccinationRecord } from './Entity/vaccination-record.entity';
-import { Reservation } from './Entity/reservation.entity';
-import { Service } from './Entity/service.entity';
-import { Payment } from './Entity/payment.entity';
+import { User } from './users/entities/user.entity';
+import { Role } from './users/entities/role.entity';
+import { Pet } from './pets/entities/pet.entity';
+import { VaccinationRecord } from './vaccination-record/entities/vaccination-record.entity';
+import { Reservation } from './reservations/entities/reservation.entity';
+import { Service } from './services/entities/service.entity';
+import { Payment } from './payments/entities/payment.entity';
 
 @Module({
   imports: [
