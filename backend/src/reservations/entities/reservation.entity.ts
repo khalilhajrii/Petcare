@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Pet } from "../../pets/entities/pet.entity";
-import { Service } from "./service.entity";
+// Update the import path if the file is located elsewhere, for example:
+import { Service } from "../../services/entities/service.entity";
 import { User } from "../../users/entities/user.entity";
 
 @Entity('reservation')

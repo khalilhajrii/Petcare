@@ -1,8 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "./role.entity";
 import { Pet } from "../../pets/entities/pet.entity";
-import { Reservation } from "../../Entity/reservation.entity";
-import { Payment } from "../../payments/payment.entity";
+import { Reservation } from "../../reservations/entities/reservation.entity";
+// import { Payment } from "../../payments/payment.entity";
+import { Payment } from "../../payments/entities/payment.entity";
 
 @Entity('user')
 export class User {

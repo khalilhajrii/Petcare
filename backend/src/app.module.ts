@@ -9,6 +9,7 @@ import { VaccinationRecord } from './vaccination-record/entities/vaccination-rec
 import { Reservation } from './reservations/entities/reservation.entity';
 import { Service } from './services/entities/service.entity';
 import { Payment } from './payments/entities/payment.entity';
+import { PetsModule } from './pets/pet.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { Payment } from './payments/entities/payment.entity';
       logging: true,
       autoLoadEntities: true,
     }),
+    PetsModule
   ],
   controllers: [AppController],
   providers: [AppService],
