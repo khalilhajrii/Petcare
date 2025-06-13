@@ -1,5 +1,6 @@
+import { Reservation } from "src/reservations/entities/reservation.entity";
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Reservation } from "./reservation.entity";
+// import { Reservation } from "./reservation.entity";
 
 @Entity('service')
 export class Service {
