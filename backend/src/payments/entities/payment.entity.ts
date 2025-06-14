@@ -1,6 +1,8 @@
 import { Service } from "src/services/entities/service.entity";
 import { User } from "src/users/entities/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+// import { User } from "../users/entities/user.entity";
+// import { Service } from "../Entity/service.entity";
 
 @Entity('payment')
 export class Payment {
