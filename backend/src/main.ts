@@ -1,13 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-declare const module: any;
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
+
+  const config = new DocumentBuilder()
+    .setTitle('PetCare API')
+    .setDescription('API pour la gestion des utilisateurs, rôles, animaux, etc.')
+    .setVersion('1.0')
+    .addTag('App')
+    .addTag('Auth') // utile pour bien afficher la section
+    .addBearerAuth() // pour JWT
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document); // Swagger sur localhost:3000/api
+
+  await app.listen(3000);
 }
 bootstrap();
