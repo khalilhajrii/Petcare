@@ -1,0 +1,7 @@
+flask
+python-dotenv
+sqlalchemy
+llama-index
+langgraph
+psycopg2-binary
+sqlalchemy

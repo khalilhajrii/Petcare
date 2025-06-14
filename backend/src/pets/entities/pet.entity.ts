@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../../users/entities/user.entity";
 import { VaccinationRecord } from "../../vaccination-record/entities/vaccination-record.entity";
-import { Reservation } from "../Entity/reservation.entity";
+import { Reservation } from "src/reservations/entities/reservation.entity";
 
 @Entity('pet')
 export class Pet {

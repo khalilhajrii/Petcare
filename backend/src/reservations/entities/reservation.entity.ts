@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Pet } from "../../pets/entities/pet.entity";
-import { Service } from "./service.entity";
 import { User } from "../../users/entities/user.entity";
+import { Service } from "src/services/entities/service.entity";
 
 @Entity('reservation')
 export class Reservation {
