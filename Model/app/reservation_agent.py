@@ -10,15 +10,26 @@ from transformers import pipeline
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from llama_index.llms.huggingface import HuggingFaceLLM
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+
 class ReservationAgent:
     def __init__(self, db_uri: str):
         self.db_uri = db_uri
+        print(f"Connecting to database: {db_uri}")
+        
         try:
-            engine = create_engine('postgresql://root:root@localhost:5432/petcare')
-            with engine.connect() as conn:
-                print("Connection successful!")
+            # Create the engine with the provided URI
+            self.engine = create_engine(db_uri)
+            
+            # Test the connection
+            with self.engine.connect() as conn:
+                print("Database connection successful!")
+                
+            # Initialize SQL database after successful connection
+            self.sql_database = SQLDatabase(self.engine)
+            
         except Exception as e:
-            print(f"Connection failed: {e}")
+            print(f"Database connection failed: {e}")
+            raise
         
         # Configure local embeddings (free)
         Settings.embed_model = HuggingFaceEmbedding(
@@ -45,13 +56,13 @@ class ReservationAgent:
         # Configure query engine with local models
         self.query_engine = NLSQLTableQueryEngine(
             sql_database=self.sql_database,
-            tables=["pets", "services", "reservations"],
+            tables=["pet", "service", "reservation","reservation_services"],
             llm=self.llm
         )
         
         self.workflow = self._create_workflow()
     
-    def _create_workflow(self) -> Graph:
+    def _create_workflow(self) -> Any:
         workflow = Graph()
         
         # Define nodes
@@ -68,33 +79,45 @@ class ReservationAgent:
         workflow.set_entry_point("identify_intent")
         workflow.set_finish_point("confirm_reservation")
         
-        return workflow
+        return workflow.compile()
     
     async def _identify_intent(self, state: Dict[str, Any]) -> Dict[str, Any]:
         # Use LLM to identify what the user wants
         query = state.get("query", "")
-        response = self.query_engine.query(
-            f"Based on this user query: '{query}', what tables would be relevant?"
-        )
-        state["intent"] = str(response)
+        try:
+            response = self.query_engine.query(
+                f"Based on this user query: '{query}', what tables would be relevant?"
+            )
+            state["intent"] = str(response)
+        except Exception as e:
+            print(f"Error in _identify_intent: {e}")
+            state["intent"] = f"Error: {str(e)}"
         return state
     
     async def _check_availability(self, state: Dict[str, Any]) -> Dict[str, Any]:
         # Check database for availability
         query = state.get("query", "")
-        response = self.query_engine.query(
-            f"Check availability for: {query}"
-        )
-        state["availability"] = str(response)
+        try:
+            response = self.query_engine.query(
+                f"Check availability for: {query}"
+            )
+            state["availability"] = str(response)
+        except Exception as e:
+            print(f"Error in _check_availability: {e}")
+            state["availability"] = f"Error: {str(e)}"
         return state
     
     async def _create_reservation(self, state: Dict[str, Any]) -> Dict[str, Any]:
         # Create reservation in database
         query = state.get("query", "")
-        response = self.query_engine.query(
-            f"Create a reservation for: {query}"
-        )
-        state["reservation"] = str(response)
+        try:
+            response = self.query_engine.query(
+                f"Create a reservation for: {query}"
+            )
+            state["reservation"] = str(response)
+        except Exception as e:
+            print(f"Error in _create_reservation: {e}")
+            state["reservation"] = f"Error: {str(e)}"
         return state
     
     async def _confirm_reservation(self, state: Dict[str, Any]) -> Dict[str, Any]:
@@ -103,5 +126,11 @@ class ReservationAgent:
         return state
     
     async def process_reservation(self, query: str) -> Dict[str, Any]:
-        result = await self.workflow.arun({"query": query})
-        return result
+        try:
+            result = await self.workflow.ainvoke({"query": query})
+            return result
+        except Exception as e:
+            import traceback
+            print(f"Error in process_reservation: {str(e)}")
+            print(traceback.format_exc())
+            return {"error": str(e)}
