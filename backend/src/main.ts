@@ -9,8 +9,6 @@ async function bootstrap() {
     .setTitle('PetCare API')
     .setDescription('API pour la gestion des utilisateurs, rôles, animaux, etc.')
     .setVersion('1.0')
-    .addTag('App')
-    .addTag('Auth') // utile pour bien afficher la section
     .addBearerAuth() // pour JWT
     .build();
 
