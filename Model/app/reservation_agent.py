@@ -1,20 +1,54 @@
 import os
 from typing import Dict, Any, List
-from llama_index.core import SQLDatabase
+from llama_index.core import SQLDatabase, Settings
 from llama_index.core.query_engine import NLSQLTableQueryEngine
 from langgraph.graph import Graph
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Engine
-
+from transformers import pipeline
+# Import Hugging Face LLM
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from llama_index.llms.huggingface import HuggingFaceLLM
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 class ReservationAgent:
     def __init__(self, db_uri: str):
         self.db_uri = db_uri
-        self.engine = create_engine(db_uri)
-        self.sql_database = SQLDatabase(self.engine)
+        try:
+            engine = create_engine('postgresql://root:root@localhost:5432/petcare')
+            with engine.connect() as conn:
+                print("Connection successful!")
+        except Exception as e:
+            print(f"Connection failed: {e}")
+        
+        # Configure local embeddings (free)
+        Settings.embed_model = HuggingFaceEmbedding(
+            model_name="BAAI/bge-small-en-v1.5"  # Free, lightweight embedding model
+        )
+        
+        # Initialize local LLM
+        tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-small")
+        model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
+        
+        self.llm = HuggingFaceLLM(
+            model=model,
+            tokenizer=tokenizer,
+            context_window=512,
+            max_new_tokens=256,
+            generate_kwargs={
+                "temperature": 0.7,
+                "do_sample": False,
+                "max_length": 256
+            },
+            device_map="auto"
+        )
+        
+        # Configure query engine with local models
         self.query_engine = NLSQLTableQueryEngine(
             sql_database=self.sql_database,
-            tables=["pets", "services", "reservations"]
+            tables=["pets", "services", "reservations"],
+            llm=self.llm
         )
+        
         self.workflow = self._create_workflow()
     
     def _create_workflow(self) -> Graph:

@@ -4,4 +4,12 @@ sqlalchemy
 llama-index
 langgraph
 psycopg2-binary
-sqlalchemy
+asyncio
+asgiref
+flask[async]
+torch
+sentence-transformers
+transformers
+llama-index-llms-huggingface
+sentencepiece
+llama-index-embeddings-huggingface
