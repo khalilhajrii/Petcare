@@ -7,8 +7,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreatePetDto } from 'src/dto/create-pet.dto';
-import { UpdatePetDto } from 'src/dto/update-pet.dto';
+import { CreatePetDto } from 'src/pets/dto/create-pet.dto';
+import { UpdatePetDto } from 'src/pets/dto/update-pet.dto';
 import { Pet } from './entities/pet.entity';
 
 @Injectable()
