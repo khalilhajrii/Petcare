@@ -10,6 +10,7 @@ import { Reservation } from './reservations/entities/reservation.entity';
 import { Service } from './services/entities/service.entity';
 import { Payment } from './payments/entities/payment.entity';
 import { PetsModule } from './pets/pet.module';
+import { SeederModule } from './seeder/seeder.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { PetsModule } from './pets/pet.module';
       logging: true,
       autoLoadEntities: true,
     }),
-    PetsModule
+    PetsModule,
+    SeederModule
   ],
   controllers: [AppController],
   providers: [AppService],

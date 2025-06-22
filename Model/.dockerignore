@@ -1,0 +1,35 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Development files
+.git
+.gitignore
+.env
+.vscode
+
+# Docker files
+Dockerfile*
+docker-compose*
+
+# Test files
+tests/
+test_*.py
+
+# Documentation
+docs/
+*.md
+
+# Temporary files
+*.log
+*.swp
+*.swo
+.DS_Store

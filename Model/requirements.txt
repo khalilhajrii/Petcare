@@ -1,15 +1,27 @@
-flask
-python-dotenv
-sqlalchemy
-llama-index
-langgraph
-psycopg2-binary
-asyncio
-asgiref
-flask[async]
-torch
-sentence-transformers
-transformers
-llama-index-llms-huggingface
-sentencepiece
-llama-index-embeddings-huggingface
+# Core dependencies - install first
+# Using CPU-only version of torch to avoid CUDA dependencies
+torch==2.1.2+cpu
+
+# Web framework
+flask[async]==2.3.3
+gunicorn==21.2.0
+
+# Database
+sqlalchemy==2.0.23
+psycopg2-binary==2.9.9
+
+# AI/ML - install after torch
+llama-index-core>=0.10.68
+llama-index-llms-huggingface>=0.1.5
+llama-index-embeddings-huggingface==0.1.4
+langgraph==0.0.19
+# Ensure transformers and huggingface-hub versions are compatible
+# huggingface-hub>=0.23.0 is required for split_torch_state_dict_into_shards function
+transformers>=4.38.0
+huggingface-hub>=0.23.0
+
+# Utilities
+python-dotenv==1.0.0
+asyncio==3.4.3
+numpy==1.26.2
+pandas==2.1.3
