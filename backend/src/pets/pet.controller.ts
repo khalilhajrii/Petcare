@@ -4,9 +4,9 @@ https://docs.nestjs.com/controllers#controllers
 
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { PetsService } from './pet.service';
-import { CreatePetDto } from 'src/dto/create-pet.dto';
+import { CreatePetDto } from 'src/pets/dto/create-pet.dto';
 import { Pet } from './entities/pet.entity';
-import { UpdatePetDto } from 'src/dto/update-pet.dto';
+import { UpdatePetDto } from 'src/pets/dto/update-pet.dto';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Pets')

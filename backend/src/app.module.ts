@@ -11,6 +11,13 @@ import { Service } from './services/entities/service.entity';
 import { Payment } from './payments/entities/payment.entity';
 import { PetsModule } from './pets/pet.module';
 import { VaccinationRecordsModule } from './vaccination-record/vaccination.module';
+import { ReservationsModule } from './reservations/reservation.module';
+import { ServicesModule } from './services/services.module';
+// import { PaymentsModule } from './payments/payment.module';
+import { UsersModule } from './users/user.module';
+import { AuthModule } from './auth/auth.module';
+
+
 
 @Module({
   imports: [
@@ -28,7 +35,12 @@ import { VaccinationRecordsModule } from './vaccination-record/vaccination.modul
       autoLoadEntities: true,
     }),
     PetsModule,
-    VaccinationRecordsModule
+    VaccinationRecordModule,
+    ReservationsModule,
+    ServicesModule,
+    // PaymentsModule,
+    UsersModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
