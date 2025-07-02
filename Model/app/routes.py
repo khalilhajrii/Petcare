@@ -9,8 +9,8 @@ main = Blueprint('main', __name__)
 def index():
     return "Hello from PetCare Reservation System!"
 
-@main.route('/api/reservation', methods=['POST'])
-async def make_reservation():
+@main.route('/api/reservation/<string:email>', methods=['POST'])
+async def make_reservation(email):
     try:
         data = request.get_json()
         if not data or 'query' not in data:
@@ -23,7 +23,7 @@ async def make_reservation():
         print(f"Using database URI: {db_uri}")
         
         # Create improved reservation agent
-        agent = ImprovedReservationAgent(db_uri)
+        agent = ImprovedReservationAgent(db_uri, email)
         
         # Process reservation (await the async function)
         result = await agent.process_reservation(data['query'])
