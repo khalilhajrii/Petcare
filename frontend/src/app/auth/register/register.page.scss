@@ -1,0 +1,167 @@
+/* Add to global.scss or component styles */
+.auth-container {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  
+  .logo-circle {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    background: linear-gradient(135deg, #7b2dd3 0%, #a5579d 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(123, 45, 211, 0.3);
+    
+    .logo-icon {
+      color: white;
+      font-size: 2.5rem;
+    }
+  }
+
+  .app-name {
+    color: #18134b;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    letter-spacing: 1px;
+  }
+
+  .tagline {
+    color: #5b9270;
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+.auth-form {
+  margin-top: 2rem;
+  
+  .input-field {
+    position: relative;
+    margin-bottom: 1.8rem;
+    
+    .input-icon {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #7b2dd3;
+      font-size: 1.2rem;
+      z-index: 2;
+    }
+    
+    .modern-input, .modern-select {
+      --padding-start: 2rem;
+      --background: transparent;
+      --border-color: transparent;
+      --color: #18134b;
+      font-size: 1rem;
+      padding-bottom: 0.5rem;
+    }
+    
+    .underline {
+      height: 2px;
+      background: linear-gradient(90deg, #7b2dd3 0%, #a5579d 100%);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    &:focus-within .underline {
+      transform: scaleX(1);
+    }
+  }
+  
+  .name-fields {
+    display: flex;
+    gap: 1rem;
+    
+    .half-width {
+      flex: 1;
+    }
+  }
+}
+
+.auth-button {
+  --background: linear-gradient(90deg, #7b2dd3 0%, #a5579d 100%);
+  --box-shadow: 0 4px 15px rgba(123, 45, 211, 0.4);
+  --border-radius: 50px;
+  --padding-top: 1.2rem;
+  --padding-bottom: 1.2rem;
+  margin-top: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  
+  &:hover {
+    --background: linear-gradient(90deg, #6a27bb 0%, #944c8a 100%);
+  }
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 2rem;
+  
+  p {
+    color: #5b9270;
+  }
+  
+  .auth-link {
+    color: #7b2dd3;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .divider {
+    margin: 1.5rem 0;
+    position: relative;
+    
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(91, 146, 112, 0.2);
+      z-index: 1;
+    }
+    
+    span {
+      position: relative;
+      z-index: 2;
+      background: white;
+      padding: 0 1rem;
+      color: #5b9270;
+      font-size: 0.9rem;
+    }
+  }
+  
+  .social-button {
+    --color: #18134b;
+    --border-width: 1px;
+    --border-color: rgba(24, 19, 75, 0.1);
+    --border-radius: 50px;
+    --padding-top: 1rem;
+    --padding-bottom: 1rem;
+    margin-top: 1rem;
+    
+    ion-icon {
+      color: #7b2dd3;
+    }
+  }
+}
+
+/* Background styling for both pages */
+.login-content, .register-content {
+  --background: linear-gradient(180deg, #ffffff 0%, #f9f4ff 100%);
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+}

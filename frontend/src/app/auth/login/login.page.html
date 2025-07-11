@@ -1,0 +1,55 @@
+<ion-content class="ion-padding auth-page">
+  <div class="auth-container">
+    <div class="logo-container">
+      <div class="logo-circle">
+        <ion-icon name="paw" class="logo-icon"></ion-icon>
+      </div>
+      <h1 class="app-name">PetCare</h1>
+      <p class="tagline">Future of Pet Wellness</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="auth-form">
+      <div class="input-field">
+        <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+        <ion-input 
+          formControlName="email" 
+          type="email" 
+          placeholder="Email"
+          class="modern-input">
+        </ion-input>
+        <div class="underline-gradient"></div>
+      </div>
+
+      <div class="input-field">
+        <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+        <ion-input 
+          formControlName="password" 
+          type="password" 
+          placeholder="Password"
+          class="modern-input">
+        </ion-input>
+        <div class="underline-gradient"></div>
+      </div>
+
+      <ion-button 
+        expand="block" 
+        shape="round" 
+        class="auth-button"
+        (click)="login()">
+        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+        <span *ngIf="!isLoading">LOGIN</span>
+      </ion-button>
+    </form>
+
+    <div class="auth-footer">
+      <p>New to PetCare? <a routerLink="/register" class="auth-link">Create account</a></p>
+      <div class="divider">
+        <span>or</span>
+      </div>
+      <ion-button fill="clear" class="social-button">
+        <ion-icon name="logo-google" slot="start"></ion-icon>
+        Continue with Google
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
