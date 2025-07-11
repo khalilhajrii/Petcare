@@ -5,6 +5,7 @@ import {
   IsNumber,
   IsArray,
   ArrayNotEmpty,
+  Matches,
 } from 'class-validator';
 
 export class CreateReservationDto {
@@ -18,6 +19,7 @@ export class CreateReservationDto {
 
     @ApiProperty()
     @IsString()
+    @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/)
     time: string;
 
     @IsNumber()

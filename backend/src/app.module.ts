@@ -16,6 +16,7 @@ import { ServicesModule } from './services/services.module';
 // import { PaymentsModule } from './payments/payment.module';
 import { UsersModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
+import { RoleModule } from './users/role.module';
 
 
 
@@ -23,7 +24,8 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'database',
+      host: 'localhost',
+      // host: 'database',
       port: 5432,
       username: 'root',
       password: 'root',
@@ -35,12 +37,13 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
     }),
     PetsModule,
-    VaccinationRecordModule,
+    // VaccinationRecordModule,
     ReservationsModule,
     ServicesModule,
     // PaymentsModule,
     UsersModule,
-    AuthModule
+    AuthModule,
+    RoleModule
   ],
   controllers: [AppController],
   providers: [AppService],

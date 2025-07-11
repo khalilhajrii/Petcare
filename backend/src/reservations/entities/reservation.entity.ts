@@ -15,7 +15,7 @@ export class Reservation {
     @Column()
     lieu: string;
 
-    @Column()
+    @Column({ type: 'time' })
     time: string;
 
     @ManyToOne(() => Pet, pet => pet.reservations)
