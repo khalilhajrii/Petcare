@@ -35,7 +35,7 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
     }),
     PetsModule,
-    VaccinationRecordModule,
+    VaccinationRecordsModule,
     ReservationsModule,
     ServicesModule,
     // PaymentsModule,
