@@ -11,6 +11,9 @@ import {
 export class CreateReservationDto {
     @ApiProperty()
     @IsDateString()
+    @Matches(/^\d{4}-\d{2}-\d{2}$/, {
+      message: 'La date doit être au format YYYY-MM-DD',
+    })
     date: Date;
 
     @ApiProperty()

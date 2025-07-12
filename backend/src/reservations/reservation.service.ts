@@ -102,6 +102,9 @@ export class ReservationsService {
     const newUserId = userId ?? reservation.userId;
     const newPetId = petId ?? reservation.petId;
 
+    if (!newTime) {
+      throw new BadRequestException("L'heure (time) est requise.");
+    }
     // Vérif prestataire
     const prestataireBusy = await this.reservationRepository.findOne({
       where: {
