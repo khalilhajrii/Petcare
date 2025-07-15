@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mon Profil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Informations Personnelles</ion-card-title>
+        <ion-card-subtitle>Modifiez vos informations personnelles</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Prénom</ion-label>
+          <ion-input formControlName="firstName" type="text"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
+          Le prénom est requis
+        </ion-note>
+
+        <ion-item>
+          <ion-label position="floating">Nom</ion-label>
+          <ion-input formControlName="lastName" type="text"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
+          Le nom est requis
+        </ion-note>
+
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input formControlName="email" type="email" readonly></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Téléphone</ion-label>
+          <ion-input formControlName="phone" type="tel"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Adresse</ion-label>
+          <ion-input formControlName="address" type="text"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="profileForm.get('address')?.invalid && profileForm.get('address')?.touched">
+          L'adresse est requise
+        </ion-note>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" [disabled]="profileForm.invalid">Mettre à jour le profil</ion-button>
+    </div>
+  </form>
+</ion-content>

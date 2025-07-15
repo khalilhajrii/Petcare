@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/client/pets"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isNewPet ? 'Ajouter un animal' : 'Modifier l\'animal' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="petForm" (ngSubmit)="savePet()">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ isNewPet ? 'Nouvel animal' : 'Détails de l\'animal' }}</ion-card-title>
+        <ion-card-subtitle>{{ isNewPet ? 'Ajoutez les informations de votre animal' : 'Modifiez les informations de votre animal' }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Nom</ion-label>
+          <ion-input formControlName="nom" type="text"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="petForm.get('nom')?.invalid && petForm.get('nom')?.touched">
+          Le nom est requis
+        </ion-note>
+
+        <ion-item>
+          <ion-label position="floating">Type d'animal</ion-label>
+          <ion-select formControlName="type" interface="action-sheet" cancelText="Annuler">
+            <ion-select-option *ngFor="let type of petTypes" [value]="type">{{ type }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-note color="danger" *ngIf="petForm.get('type')?.invalid && petForm.get('type')?.touched">
+          Le type d'animal est requis
+        </ion-note>
+
+        <ion-item>
+          <ion-label position="floating">Race</ion-label>
+          <ion-select formControlName="race" interface="action-sheet" cancelText="Annuler" [disabled]="!selectedType">
+            <ion-select-option *ngFor="let race of filteredRaces" [value]="race">{{ race }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-note color="danger" *ngIf="petForm.get('race')?.invalid && petForm.get('race')?.touched">
+          La race est requise
+        </ion-note>
+
+        <ion-item>
+          <ion-label position="floating">Âge (années)</ion-label>
+          <ion-input formControlName="age" type="number" min="0"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="petForm.get('age')?.invalid && petForm.get('age')?.touched">
+          L'âge est requis et doit être un nombre positif
+        </ion-note>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" [disabled]="petForm.invalid">{{ isNewPet ? 'Ajouter' : 'Mettre à jour' }}</ion-button>
+      <ion-button expand="block" fill="outline" routerLink="/client/pets" class="ion-margin-top">Annuler</ion-button>
+    </div>
+  </form>
+</ion-content>

@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mes Animaux</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/client/pets/new">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="loadPets(); $event.target.complete()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let pet of pets">
+      <ion-item detail="true" routerLink="/client/pets/{{ pet.idPet }}">
+        <ion-avatar slot="start">
+          <ion-icon name="paw" size="large"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ pet.nom }}</h2>
+          <p>Type: {{ pet.type }}</p>
+          <p>Race: {{ pet.race }}</p>
+          <p>Âge: {{ pet.age }} an(s)</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="confirmDelete(pet)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <ion-item *ngIf="pets.length === 0 && !isLoading">
+      <ion-label class="ion-text-center">
+        Aucun animal trouvé. Ajoutez votre premier animal!
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/client/pets/new">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

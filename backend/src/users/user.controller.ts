@@ -29,6 +29,20 @@ export class UserController {
   async ListUsers() {
     return this.userService.findAll();
   }
+  
+  // Get current user profile
+  @Get('profile')
+  @UseGuards(JwtAuthGuard)
+  async GetUserProfile(@Request() req) {
+    return this.userService.findOne(req.user.id);
+  }
+  
+  // Update current user profile
+  @Put('profile')
+  @UseGuards(JwtAuthGuard)
+  async UpdateUserProfile(@Request() req, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(req.user.id, updateUserDto);
+  }
 
   // Patch c'est pour mettre à jour un utilisateur
   @Patch(':id')

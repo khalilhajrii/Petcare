@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { ApiService } from 'src/app/shared/api.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { Router, RouterModule } from '@angular/router';
+import { LoadingController, ToastController, IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  standalone: false, 
+  standalone: true, 
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule],
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
@@ -30,7 +31,7 @@ export class RegisterPage {
       password: ['', [Validators.required, Validators.minLength(6)]],
       phone: [''],
       address: ['', Validators.required],
-      roleId: ['2', Validators.required]
+      roleId: ['1', Validators.required]
     });
   }
 

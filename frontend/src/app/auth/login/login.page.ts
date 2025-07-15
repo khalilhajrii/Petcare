@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { Router, RouterModule } from '@angular/router';
+import { ToastController, LoadingController, IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, RouterModule],
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],

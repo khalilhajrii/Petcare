@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ApiService } from '../shared/api.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProviderService {
-  constructor(private http: HttpClient) {}
+  constructor(private apiService: ApiService) {}
 
   getServices(): Observable<any[]> {
-    return this.http.get<any[]>('/api/provider/services');
+    return this.apiService.get<any[]>('provider/services');
   }
 
   getAppointments(): Observable<any[]> {
-    return this.http.get<any[]>('/api/provider/appointments');
+    return this.apiService.get<any[]>('provider/appointments');
   }
 }

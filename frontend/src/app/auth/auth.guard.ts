@@ -25,7 +25,18 @@ export const authGuard: CanActivateFn = (route, state) => {
 
       // Check if route requires specific role
       const requiredRole = route.data['role'];
-      if (requiredRole && user.role !== requiredRole) {
+      const userRole = typeof user.role === 'string' ? user.role : user.role?.roleName;
+      
+      // Check if user has the required role
+      let hasRequiredRole = false;
+      
+      if (requiredRole === 'client') {
+        hasRequiredRole = userRole === 'client' || userRole === 'user';
+      } else if (requiredRole === 'prestataire') {
+        hasRequiredRole = userRole === 'prestataire' || userRole === 'professional' || userRole === 'veterinarian';
+      }
+      
+      if (requiredRole && !hasRequiredRole) {
         // Show unauthorized toast
         toastCtrl.create({
           message: 'You don\'t have permission to access this page',
@@ -35,7 +46,7 @@ export const authGuard: CanActivateFn = (route, state) => {
         }).then(toast => toast.present());
 
         // Redirect to appropriate dashboard
-        const redirectPath = user.role === 'client' 
+        const redirectPath = (userRole === 'client' || userRole === 'user')
           ? '/client/dashboard' 
           : '/provider/dashboard';
         router.navigate([redirectPath]);
