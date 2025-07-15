@@ -10,13 +10,22 @@ import { Reservation } from './reservations/entities/reservation.entity';
 import { Service } from './services/entities/service.entity';
 import { Payment } from './payments/entities/payment.entity';
 import { PetsModule } from './pets/pet.module';
-import { SeederModule } from './seeder/seeder.module';
+import { VaccinationRecordsModule } from './vaccination-record/vaccination.module';
+import { ReservationsModule } from './reservations/reservation.module';
+import { ServicesModule } from './services/services.module';
+// import { PaymentsModule } from './payments/payment.module';
+import { UsersModule } from './users/user.module';
+import { AuthModule } from './auth/auth.module';
+import { RoleModule } from './users/role.module';
+
+
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'database',
+      host: 'localhost',
+      // host: 'database',
       port: 5432,
       username: 'root',
       password: 'root',
@@ -28,7 +37,13 @@ import { SeederModule } from './seeder/seeder.module';
       autoLoadEntities: true,
     }),
     PetsModule,
-    SeederModule
+    VaccinationRecordsModule,
+    ReservationsModule,
+    ServicesModule,
+    // PaymentsModule,
+    UsersModule,
+    AuthModule,
+    RoleModule
   ],
   controllers: [AppController],
   providers: [AppService],
