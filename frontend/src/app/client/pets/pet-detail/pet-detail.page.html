@@ -1,13 +1,7 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/client/pets"></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{ isNewPet ? 'Ajouter un animal' : 'Modifier l\'animal' }}</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding">
+  <ion-buttons>
+    <ion-back-button defaultHref="/client/pets"></ion-back-button>
+  </ion-buttons>
   <form [formGroup]="petForm" (ngSubmit)="savePet()">
     <ion-card>
       <ion-card-header>

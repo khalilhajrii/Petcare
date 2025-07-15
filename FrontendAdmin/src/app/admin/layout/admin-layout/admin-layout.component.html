@@ -1,0 +1,39 @@
+<div class="admin-layout">
+  <div class="sidebar-container" [class.open]="isSidebarOpen">
+    <app-sidebar (closeMobileSidebar)="closeSidebar()"></app-sidebar>
+  </div>
+  
+  <div class="main-content">
+    <header class="header">
+      <button class="menu-toggle" (click)="toggleSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      
+      <div class="header-title">
+        <h1>PetCare Admin</h1>
+      </div>
+      
+      <div class="header-actions">
+        <div class="user-profile">
+          <span class="user-name">Admin</span>
+          <div class="avatar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+
+<div class="sidebar-overlay" [class.active]="isSidebarOpen" (click)="closeSidebar()"></div>

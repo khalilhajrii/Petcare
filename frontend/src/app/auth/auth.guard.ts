@@ -1,7 +1,7 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { inject } from '@angular/core';
-import { map, take } from 'rxjs';
+import { from, map, switchMap, take } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 
 export const authGuard: CanActivateFn = (route, state) => {
@@ -9,8 +9,10 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const toastCtrl = inject(ToastController);
 
-  return authService.currentUser$.pipe(
-    take(1),
+  // First wait for auth to be initialized from storage
+  return from(authService.waitForAuthInitialized()).pipe(
+    // Then check the current user
+    switchMap(() => authService.currentUser$.pipe(take(1))),
     map(user => {
       // If user not authenticated
       if (!user) {

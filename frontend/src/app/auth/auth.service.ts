@@ -13,6 +13,8 @@ import { User } from '../interfaces/user.interface';
 export class AuthService {
   private currentUserSubject = new BehaviorSubject<any>(null);
   private _storageService: StorageService;
+  private authInitialized = false;
+  private authInitializedPromise: Promise<boolean>;
 
   constructor(
     private http: HttpClient,
@@ -20,12 +22,29 @@ export class AuthService {
     private router: Router
   ) {
     this._storageService = storageService;
-    this.initStorage();
+    this.authInitializedPromise = this.initStorage();
   }
 
-  async initStorage() {
-    let user = await this._storageService.get('user');
-    if (user) this.currentUserSubject.next(user);
+  async initStorage(): Promise<boolean> {
+    try {
+      console.log('Initializing auth from storage...');
+      const token = await this._storageService.get('token');
+      const user = await this._storageService.get('user');
+      
+      if (user && token) {
+        console.log('Found user and token in storage, restoring session');
+        this.currentUserSubject.next(user);
+      } else {
+        console.log('No valid auth data found in storage');
+      }
+      
+      this.authInitialized = true;
+      return true;
+    } catch (error) {
+      console.error('Error initializing auth from storage:', error);
+      this.authInitialized = true;
+      return false;
+    }
   }
 
   get currentUser$(): Observable<any> {
@@ -34,6 +53,17 @@ export class AuthService {
 
   get currentUserValue() {
     return this.currentUserSubject.value;
+  }
+  
+  /**
+   * Returns a promise that resolves when auth initialization is complete
+   * This is used by the auth guard to ensure auth state is loaded before checking
+   */
+  async waitForAuthInitialized(): Promise<boolean> {
+    if (this.authInitialized) {
+      return true;
+    }
+    return this.authInitializedPromise;
   }
 
   login(email: string, password: string): Observable<any> {
