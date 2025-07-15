@@ -1,9 +1,6 @@
 <div class="services-container">
   <div class="services-header">
     <h1>Service Management</h1>
-    <button class="btn btn-primary">
-      <i class="fas fa-plus"></i> Add New Service
-    </button>
   </div>
 
   <div class="card">
@@ -28,12 +25,6 @@
           <option value="Health">Health</option>
           <option value="Boarding">Boarding</option>
         </select>
-
-        <select class="form-control" [(ngModel)]="statusFilter" (change)="onStatusFilterChange(statusFilter)">
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
       </div>
     </div>
 
@@ -44,42 +35,36 @@
             <th>ID</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Details</th>
             <th>Price</th>
-            <th>Duration</th>
-            <th>Category</th>
-            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="loading">
-            <td colspan="8" class="text-center">
+            <td colspan="6" class="text-center">
               <div class="loading-spinner"></div>
               <p>Loading services...</p>
             </td>
           </tr>
-          <tr *ngIf="!loading && services.length === 0">
-            <td colspan="8" class="text-center">
+          <tr *ngIf="error">
+            <td colspan="6" class="text-center error-message">
+              <p>{{ error }}</p>
+            </td>
+          </tr>
+          <tr *ngIf="!loading && !error && services.length === 0">
+            <td colspan="6" class="text-center">
               <p>No services found.</p>
             </td>
           </tr>
           <tr *ngFor="let service of services">
-            <td>{{ service.id }}</td>
-            <td>{{ service.name }}</td>
+            <td>{{ service.idservice }}</td>
+            <td>{{ service.nomservice }}</td>
             <td>{{ service.description }}</td>
-            <td>${{ service.price.toFixed(2) }}</td>
-            <td>{{ formatDuration(service.duration) }}</td>
-            <td>{{ service.category }}</td>
-            <td>
-              <span class="badge" [ngClass]="service.status === 'active' ? 'badge-success' : 'badge-danger'">
-                {{ service.status }}
-              </span>
-            </td>
+            <td>{{ service.servicedetail }}</td>
+            <td>{{ service.prixService | currency:'EUR':'symbol' }}</td>
             <td class="actions-cell">
-              <button class="btn btn-sm btn-info" title="Edit Service">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn btn-sm btn-danger" title="Delete Service" (click)="deleteService(service.id)">
+              <button class="btn btn-sm btn-danger" title="Delete Service" (click)="deleteService(service.idservice)">
                 <i class="fas fa-trash"></i>
               </button>
             </td>

@@ -2,6 +2,11 @@
   padding: 20px;
 }
 
+.error-message {
+  color: #dc3545;
+  font-weight: 500;
+}
+
 .pets-header {
   display: flex;
   justify-content: space-between;

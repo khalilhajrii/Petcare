@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DashboardService, DashboardStats } from './dashboard.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,28 +11,36 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 export class DashboardComponent implements OnInit {
-  // Mock data for dashboard stats
-  stats = {
+  stats: DashboardStats = {
     users: 0,
     pets: 0,
     services: 0
   };
+  loading = false;
+  error = '';
 
-  constructor() {}
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    // In a real application, these would be fetched from an API
-    this.loadMockData();
+    this.loadDashboardStats();
   }
 
-  loadMockData(): void {
-    // Simulate API call with mock data
-    setTimeout(() => {
-      this.stats = {
-        users: 125,
-        pets: 230,
-        services: 15
-      };
-    }, 500);
+  loadDashboardStats(): void {
+    this.loading = true;
+    this.error = '';
+    
+    this.dashboardService.getDashboardStats()
+      .pipe(
+        finalize(() => this.loading = false)
+      )
+      .subscribe({
+        next: (stats) => {
+          this.stats = stats;
+        },
+        error: (err) => {
+          console.error('Error loading dashboard stats', err);
+          this.error = 'Failed to load dashboard statistics. Please try again later.';
+        }
+      });
   }
 }

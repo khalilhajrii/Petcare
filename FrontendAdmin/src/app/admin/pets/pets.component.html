@@ -1,9 +1,6 @@
 <div class="pets-container">
   <div class="pets-header">
     <h1>Pet Management</h1>
-    <button class="btn btn-primary">
-      <i class="fas fa-plus"></i> Add New Pet
-    </button>
   </div>
 
   <div class="card">
@@ -24,14 +21,13 @@
       <div class="filter-group">
         <select class="form-control" [(ngModel)]="typeFilter" (change)="onTypeFilterChange(typeFilter)">
           <option value="all">All Types</option>
-          <option value="Dog">Dog</option>
-          <option value="Cat">Cat</option>
-        </select>
-
-        <select class="form-control" [(ngModel)]="statusFilter" (change)="onStatusFilterChange(statusFilter)">
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
+          <option value="Chien">Dog</option>
+          <option value="Chat">Cat</option>
+          <option value="Oiseau">Bird</option>
+          <option value="Poisson">Fish</option>
+          <option value="Reptile">Reptile</option>
+          <option value="Rongeur">Rodent</option>
+          <option value="Autre">Other</option>
         </select>
       </div>
     </div>
@@ -46,39 +42,35 @@
             <th>Breed</th>
             <th>Age</th>
             <th>Owner</th>
-            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="loading">
-            <td colspan="8" class="text-center">
+            <td colspan="7" class="text-center">
               <div class="loading-spinner"></div>
               <p>Loading pets...</p>
             </td>
           </tr>
-          <tr *ngIf="!loading && pets.length === 0">
-            <td colspan="8" class="text-center">
+          <tr *ngIf="!loading && error">
+            <td colspan="7" class="text-center error-message">
+              <p>{{ error }}</p>
+            </td>
+          </tr>
+          <tr *ngIf="!loading && !error && pets.length === 0">
+            <td colspan="7" class="text-center">
               <p>No pets found.</p>
             </td>
           </tr>
           <tr *ngFor="let pet of pets">
-            <td>{{ pet.id }}</td>
-            <td>{{ pet.name }}</td>
+            <td>{{ pet.idPet }}</td>
+            <td>{{ pet.nom }}</td>
             <td>{{ pet.type }}</td>
-            <td>{{ pet.breed }}</td>
+            <td>{{ pet.race }}</td>
             <td>{{ pet.age }} years</td>
-            <td>{{ pet.ownerName }}</td>
-            <td>
-              <span class="badge" [ngClass]="pet.status === 'active' ? 'badge-success' : 'badge-danger'">
-                {{ pet.status }}
-              </span>
-            </td>
+            <td>{{ pet.user?.firstName }} {{ pet.user?.lastName }}</td>
             <td class="actions-cell">
-              <button class="btn btn-sm btn-info" title="Edit Pet">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn btn-sm btn-danger" title="Delete Pet" (click)="deletePet(pet.id)">
+              <button class="btn btn-sm btn-danger" title="Delete Pet" (click)="deletePet(pet.idPet)">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
