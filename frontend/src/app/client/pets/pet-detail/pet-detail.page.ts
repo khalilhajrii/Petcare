@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ClientService } from '../../client.service';
+import { VaccinationService } from '../../vaccination.service';
 import { ToastController, LoadingController, IonicModule } from '@ionic/angular';
 import { Pet, PetType, PetRace } from '../../../models/pet.model';
+import { VaccinationRecord } from '../../../models/vaccination-record.model';
 import { CommonModule } from '@angular/common';
+import { forkJoin, of } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pet-detail',
@@ -21,12 +25,16 @@ export class PetDetailPage implements OnInit {
   petRaces = Object.values(PetRace);
   selectedType: string = '';
   filteredRaces: string[] = [];
+  vaccinationRecords: VaccinationRecord[] = [];
+  loadingVaccinations = false;
+  vaccinationError = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private clientService: ClientService,
+    private vaccinationService: VaccinationService,
     private toastController: ToastController,
     private loadingController: LoadingController
   ) {
@@ -34,7 +42,8 @@ export class PetDetailPage implements OnInit {
       nom: ['', Validators.required],
       type: ['', Validators.required],
       age: ['', [Validators.required, Validators.min(0)]],
-      race: ['', Validators.required]
+      race: ['', Validators.required],
+      vaccinations: this.formBuilder.array([])
     });
   }
 
@@ -101,6 +110,9 @@ export class PetDetailPage implements OnInit {
         this.selectedType = pet.type;
         this.filterRacesByType(pet.type);
         loading.dismiss();
+        
+        // Load vaccination records for this pet
+        this.loadVaccinationRecords(this.petId);
       },
       error: (error) => {
         console.error('Error loading pet', error);
@@ -109,6 +121,44 @@ export class PetDetailPage implements OnInit {
         this.router.navigate(['/client/pets']);
       }
     });
+  }
+  
+  loadVaccinationRecords(petId: number) {
+    this.loadingVaccinations = true;
+    this.vaccinationError = false;
+    
+    this.vaccinationService.getVaccinationRecordsByPet(petId)
+      .pipe(
+        catchError(error => {
+          console.error('Error loading vaccination records', error);
+          this.vaccinationError = true;
+          return of([]);
+        }),
+        finalize(() => {
+          this.loadingVaccinations = false;
+        })
+      )
+      .subscribe(records => {
+        this.vaccinationRecords = records;
+      });
+  }
+  
+  get vaccinationsArray() {
+    return this.petForm.get('vaccinations') as FormArray;
+  }
+
+  addVaccination() {
+    const vaccinationGroup = this.formBuilder.group({
+      nomVaccin: ['', Validators.required],
+      dateVaccination: ['', Validators.required],
+      veterinaire: ['', Validators.required]
+    });
+    
+    this.vaccinationsArray.push(vaccinationGroup);
+  }
+
+  removeVaccination(index: number) {
+    this.vaccinationsArray.removeAt(index);
   }
 
   async savePet() {
@@ -132,8 +182,11 @@ export class PetDetailPage implements OnInit {
       return;
     }
     
+    // Remove vaccinations from petData as they are handled separately
+    const { vaccinations, ...petFormValue } = this.petForm.value;
+    
     const petData: Partial<Pet> = {
-      ...this.petForm.value,
+      ...petFormValue,
       userId: +userId
     };
 
@@ -155,10 +208,16 @@ export class PetDetailPage implements OnInit {
       this.clientService.createPet(petData).subscribe({
         next: (createdPet) => {
           console.log('Pet created successfully:', createdPet);
-          this.showToast('Animal ajouté avec succès');
-          loading.dismiss();
-          // Navigate back to pets list after successful creation
-          this.router.navigate(['/client/pets']);
+          
+          // Save vaccination records if any
+          if (this.vaccinationsArray.length > 0) {
+            this.saveVaccinationRecords(createdPet.idPet, loading);
+          } else {
+            this.showToast('Animal ajouté avec succès');
+            loading.dismiss();
+            // Navigate back to pets list after successful creation
+            this.router.navigate(['/client/pets']);
+          }
         },
         error: (error) => {
           console.error('Error creating pet', error);
@@ -172,9 +231,15 @@ export class PetDetailPage implements OnInit {
       this.clientService.updatePet(this.petId, petData).subscribe({
         next: (updatedPet) => {
           console.log('Pet updated successfully:', updatedPet);
-          this.showToast('Animal mis à jour avec succès');
-          loading.dismiss();
-          this.router.navigate(['/client/pets']);
+          
+          // Save vaccination records if any
+          if (this.vaccinationsArray.length > 0) {
+            this.saveVaccinationRecords(updatedPet.idPet, loading);
+          } else {
+            this.showToast('Animal mis à jour avec succès');
+            loading.dismiss();
+            this.router.navigate(['/client/pets']);
+          }
         },
         error: (error) => {
           console.error('Error updating pet', error);
@@ -183,6 +248,38 @@ export class PetDetailPage implements OnInit {
         }
       });
     }
+  }
+  
+  saveVaccinationRecords(petId: number, loading: HTMLIonLoadingElement) {
+    const vaccinationObservables = this.vaccinationsArray.controls.map(control => {
+      const vaccinationData = {
+        ...control.value,
+        petId: petId
+      };
+      return this.vaccinationService.createVaccinationRecord(vaccinationData);
+    });
+    
+    if (vaccinationObservables.length === 0) {
+      this.showToast('Animal enregistré avec succès');
+      loading.dismiss();
+      this.router.navigate(['/client/pets']);
+      return;
+    }
+    
+    forkJoin(vaccinationObservables).subscribe({
+      next: (results) => {
+        console.log('Vaccination records saved:', results);
+        this.showToast('Animal et vaccinations enregistrés avec succès');
+        loading.dismiss();
+        this.router.navigate(['/client/pets']);
+      },
+      error: (error) => {
+        console.error('Error saving vaccination records', error);
+        this.showToast('Animal enregistré mais erreur lors de l\'ajout des vaccinations');
+        loading.dismiss();
+        this.router.navigate(['/client/pets']);
+      }
+    });
   }
 
   async showToast(message: string) {

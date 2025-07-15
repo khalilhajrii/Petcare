@@ -60,7 +60,7 @@ export class ClientService {
       });
     }
     
-    return this.apiService.get<Pet[]>(`pets/user/${userId}`);
+    return this.apiService.get<Pet[]>(`pets/user/${userId}/with-vaccinations`);
   }
 
   getPet(id: number): Observable<Pet> {

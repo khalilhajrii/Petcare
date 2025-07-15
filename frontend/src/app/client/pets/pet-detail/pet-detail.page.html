@@ -1,56 +1,165 @@
-<ion-content class="ion-padding">
-  <ion-buttons>
-    <ion-back-button defaultHref="/client/pets"></ion-back-button>
-  </ion-buttons>
+<ion-content class="modern-form-container">
+  <div class="header-container">
+    <ion-buttons>
+      <ion-back-button defaultHref="/client/pets" text="" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <h1 class="page-title">{{ isNewPet ? 'Nouvel animal' : 'Détails de l\'animal' }}</h1>
+  </div>
+  
   <form [formGroup]="petForm" (ngSubmit)="savePet()">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>{{ isNewPet ? 'Nouvel animal' : 'Détails de l\'animal' }}</ion-card-title>
-        <ion-card-subtitle>{{ isNewPet ? 'Ajoutez les informations de votre animal' : 'Modifiez les informations de votre animal' }}</ion-card-subtitle>
-      </ion-card-header>
+    <!-- Pet Information Section -->
+    <div class="form-section">
+      <div class="section-header">
+        <ion-icon name="paw-outline" class="section-icon"></ion-icon>
+        <div class="section-title">
+          <h2>Informations de l'animal</h2>
+          <p>{{ isNewPet ? 'Ajoutez les informations de votre animal' : 'Modifiez les informations de votre animal' }}</p>
+        </div>
+      </div>
+      
+      <div class="form-fields">
+        <div class="form-field">
+          <ion-item class="custom-item">
+            <ion-label position="floating">Nom</ion-label>
+            <ion-input formControlName="nom" type="text" placeholder="Nom de votre animal"></ion-input>
+          </ion-item>
+          <ion-note color="danger" *ngIf="petForm.get('nom')?.invalid && petForm.get('nom')?.touched">
+            <ion-icon name="alert-circle-outline"></ion-icon> Le nom est requis
+          </ion-note>
+        </div>
 
-      <ion-card-content>
-        <ion-item>
-          <ion-label position="floating">Nom</ion-label>
-          <ion-input formControlName="nom" type="text"></ion-input>
-        </ion-item>
-        <ion-note color="danger" *ngIf="petForm.get('nom')?.invalid && petForm.get('nom')?.touched">
-          Le nom est requis
-        </ion-note>
+        <div class="form-field">
+          <ion-item class="custom-item">
+            <ion-label position="floating">Type d'animal</ion-label>
+            <ion-select formControlName="type" interface="action-sheet" cancelText="Annuler" placeholder="Sélectionnez un type">
+              <ion-select-option *ngFor="let type of petTypes" [value]="type">{{ type }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-note color="danger" *ngIf="petForm.get('type')?.invalid && petForm.get('type')?.touched">
+            <ion-icon name="alert-circle-outline"></ion-icon> Le type d'animal est requis
+          </ion-note>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Type d'animal</ion-label>
-          <ion-select formControlName="type" interface="action-sheet" cancelText="Annuler">
-            <ion-select-option *ngFor="let type of petTypes" [value]="type">{{ type }}</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-note color="danger" *ngIf="petForm.get('type')?.invalid && petForm.get('type')?.touched">
-          Le type d'animal est requis
-        </ion-note>
+        <div class="form-field">
+          <ion-item class="custom-item">
+            <ion-label position="floating">Race</ion-label>
+            <ion-select formControlName="race" interface="action-sheet" cancelText="Annuler" [disabled]="!selectedType" placeholder="Sélectionnez une race">
+              <ion-select-option *ngFor="let race of filteredRaces" [value]="race">{{ race }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-note color="danger" *ngIf="petForm.get('race')?.invalid && petForm.get('race')?.touched">
+            <ion-icon name="alert-circle-outline"></ion-icon> La race est requise
+          </ion-note>
+        </div>
 
-        <ion-item>
-          <ion-label position="floating">Race</ion-label>
-          <ion-select formControlName="race" interface="action-sheet" cancelText="Annuler" [disabled]="!selectedType">
-            <ion-select-option *ngFor="let race of filteredRaces" [value]="race">{{ race }}</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-note color="danger" *ngIf="petForm.get('race')?.invalid && petForm.get('race')?.touched">
-          La race est requise
-        </ion-note>
+        <div class="form-field">
+          <ion-item class="custom-item">
+            <ion-label position="floating">Âge (années)</ion-label>
+            <ion-input formControlName="age" type="number" min="0" placeholder="Âge de votre animal"></ion-input>
+          </ion-item>
+          <ion-note color="danger" *ngIf="petForm.get('age')?.invalid && petForm.get('age')?.touched">
+            <ion-icon name="alert-circle-outline"></ion-icon> L'âge est requis et doit être un nombre positif
+          </ion-note>
+        </div>
+      </div>
+    </div>
 
-        <ion-item>
-          <ion-label position="floating">Âge (années)</ion-label>
-          <ion-input formControlName="age" type="number" min="0"></ion-input>
-        </ion-item>
-        <ion-note color="danger" *ngIf="petForm.get('age')?.invalid && petForm.get('age')?.touched">
-          L'âge est requis et doit être un nombre positif
-        </ion-note>
-      </ion-card-content>
-    </ion-card>
+    <!-- Vaccination Records Section -->
+    <div class="form-section">
+      <div class="section-header">
+        <ion-icon name="medical-outline" class="section-icon"></ion-icon>
+        <div class="section-title">
+          <h2>Vaccinations</h2>
+          <p>Ajoutez les vaccinations de votre animal</p>
+        </div>
+      </div>
+      
+      <!-- Display existing vaccination records for existing pets -->
+      <div *ngIf="!isNewPet" class="existing-vaccinations">
+        <div *ngIf="loadingVaccinations" class="loading-container">
+          <ion-spinner name="dots"></ion-spinner>
+          <p>Chargement des vaccinations...</p>
+        </div>
+        
+        <div *ngIf="vaccinationError" class="error-container">
+          <ion-icon name="alert-circle-outline" color="danger" size="large"></ion-icon>
+          <p>Erreur lors du chargement des vaccinations</p>
+        </div>
+        
+        <div *ngIf="!loadingVaccinations && !vaccinationError" class="vaccination-records">
+          <div *ngIf="vaccinationRecords.length === 0" class="no-records">
+            <ion-icon name="information-circle-outline" size="large"></ion-icon>
+            <p>Aucune vaccination enregistrée</p>
+          </div>
+          
+          <div *ngFor="let record of vaccinationRecords" class="vaccination-record-card">
+            <div class="vaccination-record-header">
+              <h3>{{ record.nomVaccin }}</h3>
+            </div>
+            <div class="vaccination-record-content">
+              <div class="record-detail">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>{{ record.dateVaccination | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <div class="record-detail">
+                <ion-icon name="person-outline"></ion-icon>
+                <span>{{ record.veterinaire }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="ion-padding">
-      <ion-button expand="block" type="submit" [disabled]="petForm.invalid">{{ isNewPet ? 'Ajouter' : 'Mettre à jour' }}</ion-button>
-      <ion-button expand="block" fill="outline" routerLink="/client/pets" class="ion-margin-top">Annuler</ion-button>
+      <!-- Form Array for adding new vaccination records -->
+      <div formArrayName="vaccinations" class="vaccination-form-array">
+        <div *ngFor="let vaccination of vaccinationsArray.controls; let i = index" [formGroupName]="i" class="vaccination-form-item">
+          <div class="vaccination-form-header">
+            <h3>Vaccination #{{ i + 1 }}</h3>
+            <ion-button fill="clear" color="danger" (click)="removeVaccination(i)" class="remove-btn">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+          
+          <div class="vaccination-form-fields">
+            <div class="form-field">
+              <ion-item class="custom-item">
+                <ion-label position="floating">Nom du vaccin</ion-label>
+                <ion-input formControlName="nomVaccin" type="text" placeholder="Ex: Rage, Typhus..."></ion-input>
+              </ion-item>
+            </div>
+            
+            <div class="form-field">
+              <ion-item class="custom-item">
+                <ion-label position="floating">Date de vaccination</ion-label>
+                <ion-input formControlName="dateVaccination" type="date"></ion-input>
+              </ion-item>
+            </div>
+            
+            <div class="form-field">
+              <ion-item class="custom-item">
+                <ion-label position="floating">Vétérinaire</ion-label>
+                <ion-input formControlName="veterinaire" type="text" placeholder="Nom du vétérinaire"></ion-input>
+              </ion-item>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <ion-button expand="block" fill="outline" (click)="addVaccination()" class="add-vaccination-btn">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Ajouter une vaccination
+      </ion-button>
+    </div>
+
+    <div class="form-actions">
+      <ion-button expand="block" type="submit" [disabled]="petForm.invalid" class="submit-btn">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        {{ isNewPet ? 'Ajouter' : 'Mettre à jour' }}
+      </ion-button>
+      <ion-button expand="block" fill="outline" routerLink="/client/pets" class="cancel-btn">
+        <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+        Annuler
+      </ion-button>
     </div>
   </form>
 </ion-content>
