@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="reservations-content">
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -24,49 +24,43 @@
   </div>
 
   <div class="reservations-container" *ngIf="!isLoading && !error">
-    <ion-list *ngIf="reservations.length > 0">
-      <ion-item-group>
-        <ion-item-divider sticky>
-          <ion-label>Mes réservations</ion-label>
-        </ion-item-divider>
+    <div *ngIf="reservations.length > 0" class="cards-container">
+      <ion-card *ngFor="let reservation of reservations" class="reservation-card">
+        <ion-card-header>
+          <ion-card-subtitle class="card-subtitle">
+            <ion-badge color="primary">{{ reservation.time }}</ion-badge>
+            <ion-badge color="{{ getStatusColor(reservation.status) }}" class="status-badge">
+              {{ getStatusLabel(reservation.status) }}
+            </ion-badge>
+          </ion-card-subtitle>
+          <ion-card-title class="card-title">{{ formatDate(reservation.date) }}</ion-card-title>
+        </ion-card-header>
 
-        <ion-item *ngFor="let reservation of reservations" class="reservation-item">
-          <ion-card class="reservation-card">
-            <ion-card-header>
-              <ion-card-subtitle>
-                <ion-badge color="primary">{{ reservation.time }}</ion-badge>
-                <ion-badge color="{{ getStatusColor(reservation.status) }}" class="status-badge">
-                  {{ getStatusLabel(reservation.status) }}
-                </ion-badge>
-              </ion-card-subtitle>
-              <ion-card-title>{{ formatDate(reservation.date) }}</ion-card-title>
-            </ion-card-header>
+        <ion-card-content class="card-content">
+          <div class="reservation-details">
+            <div class="detail-item">
+              <ion-icon name="location-outline"></ion-icon>
+              <span>{{ reservation.lieu }}</span>
+            </div>
 
-            <ion-card-content>
-              <div class="reservation-details">
-                <div class="detail-item">
-                  <ion-icon name="location-outline"></ion-icon>
-                  <span>{{ reservation.lieu }}</span>
-                </div>
+            <div class="detail-item" *ngIf="reservation.pet">
+              <ion-icon name="paw-outline"></ion-icon>
+              <span>{{ reservation.pet.nom }} ({{ reservation.pet.type }})</span>
+            </div>
 
-                <div class="detail-item" *ngIf="reservation.pet">
-                  <ion-icon name="paw-outline"></ion-icon>
-                  <span>{{ reservation.pet.nom }} ({{ reservation.pet.type }})</span>
-                </div>
-
-                <div class="services-list" *ngIf="reservation.services && reservation.services.length > 0">
-                  <h4>Services réservés:</h4>
-                  <ion-chip *ngFor="let service of reservation.services">
-                    <ion-label>{{ service.nom }}</ion-label>
-                    <ion-note>{{ service.prix }}€</ion-note>
-                  </ion-chip>
-                </div>
+            <div class="services-list" *ngIf="reservation.services && reservation.services.length > 0">
+              <h4>Services réservés:</h4>
+              <div class="services-chips">
+                <ion-chip *ngFor="let service of reservation.services" class="service-chip">
+                  <ion-label>{{ service.nomservice }}</ion-label>
+                  <ion-note>{{ service.prixService }} TND</ion-note>
+                </ion-chip>
               </div>
-            </ion-card-content>
-          </ion-card>
-        </ion-item>
-      </ion-item-group>
-    </ion-list>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
 
     <div class="empty-state" *ngIf="reservations.length === 0">
       <ion-icon name="calendar-outline"></ion-icon>

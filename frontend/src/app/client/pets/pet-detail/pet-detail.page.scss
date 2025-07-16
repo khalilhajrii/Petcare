@@ -1,271 +1,236 @@
-/* General Container Styles */
-.modern-form-container {
+/* Base Styles */
+.pet-form-container {
   --background: #f8f9fa;
-  padding: 0;
+  padding: 16px;
 }
 
-/* Header Styles */
+/* Header */
 .header-container {
   display: flex;
   align-items: center;
-  padding: 16px 16px 0;
   margin-bottom: 24px;
 }
 
 .page-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin: 0 0 0 8px;
-  color: var(--ion-color-dark);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2b2d42;
+  margin: 0;
 }
 
-/* Form Section Styles */
+/* Form Sections */
 .form-section {
-  background: #ffffff;
-  border-radius: 16px;
-  margin: 0 16px 24px;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .section-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 20px;
 }
 
 .section-icon {
   font-size: 24px;
-  color: var(--ion-color-primary);
+  color: #6a11cb;
   margin-right: 12px;
-  margin-top: 2px;
-}
-
-.section-title {
-  flex: 1;
 }
 
 .section-title h2 {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  margin: 0 0 4px;
-  color: var(--ion-color-dark);
+  color: #2b2d42;
+  margin: 0 0 4px 0;
 }
 
 .section-title p {
   font-size: 0.9rem;
-  color: var(--ion-color-medium);
+  color: #6c757d;
   margin: 0;
 }
 
-/* Form Fields Styles */
-.form-fields {
-  margin-top: 16px;
-}
-
-.form-field {
+/* Form Items */
+.form-item {
+  --border-radius: 8px;
+  --padding-start: 3;
+  --padding-end: 0;
   margin-bottom: 16px;
 }
 
-.custom-item {
-  --background: #f8f9fa;
-  --border-radius: 8px;
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --min-height: 56px;
-  margin-bottom: 4px;
-}
-
-ion-note {
-  display: flex;
-  align-items: center;
-  margin: 4px 0 0 16px;
-  font-size: 0.8rem;
-}
-
-ion-note ion-icon {
-  margin-right: 4px;
-  font-size: 16px;
-}
-
-ion-input, ion-select {
-  --padding-start: 0;
-  --padding-end: 0;
-  font-size: 1rem;
-}
-
-ion-label {
-  font-weight: 500;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-/* Vaccination Records Styles */
-.existing-vaccinations {
-  margin-bottom: 24px;
-}
-
-.loading-container, .error-container, .no-records {
+/* Loading States */
+.loading-container,
+.error-container,
+.no-records {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px 0;
+  padding: 20px;
   text-align: center;
 }
 
-.loading-container p, .error-container p, .no-records p {
-  margin-top: 12px;
-  color: var(--ion-color-medium);
+.loading-container ion-spinner {
+  margin-bottom: 12px;
 }
 
+.error-container ion-icon {
+  margin-bottom: 12px;
+  font-size: 32px;
+}
+
+.no-records ion-icon {
+  margin-bottom: 12px;
+  font-size: 32px;
+  color: #adb5bd;
+}
+
+/* Vaccination Records */
 .vaccination-records {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  margin-bottom: 16px;
 }
 
-.vaccination-record-card {
+.vaccination-record {
   background: #f8f9fa;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
 }
 
-.vaccination-record-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+.vaccination-record h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: #2b2d42;
 }
 
-.vaccination-record-header {
-  background: var(--ion-color-primary);
-  color: white;
-  padding: 12px 16px;
-}
-
-.vaccination-record-header h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.vaccination-record-content {
-  padding: 12px 16px;
-}
-
-.record-detail {
+.vaccination-record p {
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: #6c757d;
 }
 
-.record-detail:last-child {
-  margin-bottom: 0;
-}
-
-.record-detail ion-icon {
+.vaccination-record ion-icon {
   margin-right: 8px;
-  color: var(--ion-color-medium);
-  font-size: 18px;
+  font-size: 16px;
 }
 
-/* Vaccination Form Array Styles */
-.vaccination-form-array {
-  margin-bottom: 20px;
-}
-
+/* Vaccination Form Array */
 .vaccination-form-item {
   background: #f8f9fa;
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 8px;
+  padding: 12px;
   margin-bottom: 16px;
-  position: relative;
-  border-left: 4px solid var(--ion-color-primary);
 }
 
 .vaccination-form-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .vaccination-form-header h3 {
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--ion-color-dark);
+  font-size: 1rem;
+  color: #2b2d42;
 }
 
-.remove-btn {
-  --padding-start: 8px;
-  --padding-end: 8px;
-  height: 36px;
-  margin: 0;
-}
-
-.vaccination-form-fields {
-  display: grid;
-  gap: 12px;
-}
-
-.add-vaccination-btn {
-  margin-top: 8px;
-  --border-radius: 8px;
-  font-weight: 500;
-  height: 48px;
-  --border-width: 2px;
-  text-transform: none;
-}
-
-/* Form Actions Styles */
+/* Form Actions */
 .form-actions {
-  padding: 0 16px 24px;
+  margin-top: 24px;
 }
 
-.submit-btn {
-  --background: var(--ion-color-primary);
-  --color: white;
-  height: 52px;
-  font-weight: 600;
-  --border-radius: 12px;
+.form-actions ion-button {
   margin-bottom: 12px;
-  text-transform: none;
-  --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.4);
+  height: 48px;
 }
 
-.cancel-btn {
-  height: 52px;
-  font-weight: 500;
-  --border-radius: 12px;
-  --border-width: 2px;
-  text-transform: none;
+element.style {
 }
-
-/* Responsive Adjustments */
-@media (min-width: 768px) {
-  .form-section {
-    margin: 0 24px 32px;
-    padding: 24px;
-  }
-  
-  .vaccination-form-fields {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-  
-  .form-actions {
-    padding: 0 24px 32px;
+feuille de style construite
+.item-inner {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: var(--inner-padding-top);
+    padding-bottom: var(--inner-padding-bottom);
+    padding-right: calc(var(--ion-safe-area-right, 0px) + var(--inner-padding-end));
+    padding-left: var(--inner-padding-start);
+    display: -ms-flexbox;
+    display: flex
+;
+    position: relative;
+    -ms-flex: 1;
+    flex: 1;
+    -ms-flex-direction: inherit;
+    flex-direction: inherit;
+    -ms-flex-align: inherit;
+    align-items: inherit;
+    -ms-flex-item-align: stretch;
+    align-self: stretch;
+    min-height: inherit;
+    border-width: var(--inner-border-width);
+    border-style: var(--border-style);
+    border-color: var(--border-color);
+    -webkit-box-shadow: var(--inner-box-shadow);
+    box-shadow: var(--inner-box-shadow);
+    overflow: inherit;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+feuille de style user-agent
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+feuille de style construite
+.item-native {
+    /* border-radius: var(--border-radius); */
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: var(--padding-top);
+    padding-bottom: var(--padding-bottom);
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    text-decoration: inherit;
+    text-indent: inherit;
+    text-overflow: inherit;
+    text-transform: inherit;
+    text-align: inherit;
+    white-space: inherit;
+    /* color: inherit; */
+    padding-right: var(--padding-end);
+    padding-left: calc(var(--padding-start) + var(--ion-safe-area-left, 0px));
+    display: -ms-flexbox;
     display: flex;
-    gap: 16px;
-  }
-  
-  .submit-btn, .cancel-btn {
-    margin: 0;
-  }
-}
-
-@media (max-width: 767px) {
-  .vaccination-form-fields {
-    grid-template-columns: 1fr;
-  }
+    position: relative;
+    -ms-flex-align: inherit;
+    align-items: inherit;
+    -ms-flex-pack: inherit;
+    justify-content: inherit;
+    width: 100%;
+    min-height: var(--min-height);
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
+    border-width: var(--border-width);
+    border-style: var(--border-style);
+    border-color: var(--border-color);
+    outline: none;
+    background: var(--background);
+    overflow: inherit;
+    z-index: 1;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: white;
+    color: black;
 }

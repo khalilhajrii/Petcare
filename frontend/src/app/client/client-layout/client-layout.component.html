@@ -1,48 +1,82 @@
-<ion-menu contentId="main-content" type="overlay">
+<ion-menu contentId="main-content" type="overlay" class="custom-menu">
   <ion-header>
-    <ion-toolbar color="primary">
-      <ion-title>Menu</ion-title>
+    <ion-toolbar class="menu-header">
+      <div class="user-profile">
+        <div class="avatar">
+          <ion-icon name="person-circle-outline"></ion-icon>
+        </div>
+        <div class="user-info">
+          <h3>Propriétaire d'Animal</h3>
+          <p>Membre depuis 2023</p>
+        </div>
+      </div>
     </ion-toolbar>
   </ion-header>
-  <ion-content>
-    <ion-list>
-      <ion-item routerLink="/client/dashboard" routerDirection="root" [routerLinkActive]="'selected'">
-        <ion-icon name="home-outline" slot="start"></ion-icon>
-        <ion-label>Dashboard</ion-label>
+  
+  <ion-content class="menu-content">
+    <ion-list lines="none" class="menu-list">
+      <ion-item routerLink="/client/dashboard" routerDirection="root" class="menu-item">
+        <div class="item-inner">
+          <ion-icon name="home-outline" class="menu-icon"></ion-icon>
+          <ion-label>Dashboard</ion-label>
+        </div>
       </ion-item>
-      <ion-item routerLink="/client/profile" routerDirection="forward" [routerLinkActive]="'selected'">
-        <ion-icon name="person-outline" slot="start"></ion-icon>
-        <ion-label>Mon Profil</ion-label>
+      
+      <ion-item routerLink="/client/profile" routerDirection="forward" class="menu-item">
+        <div class="item-inner">
+          <ion-icon name="person-outline" class="menu-icon"></ion-icon>
+          <ion-label>Mon Profil</ion-label>
+        </div>
       </ion-item>
-      <ion-item routerLink="/client/pets" routerDirection="forward" [routerLinkActive]="'selected'">
-        <ion-icon name="paw-outline" slot="start"></ion-icon>
-        <ion-label>Mes Animaux</ion-label>
+      
+      <ion-item routerLink="/client/pets" routerDirection="forward" class="menu-item">
+        <div class="item-inner">
+          <ion-icon name="paw-outline" class="menu-icon"></ion-icon>
+          <ion-label>Mes Animaux</ion-label>
+        </div>
       </ion-item>
-      <ion-item routerLink="/client/services" routerDirection="forward" [routerLinkActive]="'selected'">
-        <ion-icon name="medkit-outline" slot="start"></ion-icon>
-        <ion-label>Services</ion-label>
+      
+      <ion-item routerLink="/client/services" routerDirection="forward" class="menu-item">
+        <div class="item-inner">
+          <ion-icon name="medkit-outline" class="menu-icon"></ion-icon>
+          <ion-label>Services</ion-label>
+        </div>
       </ion-item>
-      <ion-item routerLink="/client/reservations" routerDirection="forward" [routerLinkActive]="'selected'">
-        <ion-icon name="calendar-outline" slot="start"></ion-icon>
-        <ion-label>Mes Réservations</ion-label>
+      
+      <ion-item routerLink="/client/reservations" routerDirection="forward" class="menu-item">
+        <div class="item-inner">
+          <ion-icon name="calendar-outline" class="menu-icon"></ion-icon>
+          <ion-label>Mes Réservations</ion-label>
+        </div>
       </ion-item>
-      <ion-item (click)="logout()">
-        <ion-icon name="log-out-outline" slot="start"></ion-icon>
-        <ion-label>Déconnexion</ion-label>
+      
+      <div class="menu-divider"></div>
+      
+      <ion-item (click)="logout()" class="menu-item logout-item">
+        <div class="item-inner">
+          <ion-icon name="log-out-outline" class="menu-icon"></ion-icon>
+          <ion-label>Déconnexion</ion-label>
+        </div>
       </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
 
 <div class="ion-page" id="main-content">
-  <ion-header>
-    <ion-toolbar color="primary">
+  <ion-header class="main-header">
+    <ion-toolbar class="main-toolbar">
       <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
+        <ion-menu-button class="menu-button">
+          <ion-icon name="menu-outline"></ion-icon>
+        </ion-menu-button>
       </ion-buttons>
-      <ion-title>{{ pageTitle }}</ion-title>
+      <ion-title class="page-title">{{ pageTitle }}</ion-title>
       <ion-buttons slot="end">
-        <ion-button (click)="logout()">
+        <ion-button class="notification-button">
+          <ion-icon name="notifications-outline"></ion-icon>
+          <ion-badge color="danger" class="notification-badge">3</ion-badge>
+        </ion-button>
+        <ion-button (click)="logout()" class="logout-button">
           <ion-icon name="log-out"></ion-icon>
         </ion-button>
       </ion-buttons>

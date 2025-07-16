@@ -1,87 +1,98 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="header-toolbar">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/provider/services"></ion-back-button>
+      <ion-back-button defaultHref="/provider/services" class="back-button"></ion-back-button>
     </ion-buttons>
-    <ion-title>Réservations du Service</ion-title>
+    <ion-title class="header-title">Réservations du Service</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="reservations-content">
   <div class="reservations-container">
+    <!-- Header Section -->
     <div class="header-container">
-      <h1 *ngIf="service">Réservations: {{ service.nomservice }}</h1>
-      <p>Liste des réservations pour ce service</p>
+      <h1 class="page-title" *ngIf="service">{{ service.nomservice }}</h1>
+      <p class="page-subtitle">Liste des réservations pour ce service</p>
     </div>
 
-    <div *ngIf="isLoading" class="loading-container">
-      <ion-spinner name="circles"></ion-spinner>
-      <p>Chargement des réservations...</p>
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p class="loading-text">Chargement des réservations...</p>
     </div>
 
+    <!-- Empty State -->
     <div *ngIf="!isLoading && reservations.length === 0" class="empty-state">
-      <ion-icon name="calendar-outline"></ion-icon>
-      <h2>Aucune réservation</h2>
-      <p>Il n'y a pas encore de réservations pour ce service.</p>
+      <ion-icon name="calendar-outline" class="empty-icon"></ion-icon>
+      <h2 class="empty-title">Aucune réservation</h2>
+      <p class="empty-message">Il n'y a pas encore de réservations pour ce service.</p>
     </div>
 
+    <!-- Reservations List -->
     <div *ngIf="!isLoading && reservations.length > 0" class="reservations-list">
       <ion-card *ngFor="let reservation of reservations" class="reservation-card">
-        <ion-card-header>
-          <ion-card-subtitle>
-            <ion-badge [color]="getStatusColor(reservation.status)">{{ getStatusLabel(reservation.status) }}</ion-badge>
+        <ion-card-header class="card-header">
+          <ion-card-subtitle class="card-subtitle">
+            <ion-badge [color]="getStatusColor(reservation.status)" class="status-badge">
+              {{ getStatusLabel(reservation.status) }}
+            </ion-badge>
             <span class="reservation-date">{{ formatDate(reservation.date) }} à {{ reservation.time }}</span>
           </ion-card-subtitle>
-          <ion-card-title>{{ reservation.lieu }}</ion-card-title>
+          <ion-card-title class="location-title">{{ reservation.lieu }}</ion-card-title>
         </ion-card-header>
-        <ion-card-content>
-          <div class="client-info">
-            <h3>Client</h3>
-            <p *ngIf="reservation.user">
-              <ion-icon name="person-outline"></ion-icon>
-              {{ reservation.user.firstName }} {{ reservation.user.lastName }}
-            </p>
-            <p *ngIf="reservation.user">
-              <ion-icon name="mail-outline"></ion-icon>
-              {{ reservation.user.email }}
-            </p>
-            <p *ngIf="reservation.user?.phone">
-              <ion-icon name="call-outline"></ion-icon>
-              {{ reservation.user.phone }}
-            </p>
+
+        <ion-card-content class="card-content">
+          <!-- Client Info -->
+          <div class="info-section client-info">
+            <h3 class="section-title">Client</h3>
+            <div class="info-row">
+              <ion-icon name="person-outline" class="info-icon"></ion-icon>
+              <span>{{ reservation.user.firstName }} {{ reservation.user.lastName }}</span>
+            </div>
+            <div class="info-row">
+              <ion-icon name="mail-outline" class="info-icon"></ion-icon>
+              <span>{{ reservation.user.email }}</span>
+            </div>
+            <div *ngIf="reservation.user?.phone" class="info-row">
+              <ion-icon name="call-outline" class="info-icon"></ion-icon>
+              <span>{{ reservation.user.phone }}</span>
+            </div>
           </div>
 
-          <div class="pet-info" *ngIf="reservation.pet">
-            <h3>Animal</h3>
-            <p>
-              <ion-icon name="paw-outline"></ion-icon>
-              {{ reservation.pet.name }} ({{ reservation.pet.species }} - {{ reservation.pet.breed }})
-            </p>
+          <!-- Pet Info -->
+          <div *ngIf="reservation.pet" class="info-section pet-info">
+            <h3 class="section-title">Animal</h3>
+            <div class="info-row">
+              <ion-icon name="paw-outline" class="info-icon"></ion-icon>
+              <span>{{ reservation.pet.name }} ({{ reservation.pet.species }} - {{ reservation.pet.breed }})</span>
+            </div>
           </div>
 
-          <div class="services-info">
-            <h3>Services réservés</h3>
+          <!-- Services Info -->
+          <div class="info-section services-info">
+            <h3 class="section-title">Services réservés</h3>
             <div class="service-tags">
-              <ion-chip *ngFor="let service of reservation.services">
+              <ion-chip *ngFor="let service of reservation.services" class="service-chip">
                 {{ service.nomservice }} - {{ service.prixService | currency:'TND':'symbol':'1.2-2' }}
               </ion-chip>
             </div>
           </div>
 
+          <!-- Action Buttons -->
           <div class="action-buttons">
             <ion-button 
               color="success" 
+              class="action-button approve-button"
               [disabled]="reservation.status === 'approved' || reservation.status === 'rejected'"
-              (click)="updateStatus(reservation.idreserv, 'approved')"
-            >
+              (click)="updateStatus(reservation.idreserv, 'approved')">
               <ion-icon name="checkmark-outline" slot="start"></ion-icon>
               Approuver
             </ion-button>
             <ion-button 
               color="danger" 
+              class="action-button reject-button"
               [disabled]="reservation.status === 'rejected'"
-              (click)="updateStatus(reservation.idreserv, 'rejected')"
-            >
+              (click)="updateStatus(reservation.idreserv, 'rejected')">
               <ion-icon name="close-outline" slot="start"></ion-icon>
               Rejeter
             </ion-button>

@@ -1,86 +1,136 @@
-<ion-content class="ion-padding">
+<ion-content class="profile-content">
   <div class="profile-container">
-    <div *ngIf="isLoading" class="loading-container">
-      <ion-spinner name="circles"></ion-spinner>
-      <p>Chargement du profil...</p>
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p class="loading-text">Chargement du profil...</p>
     </div>
 
-    <form *ngIf="!isLoading" [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+    <!-- Profile Form -->
+    <form *ngIf="!isLoading" [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="profile-form">
       <div class="header-container">
-        <h1>Mon Profil Prestataire</h1>
-        <p>Gérez vos informations personnelles et votre disponibilité</p>
+        <h1 class="profile-title">Mon Profil Prestataire</h1>
+        <p class="profile-subtitle">Gérez vos informations personnelles et votre disponibilité</p>
       </div>
 
-      <ion-card class="profile-card">
-        <ion-card-header>
-          <ion-card-title>Informations Personnelles</ion-card-title>
+      <!-- Personal Information Card -->
+      <ion-card class="info-card">
+        <ion-card-header class="card-header">
+          <ion-card-title class="card-title">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            Informations Personnelles
+          </ion-card-title>
         </ion-card-header>
 
-        <ion-card-content>
-          <div class="form-group">
-            <ion-item>
-              <ion-label position="floating">Prénom</ion-label>
-              <ion-input formControlName="firstName" type="text"></ion-input>
+        <ion-card-content class="card-content">
+          <!-- First Name -->
+          <div class="form-field">
+            <ion-item lines="none" class="form-item">
+              <ion-label position="floating" class="input-label">Prénom</ion-label>
+              <ion-input 
+                formControlName="firstName" 
+                type="text"
+                class="custom-input"
+                color="dark">
+              </ion-input>
             </ion-item>
-            <ion-note color="danger" *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
-              Le prénom est requis
+            <ion-note *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched" class="error-message">
+              <ion-icon name="alert-circle-outline"></ion-icon> Le prénom est requis
             </ion-note>
           </div>
 
-          <div class="form-group">
-            <ion-item>
-              <ion-label position="floating">Nom</ion-label>
-              <ion-input formControlName="lastName" type="text"></ion-input>
+          <!-- Last Name -->
+          <div class="form-field">
+            <ion-item lines="none" class="form-item">
+              <ion-label position="floating" class="input-label">Nom</ion-label>
+              <ion-input 
+                formControlName="lastName" 
+                type="text"
+                class="custom-input"
+                color="dark">
+              </ion-input>
             </ion-item>
-            <ion-note color="danger" *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
-              Le nom est requis
+            <ion-note *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched" class="error-message">
+              <ion-icon name="alert-circle-outline"></ion-icon> Le nom est requis
             </ion-note>
           </div>
 
-          <div class="form-group">
-            <ion-item>
-              <ion-label position="floating">Email</ion-label>
-              <ion-input formControlName="email" type="email" readonly></ion-input>
+          <!-- Email -->
+          <div class="form-field">
+            <ion-item lines="none" class="form-item">
+              <ion-label position="floating" class="input-label">Email</ion-label>
+              <ion-input 
+                formControlName="email" 
+                type="email"
+                class="custom-input readonly-input"
+                readonly
+                color="dark">
+              </ion-input>
             </ion-item>
           </div>
 
-          <div class="form-group">
-            <ion-item>
-              <ion-label position="floating">Téléphone</ion-label>
-              <ion-input formControlName="phone" type="tel"></ion-input>
+          <!-- Phone -->
+          <div class="form-field">
+            <ion-item lines="none" class="form-item">
+              <ion-label position="floating" class="input-label">Téléphone</ion-label>
+              <ion-input 
+                formControlName="phone" 
+                type="tel"
+                class="custom-input"
+                color="dark">
+              </ion-input>
             </ion-item>
           </div>
 
-          <div class="form-group">
-            <ion-item>
-              <ion-label position="floating">Adresse</ion-label>
-              <ion-input formControlName="address" type="text"></ion-input>
+          <!-- Address -->
+          <div class="form-field">
+            <ion-item lines="none" class="form-item">
+              <ion-label position="floating" class="input-label">Adresse</ion-label>
+              <ion-input 
+                formControlName="address" 
+                type="text"
+                class="custom-input"
+                color="dark">
+              </ion-input>
             </ion-item>
-            <ion-note color="danger" *ngIf="profileForm.get('address')?.invalid && profileForm.get('address')?.touched">
-              L'adresse est requise
+            <ion-note *ngIf="profileForm.get('address')?.invalid && profileForm.get('address')?.touched" class="error-message">
+              <ion-icon name="alert-circle-outline"></ion-icon> L'adresse est requise
             </ion-note>
           </div>
         </ion-card-content>
       </ion-card>
 
+      <!-- Availability Card -->
       <ion-card class="availability-card">
-        <ion-card-header>
-          <ion-card-title>Disponibilité</ion-card-title>
+        <ion-card-header class="card-header">
+          <ion-card-title class="card-title">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            Disponibilité
+          </ion-card-title>
         </ion-card-header>
 
-        <ion-card-content>
-          <ion-item lines="none">
-            <ion-label>Disponible pour des rendez-vous</ion-label>
-            <ion-toggle formControlName="disponibilite"></ion-toggle>
+        <ion-card-content class="card-content">
+          <ion-item lines="none" class="toggle-item">
+            <ion-label class="toggle-label">Disponible pour des rendez-vous</ion-label>
+            <ion-toggle 
+              formControlName="disponibilite"
+              color="primary"
+              class="availability-toggle">
+            </ion-toggle>
           </ion-item>
-          <ion-note>
-            Activez cette option pour indiquer que vous êtes disponible pour accepter de nouveaux rendez-vous.
+          <ion-note class="toggle-note">
+            Activez cette option pour indiquer que vous êtes disponible pour accepter de nouveaux rendez-vous
           </ion-note>
         </ion-card-content>
       </ion-card>
 
+      <!-- Submit Button -->
       <div class="form-actions">
-        <ion-button expand="block" type="submit" [disabled]="profileForm.invalid" class="update-button">
+        <ion-button 
+          expand="block" 
+          type="submit" 
+          [disabled]="profileForm.invalid" 
+          class="submit-button">
           <ion-icon name="save-outline" slot="start"></ion-icon>
           Mettre à jour le profil
         </ion-button>

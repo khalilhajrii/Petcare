@@ -1,146 +1,282 @@
-.reservations-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 16px;
-}
+/* Modern UI Styles */
+.reservation-header {
+  ion-toolbar {
+    --background: white;
+    --border-width: 0;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
 
-.header-container {
-  margin-bottom: 24px;
-  
-  h1 {
-    font-size: 24px;
+  .header-title {
+    font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--ion-color-primary);
+    color: #2b2d42;
   }
-  
-  p {
-    font-size: 16px;
-    color: var(--ion-color-medium);
-    margin: 0;
+
+  .back-button {
+    --color: #2b2d42;
+    --icon-font-size: 1.4rem;
   }
 }
 
-.loading-container {
+.reservations-content {
+  --background: #f8f9ff;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+}
+
+.reservations-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Header Section */
+.header-container {
+  padding: 0 16px 24px;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2b2d42;
+  margin: 0 0 8px 0;
+  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-subtitle {
+  color: #6c757d;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Loading State */
+.loading-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 0;
+  height: 60vh;
   
-  ion-spinner {
+  .spinner-container {
     margin-bottom: 16px;
   }
-  
-  p {
-    color: var(--ion-color-medium);
+
+  .loading-text {
+    color: #6c757d;
+    font-size: 0.95rem;
   }
 }
 
+/* Empty State */
 .empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 0;
+  height: 60vh;
   text-align: center;
-  
-  ion-icon {
-    font-size: 64px;
-    color: var(--ion-color-medium);
+  padding: 0 24px;
+
+  .empty-illustration {
+    background: linear-gradient(135deg, #f8f9ff 0%, #e6e9ff 100%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .empty-icon {
+    font-size: 48px;
+    color: #6a11cb;
+  }
+
+  .empty-title {
+    font-size: 1.4rem;
+    color: #2b2d42;
+    margin: 0 0 8px 0;
+    font-weight: 600;
+  }
+
+  .empty-message {
+    color: #6c757d;
+    margin: 0;
+    font-size: 0.95rem;
+    max-width: 300px;
+  }
+}
+
+/* Reservation Card */
+.reservation-card {
+  --background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: visible;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.status-ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 6px 16px;
+  border-radius: 0 16px 0 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  z-index: 1;
+
+  &.pending {
+    background: linear-gradient(135deg, #ffb347 0%, #ff8c00 100%);
+  }
+
+  &.approved {
+    background: linear-gradient(135deg, #2dd36f 0%, #28ba62 100%);
+  }
+
+  &.rejected {
+    background: linear-gradient(135deg, #eb445a 0%, #cf3c4f 100%);
+  }
+}
+
+.card-header {
+  padding: 24px 16px 16px;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.reservation-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reservation-date {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.location-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2b2d42;
+  margin: 0;
+}
+
+.card-content {
+  padding: 16px;
+}
+
+/* Info Sections */
+.info-section {
+  margin-bottom: 24px;
+
+  &:last-child {
     margin-bottom: 16px;
   }
-  
-  h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-  
-  p {
-    color: var(--ion-color-medium);
-    max-width: 400px;
-  }
 }
 
-.reservations-list {
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2b2d42;
+  margin: 0 0 16px 0;
+}
+
+.section-icon {
+  color: #6a11cb;
+  font-size: 20px;
+}
+
+.info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 12px;
 }
 
-.reservation-card {
-  height: 100%;
-  margin: 0;
-  
-  ion-card-header {
-    padding-bottom: 8px;
-  }
-  
-  ion-card-subtitle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    
-    .reservation-date {
-      font-weight: 500;
-    }
-  }
-  
-  ion-card-content {
-    h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-top: 16px;
-      margin-bottom: 8px;
-      color: var(--ion-color-dark);
-    }
-    
-    p {
-      display: flex;
-      align-items: center;
-      margin: 4px 0;
-      
-      ion-icon {
-        margin-right: 8px;
-        color: var(--ion-color-medium);
-      }
-    }
-  }
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.client-info, .pet-info, .services-info {
-  margin-bottom: 16px;
+.info-icon {
+  color: #6c757d;
+  font-size: 18px;
+  min-width: 20px;
 }
 
+.info-text {
+  font-size: 0.95rem;
+  color: #495057;
+}
+
+/* Service Tags */
 .service-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  
-  ion-chip {
-    margin: 0;
+}
+
+.service-chip {
+  --background: #f8f9ff;
+  --color: #2b2d42;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  height: 32px;
+  padding: 0 12px;
+
+  .service-name {
+    font-weight: 500;
+    margin-right: 4px;
+  }
+
+  .service-price {
+    font-weight: 600;
+    color: #6a11cb;
   }
 }
 
+/* Action Buttons */
 .action-buttons {
   display: flex;
   gap: 12px;
-  margin-top: 16px;
-  
-  ion-button {
-    flex: 1;
-    margin: 0;
-    
-    &[disabled] {
-      opacity: 0.6;
-    }
-  }
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f3f5;
 }
 
-@media (max-width: 576px) {
-  .reservations-list {
-    grid-template-columns: 1fr;
+.action-button {
+  --border-radius: 12px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  height: 48px;
+  font-weight: 500;
+  flex: 1;
+
+  &.approve-button {
+    --color: #2dd36f;
+    --border-color: #2dd36f;
+    --color-activated: #28ba62;
+  }
+
+  &.reject-button {
+    --color: #eb445a;
+    --border-color: #eb445a;
+    --color-activated: #cf3c4f;
   }
 }

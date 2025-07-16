@@ -28,8 +28,8 @@ export interface Reservation {
   };
   services?: {
     idservice: number;
-    nom: string;
+    nomservice: string;
     description: string;
-    prix: number;
+    prixService: number;
   }[];
 }

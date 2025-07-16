@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 export class LoginPage {
   loginForm: FormGroup;
   isLoading = false;
-
+showPassword = false;
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,

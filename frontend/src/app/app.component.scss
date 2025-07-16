@@ -117,3 +117,31 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+
+.toolbar-container {
+    -webkit-padding-start: var(--padding-start);
+    padding-inline-start: var(--padding-start);
+    -webkit-padding-end: var(--padding-end);
+    padding-inline-end: var(--padding-end);
+    padding-top: var(--padding-top);
+    padding-bottom: var(--padding-bottom);
+    display: -ms-flexbox;
+    display: flex
+;
+    position: relative;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    width: 100%;
+    min-height: var(--min-height);
+    contain: content;
+    overflow: hidden;
+    z-index: 10;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: white;
+    color: black;
+}

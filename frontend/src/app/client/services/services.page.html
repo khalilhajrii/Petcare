@@ -1,33 +1,47 @@
-<ion-content class="ion-padding">
+<ion-content class="services-content">
   <ion-refresher slot="fixed" (ionRefresh)="loadServices(); $event.target.complete()">
-    <ion-refresher-content></ion-refresher-content>
+    <ion-refresher-content
+      pullingIcon="lines"
+      refreshingSpinner="circles">
+    </ion-refresher-content>
   </ion-refresher>
 
-  <h2>Services disponibles</h2>
-  <p>Découvrez les services proposés par nos professionnels pour vos animaux de compagnie.</p>
+  <div class="header-container">
+    <h1 class="page-title">Services disponibles</h1>
+    <p class="page-subtitle">Découvrez les services proposés par nos professionnels</p>
+  </div>
 
-  <ion-list>
-    <ion-card *ngFor="let service of services">
-      <ion-card-header>
-        <ion-card-title>{{ service.nomservice }}</ion-card-title>
-        <ion-card-subtitle>{{ service.prixService | currency:'TND':'symbol':'1.2-2' }}</ion-card-subtitle>
+  <div class="services-grid">
+    <ion-card *ngFor="let service of services" class="service-card">
+      <div class="service-icon">
+        <ion-icon name="medkit-outline"></ion-icon>
+      </div>
+      
+      <ion-card-header class="card-header">
+        <ion-card-title class="service-name">{{ service.nomservice }}</ion-card-title>
+        <ion-card-subtitle class="service-price">{{ service.prixService | currency:'TND':'symbol':'1.2-2' }}</ion-card-subtitle>
       </ion-card-header>
-      <ion-card-content>
-        <p>{{ service.description }}</p>
-        <p class="details">{{ service.servicedetail }}</p>
-        <div class="service-actions">
-          <ion-button expand="block" color="primary" [routerLink]="['/client/reservations/new']" [queryParams]="{ serviceId: service.idservice }">
-            <ion-icon name="calendar-outline" slot="start"></ion-icon>
-            Réserver
-          </ion-button>
-        </div>
+
+      <ion-card-content class="card-content">
+        <p class="service-description">{{ service.description }}</p>
+        <p class="service-details">{{ service.servicedetail }}</p>
+        
+        <ion-button 
+          expand="block" 
+          color="primary" 
+          class="reserve-button"
+          [routerLink]="['/client/reservations/new']" 
+          [queryParams]="{ serviceId: service.idservice }">
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
+          Réserver
+        </ion-button>
       </ion-card-content>
     </ion-card>
 
-    <ion-item *ngIf="services.length === 0 && !isLoading">
-      <ion-label class="ion-text-center">
-        Aucun service disponible pour le moment.
-      </ion-label>
-    </ion-item>
-  </ion-list>
+    <div *ngIf="services.length === 0 && !isLoading" class="empty-state">
+      <ion-icon name="medkit-outline" class="empty-icon"></ion-icon>
+      <h3>Aucun service disponible</h3>
+      <p>Veuillez réessayer ultérieurement</p>
+    </div>
+  </div>
 </ion-content>

@@ -1,55 +1,90 @@
-<ion-content class="ion-padding auth-page">
+<ion-content class="ion-padding auth-page" fullscreen>
   <div class="auth-container">
+    <!-- Animated Logo Section -->
     <div class="logo-container">
-      <div class="logo-circle">
+      <div class="logo-circle" id="pet-logo">
         <ion-icon name="paw" class="logo-icon"></ion-icon>
+        <div class="pulse-circle"></div>
       </div>
       <h1 class="app-name">PetCare</h1>
-      <p class="tagline">Future of Pet Wellness</p>
+      <p class="tagline">Elevating Pet Wellness</p>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="login()" class="auth-form">
-      <div class="input-field">
-        <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+    <!-- Glassmorphism Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="auth-form glass-card">
+      <!-- Email Field with Floating Label -->
+      <ion-item lines="none" class="input-field">
+        <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
         <ion-input 
           formControlName="email" 
           type="email" 
-          placeholder="Email"
-          class="modern-input">
+          required
+          class="modern-input"
+          placeholder=" ">
         </ion-input>
-        <div class="underline-gradient"></div>
-      </div>
+        <label class="floating-label">Email</label>
+        <div class="underline-animation"></div>
+      </ion-item>
 
-      <div class="input-field">
-        <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+      <!-- Password Field with Toggle -->
+      <ion-item lines="none" class="input-field">
+        <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
         <ion-input 
           formControlName="password" 
-          type="password" 
-          placeholder="Password"
-          class="modern-input">
+          [type]="showPassword ? 'text' : 'password'" 
+          required
+          class="modern-input"
+          placeholder=" ">
         </ion-input>
-        <div class="underline-gradient"></div>
-      </div>
+        <label class="floating-label">Password</label>
+        <ion-icon 
+          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" 
+          slot="end"
+          class="toggle-password"
+          (click)="showPassword = !showPassword">
+        </ion-icon>
+        <div class="underline-animation"></div>
+      </ion-item>
 
+      <!-- Animated Login Button -->
       <ion-button 
         expand="block" 
         shape="round" 
-        class="auth-button"
-        (click)="login()">
+        class="auth-button gradient-btn"
+        (click)="login()"
+        [disabled]="isLoading">
         <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
-        <span *ngIf="!isLoading">LOGIN</span>
+        <span *ngIf="!isLoading" class="btn-content">
+          <span class="btn-text">LOGIN</span>
+          <ion-icon name="arrow-forward" class="btn-icon"></ion-icon>
+        </span>
       </ion-button>
+
+      <div class="forgot-password">
+        <a href="#" class="text-link">Forgot password?</a>
+      </div>
     </form>
 
+    <!-- Social Auth Section -->
     <div class="auth-footer">
-      <p>New to PetCare? <a routerLink="/register" class="auth-link">Create account</a></p>
+      <p class="signup-text">New to PetCare? <a routerLink="/register" class="text-link">Create account</a></p>
+      
       <div class="divider">
-        <span>or</span>
+        <div class="divider-line"></div>
+        <span class="divider-text">or continue with</span>
+        <div class="divider-line"></div>
       </div>
-      <ion-button fill="clear" class="social-button">
-        <ion-icon name="logo-google" slot="start"></ion-icon>
-        Continue with Google
-      </ion-button>
+      
+      <div class="social-buttons">
+        <ion-button fill="clear" class="social-button google-btn">
+          <ion-icon name="logo-google" slot="start"></ion-icon>
+          Google
+        </ion-button>
+        <ion-button fill="clear" class="social-button apple-btn">
+          <ion-icon name="logo-apple" slot="start"></ion-icon>
+          Apple
+        </ion-button>
+      </div>
     </div>
   </div>
 </ion-content>
