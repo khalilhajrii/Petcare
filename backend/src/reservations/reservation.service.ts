@@ -74,13 +74,22 @@ export class ReservationsService {
   }
 
   async findOne(id: number) {
+    // Vérification stricte que l'ID est un nombre valide
+    if (id === undefined || id === null || isNaN(id)) {
+      throw new BadRequestException(`ID de réservation invalide: ${id}`);
+    }
+    
+    console.log(`Recherche de la réservation avec ID: ${id}`);
+    
     const reservation = await this.reservationRepository.findOne({
       where: { idreserv: id },
       relations: ['pet', 'user', 'services'],
     });
+    
     if (!reservation) {
-      throw new NotFoundException(`Reservation with ID ${id} not found`);
+      throw new NotFoundException(`Réservation avec ID ${id} introuvable`);
     }
+    
     return reservation;
   }
 
@@ -163,5 +172,20 @@ export class ReservationsService {
   async remove(id: number) {
     const reservation = await this.findOne(id);
     return this.reservationRepository.remove(reservation);
+  }
+
+  async findByProviderId(providerId: number): Promise<Reservation[]> {
+    // Vérification stricte que providerId est un nombre valide
+    if (providerId === undefined || providerId === null || isNaN(providerId)) {
+      throw new BadRequestException('ID du prestataire invalide');
+    }
+    
+    console.log(`Recherche des réservations pour le prestataire ID: ${providerId}`);
+    
+    return this.reservationRepository.find({
+      where: { userId: providerId },
+      relations: ['services', 'pet', 'user'],
+      order: { date: 'DESC', time: 'ASC' }
+    });
   }
 }

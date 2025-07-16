@@ -4,6 +4,12 @@ ion-card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.service-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
 ion-card-title {
   font-size: 1.2rem;
   font-weight: 600;

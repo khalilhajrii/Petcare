@@ -101,4 +101,22 @@ export class ClientService {
   getServices(): Observable<any[]> {
     return this.apiService.get<any[]>('services');
   }
+
+  // Reservation methods
+  createReservation(reservationData: any): Observable<any> {
+    console.log('Creating reservation with data:', reservationData);
+    return this.apiService.post<any>('reservations', reservationData).pipe(
+      map(response => {
+        console.log('Reservation created successfully:', response);
+        return response;
+      }),
+      catchError(error => {
+        console.error('Error creating reservation:', error);
+        console.error('Error status:', error.status);
+        console.error('Error message:', error.message);
+        console.error('Error details:', error.error);
+        throw error;
+      })
+    );
+  }
 }

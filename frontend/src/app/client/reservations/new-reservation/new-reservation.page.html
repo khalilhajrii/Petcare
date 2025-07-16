@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/client/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nouvelle Réservation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+    <p>Chargement...</p>
+  </div>
+
+  <form *ngIf="!isLoading" class="reservation-form">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Détails de la réservation</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Date</ion-label>
+          <ion-input type="date" [(ngModel)]="reservation.date" name="date"></ion-input>
+          <ion-note slot="error" *ngIf="!reservation.date">La date est requise</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Heure</ion-label>
+          <ion-input type="time" [(ngModel)]="reservation.time" name="time"></ion-input>
+          <ion-note slot="error" *ngIf="!reservation.time">L'heure est requise</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Lieu</ion-label>
+          <ion-input type="text" [(ngModel)]="reservation.location" name="location" placeholder="Entrez l'adresse"></ion-input>
+          <ion-note slot="error" *ngIf="!reservation.location">Le lieu est requis</ion-note>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Animal</ion-label>
+          <ion-select [(ngModel)]="reservation.petId" name="petId">
+            <ion-select-option *ngFor="let pet of pets" [value]="pet.idPet">{{ pet.nom }} ({{ pet.type }})</ion-select-option>
+          </ion-select>
+          <ion-note slot="error" *ngIf="!reservation.petId">Veuillez sélectionner un animal</ion-note>
+        </ion-item>
+
+        <div class="services-section">
+          <ion-label>Services</ion-label>
+          <div class="services-grid">
+            <div 
+              *ngFor="let service of services" 
+              class="service-card" 
+              [class.selected]="isServiceSelected(service.idservice)"
+              (click)="toggleService(service.idservice)"
+            >
+              <div class="service-name">{{ service.nomservice }}</div>
+              <div class="service-price">{{ service.prixService | currency:'EUR':'symbol':'1.2-2' }}</div>
+            </div>
+          </div>
+          <ion-note class="error-message" *ngIf="reservation.serviceIds.length === 0">Veuillez sélectionner au moins un service</ion-note>
+        </div>
+
+        <ion-button 
+          expand="block" 
+          (click)="submitReservation()" 
+          [disabled]="submitting"
+          class="submit-button"
+        >
+          <ion-spinner *ngIf="submitting"></ion-spinner>
+          <span *ngIf="!submitting">Confirmer la réservation</span>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

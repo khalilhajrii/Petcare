@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
+  BadRequestException,
 } from '@nestjs/common';
 import { ReservationsService } from './reservation.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
@@ -50,5 +52,28 @@ export class ReservationsController {
 //   @Roles('admin')
   remove(@Param('id') id: string) {
     return this.reservationsService.remove(+id);
+  }
+
+  @Get('provider')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('prestataire')
+  @ApiBearerAuth()
+  findByProvider(@Request() req) {
+    try {
+      console.log('Requête reçue pour les réservations du prestataire');
+      console.log('User dans la requête:', req.user);
+      
+      const providerId = req.user?.userId;
+      
+      if (!providerId) {
+        console.error('ID du prestataire manquant dans la requête');
+        throw new BadRequestException('ID du prestataire non trouvé dans la requête');
+      }
+      
+      return this.reservationsService.findByProviderId(providerId);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des réservations du prestataire:', error);
+      throw error;
+    }
   }
 }
