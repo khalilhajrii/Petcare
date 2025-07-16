@@ -41,6 +41,7 @@ export class DashboardPage implements OnInit {
   loadReservations() {
     this.providerService.getReservations().subscribe({
       next: (reservations) => {
+        console.log('Réservations chargées:', reservations);
         this.reservations = reservations;
         this.isLoading = false;
       },
@@ -55,7 +56,8 @@ export class DashboardPage implements OnInit {
     return this.reservations.filter(res => {
       const reservDate = new Date(res.date);
       const today = new Date(this.todayDate);
-      return reservDate >= today;
+      // Filtrer uniquement les réservations approuvées avec date future
+      return reservDate > today && res.status === 'approved';
     }).sort((a, b) => {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     });
@@ -65,6 +67,7 @@ export class DashboardPage implements OnInit {
     return this.reservations.filter(res => {
       const reservDate = new Date(res.date);
       const today = new Date(this.todayDate);
+      // Filtrer toutes les réservations avec date passée (approuvées ou non)
       return reservDate < today;
     }).sort((a, b) => {
       return new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -74,7 +77,8 @@ export class DashboardPage implements OnInit {
   getTodayReservations() {
     return this.reservations.filter(res => {
       const reservDate = new Date(res.date).toISOString().split('T')[0];
-      return reservDate === this.todayDate;
+      // Filtrer uniquement les réservations approuvées pour aujourd'hui
+      return reservDate === this.todayDate && res.status === 'approved';
     }).sort((a, b) => {
       return a.time.localeCompare(b.time);
     });

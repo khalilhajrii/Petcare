@@ -132,4 +132,27 @@ export class ApiService {
       })
     );
   }
+
+  patch<T>(endpoint: string, body: any) {
+    const url = `${environment.apiUrl}/${endpoint}`;
+    console.log(`PATCH request to: ${url}`, body);
+    return this.getAuthHeaders().pipe(
+      switchMap(headers => {
+        console.log('Headers for PATCH request:', headers);
+        return this.http.patch<T>(url, body, { headers }).pipe(
+          map(response => {
+            console.log(`PATCH response from ${url}:`, response);
+            return response;
+          }),
+          catchError(error => {
+            console.error(`PATCH error from ${url}:`, error);
+            console.error('Error status:', error.status);
+            console.error('Error message:', error.message);
+            console.error('Error details:', error.error);
+            throw error;
+          })
+        );
+      })
+    );
+  }
 }

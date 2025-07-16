@@ -1,0 +1,146 @@
+.reservations-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.header-container {
+  margin-bottom: 24px;
+  
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--ion-color-primary);
+  }
+  
+  p {
+    font-size: 16px;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+  
+  ion-spinner {
+    margin-bottom: 16px;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+  text-align: center;
+  
+  ion-icon {
+    font-size: 64px;
+    color: var(--ion-color-medium);
+    margin-bottom: 16px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    max-width: 400px;
+  }
+}
+
+.reservations-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.reservation-card {
+  height: 100%;
+  margin: 0;
+  
+  ion-card-header {
+    padding-bottom: 8px;
+  }
+  
+  ion-card-subtitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    
+    .reservation-date {
+      font-weight: 500;
+    }
+  }
+  
+  ion-card-content {
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      color: var(--ion-color-dark);
+    }
+    
+    p {
+      display: flex;
+      align-items: center;
+      margin: 4px 0;
+      
+      ion-icon {
+        margin-right: 8px;
+        color: var(--ion-color-medium);
+      }
+    }
+  }
+}
+
+.client-info, .pet-info, .services-info {
+  margin-bottom: 16px;
+}
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  
+  ion-chip {
+    margin: 0;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  
+  ion-button {
+    flex: 1;
+    margin: 0;
+    
+    &[disabled] {
+      opacity: 0.6;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .reservations-list {
+    grid-template-columns: 1fr;
+  }
+}

@@ -6,7 +6,10 @@ import {
   IsArray,
   ArrayNotEmpty,
   Matches,
+  IsEnum,
+  IsOptional,
 } from 'class-validator';
+import { ReservationStatus } from '../entities/reservation.entity';
 
 export class CreateReservationDto {
     @ApiProperty()
@@ -35,5 +38,10 @@ export class CreateReservationDto {
     @ApiProperty()
     @IsArray()
     @ArrayNotEmpty()
-    serviceIds: number[]; 
+    serviceIds: number[];
+    
+    @ApiProperty({ enum: ReservationStatus, default: ReservationStatus.PENDING, required: false })
+    @IsEnum(ReservationStatus)
+    @IsOptional()
+    status?: ReservationStatus;
 }

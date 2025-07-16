@@ -22,6 +22,10 @@
         <ion-icon name="medkit-outline" slot="start"></ion-icon>
         <ion-label>Services</ion-label>
       </ion-item>
+      <ion-item routerLink="/client/reservations" routerDirection="forward" [routerLinkActive]="'selected'">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <ion-label>Mes Réservations</ion-label>
+      </ion-item>
       <ion-item (click)="logout()">
         <ion-icon name="log-out-outline" slot="start"></ion-icon>
         <ion-label>Déconnexion</ion-label>

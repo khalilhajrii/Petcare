@@ -55,7 +55,7 @@
               (click)="toggleService(service.idservice)"
             >
               <div class="service-name">{{ service.nomservice }}</div>
-              <div class="service-price">{{ service.prixService | currency:'EUR':'symbol':'1.2-2' }}</div>
+              <div class="service-price">{{ service.prixService | currency:'TND':'symbol':'1.2-2' }}</div>
             </div>
           </div>
           <ion-note class="error-message" *ngIf="reservation.serviceIds.length === 0">Veuillez sélectionner au moins un service</ion-note>

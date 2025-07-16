@@ -15,7 +15,8 @@ const routes: Routes = [
       { path: 'pets/new', loadComponent: () => import('./pets/pet-detail/pet-detail.page').then(m => m.PetDetailPage) },
       { path: 'pets/:id', loadComponent: () => import('./pets/pet-detail/pet-detail.page').then(m => m.PetDetailPage) },
       { path: 'services', loadComponent: () => import('./services/services.page').then(m => m.ServicesPage) },
-      { path: 'reservations/new', loadComponent: () => import('../reservations/new-reservation/new-reservation.page').then(m => m.NewReservationPage) }
+      { path: 'reservations', loadComponent: () => import('./reservations/my-reservations/my-reservations.page').then(m => m.MyReservationsPage) },
+      { path: 'reservations/new', loadComponent: () => import('./reservations/new-reservation/new-reservation.page').then(m => m.NewReservationPage) }
     ]
   }
 ];

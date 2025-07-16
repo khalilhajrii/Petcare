@@ -85,7 +85,7 @@
       <ion-card *ngFor="let service of services" class="service-card">
         <ion-card-header>
           <ion-card-title>{{ service.nomservice }}</ion-card-title>
-          <ion-card-subtitle>{{ service.prixService | currency:'EUR':'symbol':'1.2-2' }}</ion-card-subtitle>
+          <ion-card-subtitle>{{ service.prixService | currency:'TND':'symbol':'1.2-2' }}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
           <div class="service-description">
@@ -103,6 +103,10 @@
             <ion-button fill="outline" color="danger" (click)="confirmDelete(service)">
               <ion-icon name="trash-outline" slot="start"></ion-icon>
               Supprimer
+            </ion-button>
+            <ion-button fill="outline" color="tertiary" [routerLink]="['/provider/services/reservations', service.idservice]">
+              <ion-icon name="calendar-outline" slot="start"></ion-icon>
+              Réservations
             </ion-button>
           </div>
         </ion-card-content>

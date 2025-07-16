@@ -4,6 +4,7 @@ import { DashboardPage } from './dashboard/dashboard.page';
 import { ProviderLayoutComponent } from './provider-layout/provider-layout.component';
 import { ProfilePage } from './profile/profile.page';
 import { ServicesPage } from './services/services.page';
+import { ServiceReservationsPage } from './services/service-reservations/service-reservations.page';
 
 const routes: Routes = [
   {
@@ -13,7 +14,8 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardPage },
       { path: 'profile', component: ProfilePage },
-      { path: 'services', component: ServicesPage }
+      { path: 'services', component: ServicesPage },
+      { path: 'services/reservations/:id', component: ServiceReservationsPage }
     ]
   }
 ];

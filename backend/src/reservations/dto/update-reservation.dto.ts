@@ -1,4 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEnum, IsOptional } from 'class-validator';
+import { ReservationStatus } from '../entities/reservation.entity';
 
 export class UpdateReservationDto {
   @ApiPropertyOptional({ example: '2025-07-20' })
@@ -18,4 +20,9 @@ export class UpdateReservationDto {
 
   @ApiPropertyOptional({ example: [1, 2] })
   serviceIds?: number[];
+  
+  @ApiPropertyOptional({ enum: ReservationStatus })
+  @IsEnum(ReservationStatus)
+  @IsOptional()
+  status?: ReservationStatus;
 }

@@ -119,4 +119,38 @@ export class ClientService {
       })
     );
   }
+  
+  getClientReservations(): Observable<any[]> {
+    console.log('Requesting client reservations from API');
+    return this.apiService.get<any[]>('reservations/client').pipe(
+      map(response => {
+        console.log('Client reservations response:', response);
+        return response;
+      }),
+      catchError(error => {
+        console.error('Error fetching client reservations:', error);
+        console.error('Error status:', error.status);
+        console.error('Error message:', error.message);
+        console.error('Error details:', error.error);
+        throw error;
+      })
+    );
+  }
+  
+  getClientReservationsById(clientId: number): Observable<any[]> {
+    console.log(`Requesting reservations for client ID: ${clientId}`);
+    return this.apiService.get<any[]>(`reservations/client/${clientId}`).pipe(
+      map(response => {
+        console.log('Client reservations by ID response:', response);
+        return response;
+      }),
+      catchError(error => {
+        console.error(`Error fetching reservations for client ID ${clientId}:`, error);
+        console.error('Error status:', error.status);
+        console.error('Error message:', error.message);
+        console.error('Error details:', error.error);
+        throw error;
+      })
+    );
+  }
 }

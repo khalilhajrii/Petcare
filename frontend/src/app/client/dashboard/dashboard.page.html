@@ -36,15 +36,26 @@
     </ion-card-header>
     <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let appt of appointments">
+        <ion-item *ngFor="let reservation of upcomingReservations">
           <ion-label>
-            <h3>{{ appt.date | date:'medium' }}</h3>
-            <p>Avec: {{ appt.providerName }}</p>
-            <p>Service: {{ appt.service }}</p>
+            <h3>{{ reservation.date | date:'dd/MM/yyyy' }} à {{ reservation.time }}</h3>
+            <p>Lieu: {{ reservation.lieu }}</p>
+            <p>Animal: {{ reservation.pet?.nom }}</p>
+            <p>Services: 
+              <span *ngFor="let service of reservation.services; let last = last">
+                {{ service.nom }}{{ !last ? ', ' : '' }}
+              </span>
+            </p>
           </ion-label>
         </ion-item>
-        <ion-item *ngIf="appointments.length === 0">
+        <ion-item *ngIf="upcomingReservations.length === 0">
           <ion-label>Aucun rendez-vous à venir.</ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-button expand="block" fill="clear" routerLink="/client/reservations">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            Voir toutes mes réservations
+          </ion-button>
         </ion-item>
       </ion-list>
     </ion-card-content>
