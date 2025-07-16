@@ -1,0 +1,47 @@
+<ion-menu contentId="main-content" type="overlay">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu Prestataire</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item routerLink="/provider/dashboard" routerDirection="root" [routerLinkActive]="'selected'">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-label>Dashboard</ion-label>
+      </ion-item>
+      <ion-item routerLink="/provider/profile" routerDirection="forward" [routerLinkActive]="'selected'">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label>Mon Profil</ion-label>
+      </ion-item>
+      <ion-item routerLink="/provider/services" routerDirection="forward" [routerLinkActive]="'selected'">
+        <ion-icon name="briefcase-outline" slot="start"></ion-icon>
+        <ion-label>Mes Services</ion-label>
+      </ion-item>
+      <ion-item (click)="logout()">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        <ion-label>Déconnexion</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>{{ pageTitle }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="logout()">
+          <ion-icon name="log-out"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <router-outlet></router-outlet>
+  </ion-content>
+</div>

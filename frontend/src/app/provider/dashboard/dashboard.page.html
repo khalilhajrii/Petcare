@@ -1,52 +1,175 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Provider Dashboard</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="logout()">
-        <ion-icon name="log-out"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
+  <div class="dashboard-container">
+    <div class="header-container">
+      <h1>Tableau de Bord</h1>
+      <p>Bienvenue sur votre espace prestataire</p>
+    </div>
 
-<ion-content>
-  <h2>Welcome Service Provider!</h2>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Your Services</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let service of services">
-          <ion-label>
-            <h3>{{ service.name }}</h3>
-            <p>Description: {{ service.description }}</p>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="services.length === 0">
-          <ion-label>No services found.</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Upcoming Appointments</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let appt of appointments">
-          <ion-label>
-            <h3>{{ appt.date | date:'medium' }}</h3>
-            <p>Client: {{ appt.clientName }}</p>
-            <p>Pet: {{ appt.petName }}</p>
-            <p>Service: {{ appt.service }}</p>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="appointments.length === 0">
-          <ion-label>No upcoming appointments.</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+    <div *ngIf="isLoading" class="loading-container">
+      <ion-spinner name="circles"></ion-spinner>
+      <p>Chargement des données...</p>
+    </div>
+
+    <div *ngIf="!isLoading" class="dashboard-content">
+      <!-- Services Summary Card -->
+      <ion-card class="summary-card">
+        <ion-card-header>
+          <div class="card-header-content">
+            <ion-icon name="briefcase-outline"></ion-icon>
+            <ion-card-title>Mes Services</ion-card-title>
+          </div>
+          <ion-button fill="clear" routerLink="/provider/services">
+            Gérer
+            <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+          </ion-button>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngIf="services.length === 0" class="empty-state">
+            <p>Vous n'avez pas encore créé de services.</p>
+            <ion-button fill="outline" routerLink="/provider/services">
+              Ajouter un service
+            </ion-button>
+          </div>
+          <div *ngIf="services.length > 0" class="services-summary">
+            <div class="service-count">
+              <span class="count">{{ services.length }}</span>
+              <span class="label">Services proposés</span>
+            </div>
+            <div class="services-list">
+              <div *ngFor="let service of services.slice(0, 3)" class="service-item">
+                <div class="service-name">{{ service.nomservice }}</div>
+                <div class="service-price">{{ service.prixService | currency:'EUR':'symbol':'1.2-2' }}</div>
+              </div>
+              <div *ngIf="services.length > 3" class="more-services">
+                <ion-button fill="clear" size="small" routerLink="/provider/services">
+                  Voir tous les services
+                </ion-button>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Today's Reservations -->
+      <ion-card class="today-card">
+        <ion-card-header>
+          <div class="card-header-content">
+            <ion-icon name="today-outline"></ion-icon>
+            <ion-card-title>Réservations du jour</ion-card-title>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngIf="getTodayReservations().length === 0" class="empty-state">
+            <p>Aucune réservation pour aujourd'hui.</p>
+          </div>
+          <div *ngIf="getTodayReservations().length > 0" class="today-reservations">
+            <div *ngFor="let reservation of getTodayReservations()" class="reservation-item">
+              <div class="reservation-time">{{ reservation.time }}</div>
+              <div class="reservation-details">
+                <div class="client-info">
+                  <ion-icon name="person-outline"></ion-icon>
+                  <span>{{ reservation.user.firstName }} {{ reservation.user.lastName }}</span>
+                </div>
+                <div class="pet-info">
+                  <ion-icon name="paw-outline"></ion-icon>
+                  <span>{{ reservation.pet.name }} ({{ reservation.pet.species }})</span>
+                </div>
+                <div class="service-info">
+                  <ion-icon name="briefcase-outline"></ion-icon>
+                  <span>{{ getServiceNames(reservation.services) }}</span>
+                </div>
+                <div class="location-info">
+                  <ion-icon name="location-outline"></ion-icon>
+                  <span>{{ reservation.lieu }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Upcoming Reservations -->
+      <ion-card class="upcoming-card">
+        <ion-card-header>
+          <div class="card-header-content">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <ion-card-title>Réservations à venir</ion-card-title>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngIf="getUpcomingReservations().length === 0" class="empty-state">
+            <p>Aucune réservation à venir.</p>
+          </div>
+          <div *ngIf="getUpcomingReservations().length > 0" class="upcoming-reservations">
+            <div *ngFor="let reservation of getUpcomingReservations().slice(0, 5)" class="reservation-item">
+              <div class="reservation-date">
+                <div class="date-day">{{ getDateDay(reservation.date) }}</div>
+                <div class="date-month">{{ getDateMonth(reservation.date) }}</div>
+              </div>
+              <div class="reservation-details">
+                <div class="reservation-header">
+                  <div class="reservation-time">{{ reservation.time }}</div>
+                  <div class="client-name">{{ reservation.user.firstName }} {{ reservation.user.lastName }}</div>
+                </div>
+                <div class="reservation-info">
+                  <div class="pet-info">
+                    <ion-icon name="paw-outline"></ion-icon>
+                    <span>{{ reservation.pet.name }}</span>
+                  </div>
+                  <div class="service-info">
+                    <ion-icon name="briefcase-outline"></ion-icon>
+                    <span>{{ getServiceNames(reservation.services) }}</span>
+                  </div>
+                  <div class="location-info">
+                    <ion-icon name="location-outline"></ion-icon>
+                    <span>{{ reservation.lieu }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="getUpcomingReservations().length > 5" class="more-reservations">
+              <ion-button fill="clear" size="small">
+                Voir toutes les réservations
+              </ion-button>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Past Reservations Summary -->
+      <ion-card class="past-card">
+        <ion-card-header>
+          <div class="card-header-content">
+            <ion-icon name="time-outline"></ion-icon>
+            <ion-card-title>Historique des réservations</ion-card-title>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngIf="getPastReservations().length === 0" class="empty-state">
+            <p>Aucune réservation passée.</p>
+          </div>
+          <div *ngIf="getPastReservations().length > 0" class="past-summary">
+            <div class="past-count">
+              <span class="count">{{ getPastReservations().length }}</span>
+              <span class="label">Réservations complétées</span>
+            </div>
+            <div class="past-list">
+              <div *ngFor="let reservation of getPastReservations().slice(0, 3)" class="past-item">
+                <div class="past-date">{{ formatDate(reservation.date) }}</div>
+                <div class="past-details">
+                  <div class="client-name">{{ reservation.user.firstName }} {{ reservation.user.lastName }}</div>
+                  <div class="service-name">{{ getServiceNames(reservation.services) }}</div>
+                </div>
+              </div>
+              <div *ngIf="getPastReservations().length > 3" class="more-past">
+                <ion-button fill="clear" size="small">
+                  Voir l'historique complet
+                </ion-button>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

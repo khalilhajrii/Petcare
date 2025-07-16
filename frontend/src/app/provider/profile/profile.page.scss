@@ -1,0 +1,110 @@
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.header-container {
+  margin-bottom: 24px;
+  text-align: center;
+
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ion-color-primary);
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 16px;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+
+  ion-spinner {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+  }
+}
+
+.profile-card, .availability-card {
+  margin-bottom: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  ion-card-header {
+    padding-bottom: 8px;
+  }
+
+  ion-card-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.form-group {
+  margin-bottom: 16px;
+
+  ion-item {
+    --border-radius: 8px;
+    --padding-start: 12px;
+    --background: var(--ion-color-light);
+    margin-bottom: 4px;
+  }
+
+  ion-note {
+    margin-left: 12px;
+    font-size: 12px;
+  }
+}
+
+.availability-card ion-item {
+  --background: transparent;
+}
+
+.form-actions {
+  margin-top: 32px;
+  margin-bottom: 32px;
+
+  .update-button {
+    --border-radius: 8px;
+    height: 48px;
+    font-weight: 500;
+    font-size: 16px;
+    margin: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .profile-container {
+    padding: 8px;
+  }
+
+  .header-container {
+    h1 {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  .form-actions .update-button {
+    height: 44px;
+    font-size: 14px;
+  }
+}

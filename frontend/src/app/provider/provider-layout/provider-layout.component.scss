@@ -1,0 +1,30 @@
+ion-menu {
+  --width: 250px;
+}
+
+ion-item.selected {
+  --background: var(--ion-color-primary-tint);
+  --color: var(--ion-color-primary-contrast);
+  font-weight: bold;
+}
+
+ion-item {
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  --min-height: 48px;
+  cursor: pointer;
+}
+
+ion-icon {
+  margin-right: 8px;
+  color: var(--ion-color-primary);
+}
+
+ion-item.selected ion-icon {
+  color: var(--ion-color-primary-contrast);
+}
+
+ion-content {
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+}

@@ -1,0 +1,90 @@
+<ion-content class="ion-padding">
+  <div class="profile-container">
+    <div *ngIf="isLoading" class="loading-container">
+      <ion-spinner name="circles"></ion-spinner>
+      <p>Chargement du profil...</p>
+    </div>
+
+    <form *ngIf="!isLoading" [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+      <div class="header-container">
+        <h1>Mon Profil Prestataire</h1>
+        <p>Gérez vos informations personnelles et votre disponibilité</p>
+      </div>
+
+      <ion-card class="profile-card">
+        <ion-card-header>
+          <ion-card-title>Informations Personnelles</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="form-group">
+            <ion-item>
+              <ion-label position="floating">Prénom</ion-label>
+              <ion-input formControlName="firstName" type="text"></ion-input>
+            </ion-item>
+            <ion-note color="danger" *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched">
+              Le prénom est requis
+            </ion-note>
+          </div>
+
+          <div class="form-group">
+            <ion-item>
+              <ion-label position="floating">Nom</ion-label>
+              <ion-input formControlName="lastName" type="text"></ion-input>
+            </ion-item>
+            <ion-note color="danger" *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched">
+              Le nom est requis
+            </ion-note>
+          </div>
+
+          <div class="form-group">
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input formControlName="email" type="email" readonly></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="form-group">
+            <ion-item>
+              <ion-label position="floating">Téléphone</ion-label>
+              <ion-input formControlName="phone" type="tel"></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="form-group">
+            <ion-item>
+              <ion-label position="floating">Adresse</ion-label>
+              <ion-input formControlName="address" type="text"></ion-input>
+            </ion-item>
+            <ion-note color="danger" *ngIf="profileForm.get('address')?.invalid && profileForm.get('address')?.touched">
+              L'adresse est requise
+            </ion-note>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="availability-card">
+        <ion-card-header>
+          <ion-card-title>Disponibilité</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-item lines="none">
+            <ion-label>Disponible pour des rendez-vous</ion-label>
+            <ion-toggle formControlName="disponibilite"></ion-toggle>
+          </ion-item>
+          <ion-note>
+            Activez cette option pour indiquer que vous êtes disponible pour accepter de nouveaux rendez-vous.
+          </ion-note>
+        </ion-card-content>
+      </ion-card>
+
+      <div class="form-actions">
+        <ion-button expand="block" type="submit" [disabled]="profileForm.invalid" class="update-button">
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          Mettre à jour le profil
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>
