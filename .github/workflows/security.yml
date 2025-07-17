@@ -1,0 +1,112 @@
+name: PetCare Security Scan
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 0 * * 0'  # Run weekly on Sundays at midnight
+
+jobs:
+  backend-security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    
+    - name: Run npm audit
+      working-directory: ./backend
+      run: npm audit --production
+      continue-on-error: true
+    
+    - name: Run OWASP Dependency-Check
+      uses: dependency-check/Dependency-Check_Action@main
+      with:
+        project: 'PetCare-Backend'
+        path: './backend'
+        format: 'HTML'
+        out: './reports'
+        args: >
+          --failOnCVSS 7
+          --enableRetired
+    
+    - name: Upload Backend Security Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: backend-security-report
+        path: ./reports
+        retention-days: 7
+
+  frontend-security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    
+    - name: Run npm audit
+      working-directory: ./frontend
+      run: npm audit --production
+      continue-on-error: true
+    
+    - name: Run OWASP Dependency-Check
+      uses: dependency-check/Dependency-Check_Action@main
+      with:
+        project: 'PetCare-Frontend'
+        path: './frontend'
+        format: 'HTML'
+        out: './reports'
+        args: >
+          --failOnCVSS 7
+          --enableRetired
+    
+    - name: Upload Frontend Security Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-security-report
+        path: ./reports
+        retention-days: 7
+
+  model-security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      working-directory: ./Model
+      run: |
+        python -m pip install --upgrade pip
+        pip install safety bandit
+        pip install -r requirements.txt
+    
+    - name: Check for vulnerable Python packages
+      working-directory: ./Model
+      run: safety check
+      continue-on-error: true
+    
+    - name: Run Bandit security scan
+      working-directory: ./Model
+      run: bandit -r app -f html -o ../model-security-report.html
+    
+    - name: Upload Model Security Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: model-security-report
+        path: ./model-security-report.html
+        retention-days: 7
