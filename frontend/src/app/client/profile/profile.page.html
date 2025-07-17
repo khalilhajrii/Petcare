@@ -1,0 +1,107 @@
+<ion-content class="profile-content">
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()" class="profile-form">
+    <!-- Profile Card -->
+    <ion-card class="profile-card">
+      <ion-card-header class="profile-header">
+        <div class="profile-avatar">
+          <ion-icon name="person-circle-outline"></ion-icon>
+        </div>
+        <ion-card-title class="profile-title">Informations Personnelles</ion-card-title>
+        <ion-card-subtitle class="profile-subtitle">Gérez vos informations de compte</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content class="form-content">
+        <!-- First Name -->
+        <div class="form-field">
+          <ion-item lines="none" class="form-item">
+            <ion-label position="stacked" class="input-label">Prénom</ion-label>
+            <ion-input 
+              formControlName="firstName" 
+              type="text"
+              class="custom-input"
+              placeholder="Entrez votre prénom">
+            </ion-input>
+          </ion-item>
+          <ion-note *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched" class="error-message">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            Le prénom est requis
+          </ion-note>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-field">
+          <ion-item lines="none" class="form-item">
+            <ion-label position="stacked" class="input-label">Nom</ion-label>
+            <ion-input 
+              formControlName="lastName" 
+              type="text"
+              class="custom-input"
+              placeholder="Entrez votre nom">
+            </ion-input>
+          </ion-item>
+          <ion-note *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched" class="error-message">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            Le nom est requis
+          </ion-note>
+        </div>
+
+        <!-- Email -->
+        <div class="form-field">
+          <ion-item lines="none" class="form-item">
+            <ion-label position="stacked" class="input-label">Email</ion-label>
+            <ion-input 
+              formControlName="email" 
+              type="email"
+              class="custom-input readonly-input"
+              readonly
+              placeholder="Votre adresse email">
+            </ion-input>
+          </ion-item>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-field">
+          <ion-item lines="none" class="form-item">
+            <ion-label position="stacked" class="input-label">Téléphone</ion-label>
+            <ion-input 
+              formControlName="phone" 
+              type="tel"
+              class="custom-input"
+              placeholder="Entrez votre numéro">
+            </ion-input>
+          </ion-item>
+        </div>
+
+        <!-- Address -->
+        <div class="form-field">
+          <ion-item lines="none" class="form-item">
+            <ion-label position="stacked" class="input-label">Adresse</ion-label>
+            <ion-input 
+              formControlName="address" 
+              type="text"
+              class="custom-input"
+              placeholder="Entrez votre adresse">
+            </ion-input>
+          </ion-item>
+          <ion-note *ngIf="profileForm.get('address')?.invalid && profileForm.get('address')?.touched" class="error-message">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            L'adresse est requise
+          </ion-note>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <ion-button 
+        expand="block" 
+        type="submit" 
+        shape="round"
+        class="submit-button"
+        [disabled]="profileForm.invalid">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        Mettre à jour le profil
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

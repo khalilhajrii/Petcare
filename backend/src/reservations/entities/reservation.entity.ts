@@ -4,6 +4,12 @@ import { Pet } from "../../pets/entities/pet.entity";
 import { Service } from "../../services/entities/service.entity";
 import { User } from "../../users/entities/user.entity";
 
+export enum ReservationStatus {
+    PENDING = 'pending',
+    APPROVED = 'approved',
+    REJECTED = 'rejected'
+}
+
 @Entity('reservation')
 export class Reservation {
     @PrimaryGeneratedColumn()
@@ -17,6 +23,13 @@ export class Reservation {
 
     @Column({ type: 'time', default: '09:00' }) 
     time: string;
+    
+    @Column({
+        type: 'enum',
+        enum: ReservationStatus,
+        default: ReservationStatus.PENDING
+    })
+    status: ReservationStatus;
 
     @ManyToOne(() => Pet, pet => pet.reservations)
     @JoinColumn({ name: 'petId' })

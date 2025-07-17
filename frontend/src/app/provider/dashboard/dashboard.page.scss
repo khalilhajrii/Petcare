@@ -1,0 +1,299 @@
+/* Base Styles */
+.dashboard-content {
+  --background: #f8f9fa;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+}
+
+/* Header Section */
+.dashboard-header {
+  padding: 0 16px 24px;
+}
+
+.welcome-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2b2d42;
+  margin: 0 0 8px 0;
+}
+
+.welcome-subtitle {
+  color: #6c757d;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.loading-text {
+  color: #6c757d;
+  margin-top: 16px;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 0 16px;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  --background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.card-title-container {
+  display: flex;
+  align-items: center;
+}
+
+.card-icon {
+  font-size: 24px;
+  color: #6a11cb;
+  margin-right: 12px;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2b2d42;
+  margin: 0;
+}
+
+.manage-button {
+  --color: #6a11cb;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.card-content {
+  padding: 16px;
+}
+
+/* Empty States */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 48px;
+  color: #adb5bd;
+  margin-bottom: 16px;
+}
+
+.empty-state p {
+  color: #6c757d;
+  margin: 0 0 16px 0;
+}
+
+.action-button {
+  --border-color: #6a11cb;
+  --color: #6a11cb;
+  height: 40px;
+}
+
+/* Services Card */
+.services-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.services-count {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.services-count .count {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #6a11cb;
+  display: block;
+  line-height: 1;
+}
+
+.services-count .label {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.services-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.service-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.service-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2b2d42;
+}
+
+.service-price {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6a11cb;
+}
+
+/* Reservations Lists */
+.reservations-list,
+.upcoming-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reservation-item,
+.upcoming-item {
+  display: flex;
+  gap: 16px;
+}
+
+.reservation-time {
+  min-width: 60px;
+  font-weight: 600;
+  color: #2b2d42;
+}
+
+.reservation-details,
+.upcoming-details {
+  flex: 1;
+}
+
+.detail-row,
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #495057;
+  margin-bottom: 6px;
+}
+
+.detail-icon {
+  color: #6a11cb;
+  font-size: 16px;
+}
+
+/* Date Badge */
+.date-badge {
+  min-width: 50px;
+  background: #f1f3f5;
+  border-radius: 8px;
+  padding: 6px;
+  text-align: center;
+}
+
+.date-day {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2b2d42;
+  line-height: 1;
+}
+
+.date-month {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #6c757d;
+}
+
+/* History Card */
+.history-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-count {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.history-count .count {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #6a11cb;
+  display: block;
+  line-height: 1;
+}
+
+.history-count .label {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.history-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-item {
+  display: flex;
+  gap: 16px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.history-date {
+  min-width: 80px;
+  font-weight: 500;
+  color: #2b2d42;
+}
+
+.history-details {
+  flex: 1;
+}
+
+.client-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2b2d42;
+  margin-bottom: 4px;
+}
+
+.service-name {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+/* View All Buttons */
+.view-all-button {
+  --color: #6a11cb;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 8px;
+}

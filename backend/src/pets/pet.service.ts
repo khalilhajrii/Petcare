@@ -56,5 +56,18 @@ export class PetsService {
     });
     }
 
-
+    async findByUserWithVaccinations(userId: number): Promise<Pet[]> {
+        const pets = await this.petsRepository.find({
+            where: { userId },
+            relations: ['vaccinationRecords'],
+        });
+        
+        // Ensure vaccination records are loaded and properly initialized
+        return pets.map(pet => {
+            if (!pet.vaccinationRecords) {
+                pet.vaccinationRecords = [];
+            }
+            return pet;
+        });
+    }
 }

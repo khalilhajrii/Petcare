@@ -1,51 +1,110 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Client Dashboard</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="logout()">
-        <ion-icon name="log-out"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="dashboard-content">
+  <!-- Welcome Header -->
+  <div class="welcome-header">
+    <h1>Bienvenue, <span class="highlight-text">Propriétaire d'Animal</span>!</h1>
+    <p class="subtitle">Gérez vos compagnons et leurs rendez-vous</p>
+  </div>
 
-<ion-content>
-  <h2>Welcome Pet Owner!</h2>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Your Pets</ion-card-title>
+  <!-- Pets Card -->
+  <ion-card class="glass-card">
+    <ion-card-header class="card-header">
+      <ion-card-title class="card-title">
+        <ion-icon name="paw-outline" class="title-icon"></ion-icon>
+        Vos Animaux
+      </ion-card-title>
+      <ion-button fill="clear" routerLink="/client/pets/new" class="add-button">
+        <ion-icon name="add-circle" slot="start"></ion-icon>
+        Ajouter
+      </ion-button>
     </ion-card-header>
+
     <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let pet of pets">
-          <ion-label>
-            <h3>{{ pet.name }}</h3>
-            <p>Type: {{ pet.type }}</p>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="pets.length === 0">
-          <ion-label>No pets found.</ion-label>
-        </ion-item>
-      </ion-list>
+      <!-- Pets List -->
+      <div class="pet-grid" *ngIf="pets.length > 0; else noPets">
+        <div class="pet-card" *ngFor="let pet of pets" (click)="navigateToPet(pet.idPet)">
+          <div class="pet-avatar" [style.background-color]="getPetColor(pet.type)">
+            <ion-icon [name]="getPetIcon(pet.type)"></ion-icon>
+          </div>
+          <div class="pet-info">
+            <h3 class="pet-name">{{ pet.nom }}</h3>
+            <p class="pet-detail">
+              <ion-icon name="paw" class="detail-icon"></ion-icon>
+              {{ pet.type }}
+            </p>
+            <p class="pet-detail">
+              <ion-icon name="ribbon" class="detail-icon"></ion-icon>
+              {{ pet.race || 'Non spécifié' }}
+            </p>
+          </div>
+          <ion-icon name="chevron-forward" class="nav-icon"></ion-icon>
+        </div>
+      </div>
+
+      <ng-template #noPets>
+        <div class="empty-state">
+          <ion-icon name="sad-outline" class="empty-icon"></ion-icon>
+          <p>Aucun animal enregistré</p>
+          <ion-button expand="block" fill="outline" routerLink="/client/pets/new" class="empty-button">
+            Ajouter votre premier animal
+          </ion-button>
+        </div>
+      </ng-template>
     </ion-card-content>
   </ion-card>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Upcoming Appointments</ion-card-title>
+
+  <!-- Appointments Card -->
+  <ion-card class="glass-card">
+    <ion-card-header class="card-header">
+      <ion-card-title class="card-title">
+        <ion-icon name="calendar-outline" class="title-icon"></ion-icon>
+        Rendez-vous à venir
+      </ion-card-title>
+      <ion-button fill="clear" routerLink="/client/reservations" class="view-all-button">
+        Tout voir
+      </ion-button>
     </ion-card-header>
+
     <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let appt of appointments">
-          <ion-label>
-            <h3>{{ appt.date | date:'medium' }}</h3>
-            <p>With: {{ appt.providerName }}</p>
-            <p>Service: {{ appt.service }}</p>
-          </ion-label>
-        </ion-item>
-        <ion-item *ngIf="appointments.length === 0">
-          <ion-label>No upcoming appointments.</ion-label>
-        </ion-item>
-      </ion-list>
+      <!-- Appointments List -->
+      <div *ngIf="upcomingReservations.length > 0; else noAppointments">
+        <div class="appointment-card" *ngFor="let reservation of upcomingReservations">
+          <div class="appointment-date">
+            <div class="date-badge">
+              <span class="day">{{ reservation.date | date:'dd' }}</span>
+              <span class="month">{{ reservation.date | date:'MMM' }}</span>
+            </div>
+          </div>
+          <div class="appointment-details">
+            <div class="time-service">
+              <span class="appointment-time">
+                <ion-icon name="time-outline"></ion-icon>
+                {{ reservation.time }}
+              </span>
+              <span class="service-pill" *ngFor="let service of reservation.services">
+                {{ service.nomservice }}
+              </span>
+            </div>
+            <p class="location">
+              <ion-icon name="location-outline"></ion-icon>
+              {{ reservation.lieu }}
+            </p>
+            <p class="pet-info">
+              <ion-icon name="paw-outline"></ion-icon>
+              {{ reservation.pet?.nom }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noAppointments>
+        <div class="empty-state">
+          <ion-icon name="calendar-outline" class="empty-icon"></ion-icon>
+          <p>Aucun rendez-vous prévu</p>
+          <ion-button expand="block" fill="outline" routerLink="/client/reservations" class="empty-button">
+            Prendre rendez-vous
+          </ion-button>
+        </div>
+      </ng-template>
     </ion-card-content>
   </ion-card>
 </ion-content>

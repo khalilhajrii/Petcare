@@ -1,103 +1,121 @@
-<!-- register.page.html -->
-<ion-content class="register-content">
+<ion-content class="register-content" fullscreen>
   <div class="auth-container">
+    <!-- Enhanced Logo Section -->
     <div class="logo-container">
-      <div class="logo-circle">
+      <div class="logo-circle pulse-animation">
         <ion-icon name="paw" class="logo-icon"></ion-icon>
       </div>
       <h1 class="app-name">PetCare</h1>
       <p class="tagline">Join our pet community</p>
     </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="register()" class="auth-form">
+    <!-- Glassmorphism Form Container -->
+    <form [formGroup]="registerForm" (ngSubmit)="register()" class="auth-form glass-card">
+      <!-- Name Fields Row -->
       <div class="name-fields">
         <div class="input-field half-width">
+          <ion-icon name="person-outline" class="input-icon"></ion-icon>
           <ion-input 
             formControlName="firstName" 
             placeholder="First Name"
-            class="modern-input">
+            class="modern-input floating-input">
           </ion-input>
-          <div class="underline"></div>
+          <label class="floating-label">First Name</label>
+          <div class="underline-animation"></div>
         </div>
         
         <div class="input-field half-width">
+          <ion-icon name="people-outline" class="input-icon"></ion-icon>
           <ion-input 
             formControlName="lastName" 
             placeholder="Last Name"
-            class="modern-input">
+            class="modern-input floating-input">
           </ion-input>
-          <div class="underline"></div>
+          <label class="floating-label">Last Name</label>
+          <div class="underline-animation"></div>
         </div>
       </div>
 
+      <!-- Email Field -->
       <div class="input-field">
         <ion-icon name="mail-outline" class="input-icon"></ion-icon>
         <ion-input 
           formControlName="email" 
           type="email" 
           placeholder="Email"
-          class="modern-input">
+          class="modern-input floating-input">
         </ion-input>
-        <div class="underline"></div>
+        <label class="floating-label">Email</label>
+        <div class="underline-animation"></div>
       </div>
 
+      <!-- Password Field -->
       <div class="input-field">
         <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
         <ion-input 
           formControlName="password" 
           type="password" 
           placeholder="Password"
-          class="modern-input">
+          class="modern-input floating-input">
         </ion-input>
-        <div class="underline"></div>
+        <label class="floating-label">Password</label>
+        <div class="underline-animation"></div>
       </div>
 
+      <!-- Phone Field -->
       <div class="input-field">
         <ion-icon name="call-outline" class="input-icon"></ion-icon>
         <ion-input 
           formControlName="phone" 
           type="tel" 
           placeholder="Phone (Optional)"
-          class="modern-input">
+          class="modern-input floating-input">
         </ion-input>
-        <div class="underline"></div>
+        <label class="floating-label">Phone (Optional)</label>
+        <div class="underline-animation"></div>
       </div>
 
+      <!-- Address Field -->
       <div class="input-field">
         <ion-icon name="home-outline" class="input-icon"></ion-icon>
         <ion-input 
           formControlName="address" 
           placeholder="Address"
-          class="modern-input">
+          class="modern-input floating-input">
         </ion-input>
-        <div class="underline"></div>
+        <label class="floating-label">Address</label>
+        <div class="underline-animation"></div>
       </div>
 
+      <!-- Role Select Field -->
       <div class="input-field select-field">
         <ion-icon name="person-outline" class="input-icon"></ion-icon>
         <ion-select 
           formControlName="roleId" 
           interface="popover" 
           class="modern-select">
-          <ion-select-option value="2">Pet Owner</ion-select-option>
+          <ion-select-option value="1">Pet Owner</ion-select-option>
           <ion-select-option value="3">Pet Professional</ion-select-option>
         </ion-select>
-        <div class="underline"></div>
+        <label class="floating-label">Account Type</label>
+        <div class="underline-animation"></div>
       </div>
 
+      <!-- Register Button -->
       <ion-button 
         expand="block" 
         shape="round" 
-        class="auth-button"
+        class="auth-button gradient-btn"
         [disabled]="registerForm.invalid"
         (click)="register()">
         CREATE ACCOUNT
-        <ion-icon name="paw" slot="end"></ion-icon>
+        <ion-icon name="paw" slot="end" class="btn-icon"></ion-icon>
       </ion-button>
     </form>
 
+    <!-- Footer -->
     <div class="auth-footer">
-      <p>Already have an account? <a routerLink="/login" class="auth-link">Sign in</a></p>
+      <p>Already have an account? <a routerLink="/login" class="text-link">Sign in</a></p>
     </div>
   </div>
 </ion-content>

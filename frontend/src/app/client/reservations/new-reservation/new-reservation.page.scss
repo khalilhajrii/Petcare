@@ -1,0 +1,217 @@
+/* Modern Reservation Form Styles */
+.reservation-content {
+  --background: #f8f9fa;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+}
+
+/* Header Styles */
+.header-toolbar {
+  --background: #ffffff;
+  --border-width: 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.header-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2b2d42;
+}
+
+.back-button {
+  --color: #2b2d42;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.loading-text {
+  color: #6c757d;
+  margin-top: 16px;
+}
+
+/* Reservation Card */
+.reservation-card {
+  --background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.card-header {
+  padding: 16px;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2b2d42;
+}
+
+/* Form Items */
+.form-item {
+  --background: #f8f9fa;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #e9ecef;
+  transition: border-color 0.3s ease;
+}
+
+.form-item:focus-within {
+  border-color: #6a11cb;
+}
+
+.input-label {
+  color: #495057;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.custom-input {
+  --color: #2b2d42;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  font-size: 1rem;
+}
+
+.custom-select {
+  --color: #2b2d42;
+  --placeholder-color: #6c757d;
+  width: 100%;
+}
+
+/* Error Messages */
+.error-note {
+  color: #eb445a;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  
+  ion-icon {
+    margin-right: 4px;
+    font-size: 1rem;
+  }
+}
+
+/* Services Section */
+.services-section {
+  margin: 24px 0;
+}
+
+.section-label {
+  color: #495057;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.service-card {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  &.selected {
+    border-color: #6a11cb;
+    background-color: #f3e9ff;
+  }
+}
+
+.service-icon {
+  background: #f8f9fa;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  
+  ion-icon {
+    font-size: 1.2rem;
+    color: #6a11cb;
+  }
+}
+
+.service-info {
+  text-align: center;
+}
+
+.service-name {
+  font-size: 0.9rem;
+  color: #2b2d42;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.service-price {
+  font-size: 0.85rem;
+  color: #6a11cb;
+  font-weight: 600;
+}
+
+.error-message {
+  color: #eb445a;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  
+  ion-icon {
+    margin-right: 4px;
+    font-size: 1rem;
+  }
+}
+
+/* Submit Button */
+.submit-button {
+  --background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  --border-radius: 12px;
+  --box-shadow: 0 4px 16px rgba(106, 17, 203, 0.3);
+  height: 50px;
+  font-weight: 500;
+  margin-top: 16px;
+  transition: transform 0.3s ease;
+  
+  &:active:not([disabled]) {
+    transform: scale(0.98);
+  }
+  
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

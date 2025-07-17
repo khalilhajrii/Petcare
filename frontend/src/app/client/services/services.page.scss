@@ -1,0 +1,137 @@
+/* Base Styles */
+.services-content {
+  --background: #f8f9fa;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+}
+
+/* Header */
+.header-container {
+  padding: 0 16px 16px;
+}
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2b2d42;
+  margin: 0 0 4px 0;
+}
+
+.page-subtitle {
+  color: #6c757d;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Services Grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 0 16px;
+}
+
+/* Service Card */
+.service-card {
+  --background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.service-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: rgba(106, 17, 203, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6a11cb;
+  font-size: 1.2rem;
+}
+
+.card-header {
+  padding: 16px 16px 8px;
+}
+
+.service-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2b2d42;
+  margin: 0;
+  padding-right: 40px;
+}
+
+.service-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6a11cb;
+}
+
+.card-content {
+  padding: 0 16px 16px;
+}
+
+.service-description {
+  color: #495057;
+  font-size: 0.95rem;
+  margin: 0 0 8px 0;
+}
+
+.service-details {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 0 0 16px 0;
+}
+
+/* Reserve Button */
+.reserve-button {
+  --background: #6a11cb;
+  --background-activated: #2575fc;
+  --box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2);
+  height: 48px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  color: #adb5bd;
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  font-size: 1.2rem;
+  color: #2b2d42;
+  margin: 0 0 8px 0;
+}
+
+.empty-state p {
+  color: #6c757d;
+  margin: 0;
+}
+.form-item[_ngcontent-ng-c190317522] {
+    --background: #f8f9ff;
+    --border-radius: 12px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    margin-bottom: 16px;
+    --color: #6b6b6b;
+}

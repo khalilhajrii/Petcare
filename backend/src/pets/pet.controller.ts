@@ -66,4 +66,12 @@ export class PetsController {
     findByUser(@Param('userId') userId: string): Promise<Pet[]> {
         return this.petsService.findByUser(+userId);
     }
+
+    @Get('user/:userId/with-vaccinations')
+    @ApiOperation({ summary: 'Get pets by user ID with vaccination records' })
+    @ApiResponse({ status: 200, description: 'Return pets with vaccination records for the specified user.', type: [Pet] })
+    @ApiParam({ name: 'userId', type: 'number', description: 'User ID' })
+    findByUserWithVaccinations(@Param('userId') userId: string): Promise<Pet[]> {
+        return this.petsService.findByUserWithVaccinations(+userId);
+    }
 }

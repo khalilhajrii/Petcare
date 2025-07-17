@@ -3,3 +3,6 @@ frontend/Dockerfile.dev
 FrontendAdmin/Dockerfile.dev
 Model/Dockerfile.dev
 docker-compose.dev.yml
+Model/app/__pycache__
+Model/__pycache__
+backend/node_modules

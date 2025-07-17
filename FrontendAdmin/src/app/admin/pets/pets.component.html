@@ -1,0 +1,102 @@
+<div class="pets-container">
+  <div class="pets-header">
+    <h1>Pet Management</h1>
+  </div>
+
+  <div class="card">
+    <div class="filters-row">
+      <div class="search-box">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Search pets..." 
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="onSearch()"
+        >
+        <button class="btn btn-primary" (click)="onSearch()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <div class="filter-group">
+        <select class="form-control" [(ngModel)]="typeFilter" (change)="onTypeFilterChange(typeFilter)">
+          <option value="all">All Types</option>
+          <option value="Chien">Dog</option>
+          <option value="Chat">Cat</option>
+          <option value="Oiseau">Bird</option>
+          <option value="Poisson">Fish</option>
+          <option value="Reptile">Reptile</option>
+          <option value="Rongeur">Rodent</option>
+          <option value="Autre">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="pets-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Breed</th>
+            <th>Age</th>
+            <th>Owner</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="7" class="text-center">
+              <div class="loading-spinner"></div>
+              <p>Loading pets...</p>
+            </td>
+          </tr>
+          <tr *ngIf="!loading && error">
+            <td colspan="7" class="text-center error-message">
+              <p>{{ error }}</p>
+            </td>
+          </tr>
+          <tr *ngIf="!loading && !error && pets.length === 0">
+            <td colspan="7" class="text-center">
+              <p>No pets found.</p>
+            </td>
+          </tr>
+          <tr *ngFor="let pet of pets">
+            <td>{{ pet.idPet }}</td>
+            <td>{{ pet.nom }}</td>
+            <td>{{ pet.type }}</td>
+            <td>{{ pet.race }}</td>
+            <td>{{ pet.age }} years</td>
+            <td>{{ pet.user?.firstName }} {{ pet.user?.lastName }}</td>
+            <td class="actions-cell">
+              <button class="btn btn-sm btn-danger" title="Delete Pet" (click)="deletePet(pet.idPet)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination" *ngIf="totalItems > itemsPerPage">
+      <button 
+        class="btn btn-sm" 
+        [disabled]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
+      <span class="page-info">Page {{ currentPage }} of {{ Math.ceil(totalItems / itemsPerPage) }}</span>
+      
+      <button 
+        class="btn btn-sm" 
+        [disabled]="currentPage === Math.ceil(totalItems / itemsPerPage)"
+        (click)="onPageChange(currentPage + 1)"
+      >
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</div>

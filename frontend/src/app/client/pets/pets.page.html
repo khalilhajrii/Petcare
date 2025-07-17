@@ -1,0 +1,74 @@
+<ion-content class="pets-container">
+  <ion-refresher slot="fixed" (ionRefresh)="loadPets(); $event.target.complete()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="header-container">
+    <h1 class="page-title">Mes animaux</h1>
+    <p class="page-subtitle">Gérez les informations de vos animaux de compagnie</p>
+  </div>
+
+  <div class="pets-list-container">
+    <!-- Loading state -->
+    <div *ngIf="isLoading" class="loading-container">
+      <ion-spinner name="dots"></ion-spinner>
+      <p>Chargement de vos animaux...</p>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="pets.length === 0 && !isLoading" class="empty-state">
+      <ion-icon name="paw-outline" size="large"></ion-icon>
+      <h2>Aucun animal trouvé</h2>
+      <p>Ajoutez votre premier animal en cliquant sur le bouton ci-dessous</p>
+      <ion-button routerLink="/client/pets/new" expand="block" class="add-pet-btn">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Ajouter un animal
+      </ion-button>
+    </div>
+
+    <!-- Pets list -->
+    <div *ngIf="pets.length > 0" class="pets-grid">
+      <div *ngFor="let pet of pets" class="pet-card">
+        <div class="pet-card-content" routerLink="/client/pets/{{ pet.idPet }}">
+          <div class="pet-avatar">
+            <ion-icon name="paw-outline"></ion-icon>
+          </div>
+          <div class="pet-info">
+            <h2 class="pet-name">{{ pet.nom }}</h2>
+            <div class="pet-details">
+              <div class="pet-detail">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <span>{{ pet.type }}</span>
+              </div>
+              <div class="pet-detail">
+                <ion-icon name="pricetag-outline"></ion-icon>
+                <span>{{ pet.race }}</span>
+              </div>
+              <div class="pet-detail">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>{{ pet.age }} an(s)</span>
+              </div>
+            </div>
+            <div *ngIf="pet.vaccinationRecords && pet.vaccinationRecords.length > 0" class="vaccination-badge">
+              <ion-badge color="success">{{ pet.vaccinationRecords.length }} vaccination(s)</ion-badge>
+            </div>
+          </div>
+        </div>
+        <div class="pet-actions">
+          <ion-button fill="clear" routerLink="/client/pets/{{ pet.idPet }}" class="edit-btn">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="danger" (click)="confirmDelete(pet)" class="delete-btn">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="pets.length > 0">
+    <ion-fab-button routerLink="/client/pets/new" class="add-fab">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

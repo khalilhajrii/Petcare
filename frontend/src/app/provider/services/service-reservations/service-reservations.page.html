@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar class="header-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/provider/services" class="back-button"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="header-title">Réservations du Service</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="reservations-content">
+  <div class="reservations-container">
+    <!-- Header Section -->
+    <div class="header-container">
+      <h1 class="page-title" *ngIf="service">{{ service.nomservice }}</h1>
+      <p class="page-subtitle">Liste des réservations pour ce service</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-state">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p class="loading-text">Chargement des réservations...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && reservations.length === 0" class="empty-state">
+      <ion-icon name="calendar-outline" class="empty-icon"></ion-icon>
+      <h2 class="empty-title">Aucune réservation</h2>
+      <p class="empty-message">Il n'y a pas encore de réservations pour ce service.</p>
+    </div>
+
+    <!-- Reservations List -->
+    <div *ngIf="!isLoading && reservations.length > 0" class="reservations-list">
+      <ion-card *ngFor="let reservation of reservations" class="reservation-card">
+        <ion-card-header class="card-header">
+          <ion-card-subtitle class="card-subtitle">
+            <ion-badge [color]="getStatusColor(reservation.status)" class="status-badge">
+              {{ getStatusLabel(reservation.status) }}
+            </ion-badge>
+            <span class="reservation-date">{{ formatDate(reservation.date) }} à {{ reservation.time }}</span>
+          </ion-card-subtitle>
+          <ion-card-title class="location-title">{{ reservation.lieu }}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content class="card-content">
+          <!-- Client Info -->
+          <div class="info-section client-info">
+            <h3 class="section-title">Client</h3>
+            <div class="info-row">
+              <ion-icon name="person-outline" class="info-icon"></ion-icon>
+              <span>{{ reservation.user.firstName }} {{ reservation.user.lastName }}</span>
+            </div>
+            <div class="info-row">
+              <ion-icon name="mail-outline" class="info-icon"></ion-icon>
+              <span>{{ reservation.user.email }}</span>
+            </div>
+            <div *ngIf="reservation.user?.phone" class="info-row">
+              <ion-icon name="call-outline" class="info-icon"></ion-icon>
+              <span>{{ reservation.user.phone }}</span>
+            </div>
+          </div>
+
+          <!-- Pet Info -->
+          <div *ngIf="reservation.pet" class="info-section pet-info">
+            <h3 class="section-title">Animal</h3>
+            <div class="info-row">
+              <ion-icon name="paw-outline" class="info-icon"></ion-icon>
+              <span>{{ reservation.pet.name }} ({{ reservation.pet.species }} - {{ reservation.pet.breed }})</span>
+            </div>
+          </div>
+
+          <!-- Services Info -->
+          <div class="info-section services-info">
+            <h3 class="section-title">Services réservés</h3>
+            <div class="service-tags">
+              <ion-chip *ngFor="let service of reservation.services" class="service-chip">
+                {{ service.nomservice }} - {{ service.prixService | currency:'TND':'symbol':'1.2-2' }}
+              </ion-chip>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <ion-button 
+              color="success" 
+              class="action-button approve-button"
+              [disabled]="reservation.status === 'approved' || reservation.status === 'rejected'"
+              (click)="updateStatus(reservation.idreserv, 'approved')">
+              <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+              Approuver
+            </ion-button>
+            <ion-button 
+              color="danger" 
+              class="action-button reject-button"
+              [disabled]="reservation.status === 'rejected'"
+              (click)="updateStatus(reservation.idreserv, 'rejected')">
+              <ion-icon name="close-outline" slot="start"></ion-icon>
+              Rejeter
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

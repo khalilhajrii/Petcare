@@ -4,7 +4,6 @@ import { VaccinationRecord } from "../../vaccination-record/entities/vaccination
 import { Reservation } from "src/reservations/entities/reservation.entity";
 import { ApiProperty } from "@nestjs/swagger";
 
-
 @Entity('pet')
 export class Pet {
     @PrimaryGeneratedColumn()

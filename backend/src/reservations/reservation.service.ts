@@ -5,6 +5,8 @@ import { Repository, In } from 'typeorm';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { Service } from '../services/entities/service.entity';
+import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationsGateway } from '../notifications/notifications.gateway';
 
 @Injectable()
 export class ReservationsService {
@@ -14,6 +16,9 @@ export class ReservationsService {
 
     @InjectRepository(Service)
     private readonly serviceRepository: Repository<Service>,
+    
+    private readonly notificationsService: NotificationsService,
+    private readonly notificationsGateway: NotificationsGateway,
   ) {}
 
 
@@ -47,6 +52,7 @@ export class ReservationsService {
       where: {
         idservice: In(serviceIds),
       },
+      relations: ['user'],
     });
     
     if (services.length !== serviceIds.length) {
@@ -62,7 +68,47 @@ export class ReservationsService {
       services,
     });
 
-    return this.reservationRepository.save(newReservation);
+    const savedReservation = await this.reservationRepository.save(newReservation);
+    
+    // Envoyer des notifications aux prestataires de services
+    for (const service of services) {
+      if (service.user && service.user.id) {
+        const providerId = service.user.id;
+        const formattedDate = new Date(date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const notificationMessage = `Nouvelle réservation pour votre service "${service.nomservice}" le ${formattedDate} à ${time}`;
+        
+        // Créer la notification dans la base de données
+        const notification = await this.notificationsService.createReservationNotification(
+          'reservation_created',
+          providerId,
+          savedReservation.idreserv,
+          notificationMessage
+        );
+        
+        // Envoyer la notification en temps réel
+        this.notificationsGateway.sendNotificationToProvider(providerId, notification);
+      }
+    }
+    
+    // Envoyer une notification au propriétaire de la réservation (client)
+    if (userId) {
+      const formattedDate = new Date(date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const serviceNames = services.map(service => service.nomservice).join(', ');
+      const notificationMessage = `Votre réservation pour ${serviceNames} le ${formattedDate} à ${time} a été créée avec succès`;
+      
+      // Créer la notification dans la base de données
+      const notification = await this.notificationsService.createReservationNotification(
+        'reservation_created',
+        userId,
+        savedReservation.idreserv,
+        notificationMessage
+      );
+      
+      // Envoyer la notification en temps réel
+      this.notificationsGateway.sendNotificationToUser(userId, notification);
+    }
+    
+    return savedReservation;
  }
 
   
@@ -74,33 +120,44 @@ export class ReservationsService {
   }
 
   async findOne(id: number) {
+    // Vérification stricte que l'ID est un nombre valide
+    if (id === undefined || id === null || isNaN(id)) {
+      throw new BadRequestException(`ID de réservation invalide: ${id}`);
+    }
+    
+    console.log(`Recherche de la réservation avec ID: ${id}`);
+    
     const reservation = await this.reservationRepository.findOne({
       where: { idreserv: id },
       relations: ['pet', 'user', 'services'],
     });
+    
     if (!reservation) {
-      throw new NotFoundException(`Reservation with ID ${id} not found`);
+      throw new NotFoundException(`Réservation avec ID ${id} introuvable`);
     }
+    
     return reservation;
   }
 
   async update(id: number, dto: UpdateReservationDto) {
     const reservation = await this.reservationRepository.findOne({
       where: { idreserv: id },
-      relations: ['services'], // important pour éviter les conflits lors du merge
+      relations: ['services', 'services.user', 'user', 'pet'], // important pour éviter les conflits lors du merge
     });
 
     if (!reservation) {
       throw new NotFoundException(`Réservation ${id} introuvable.`);
     }
 
-    const { date, time, userId, petId, serviceIds, ...rest } = dto;
+    const { date, time, userId, petId, serviceIds, status, ...rest } = dto;
 
     // Vérifier disponibilité si date/time/userId/petId changent
     const newDate = date ?? reservation.date;
     const newTime = time ?? reservation.time;
     const newUserId = userId ?? reservation.userId;
     const newPetId = petId ?? reservation.petId;
+    const oldStatus = reservation.status;
+    const newStatus = status ?? oldStatus;
 
     if (!newTime) {
       throw new BadRequestException("L'heure (time) est requise.");
@@ -139,6 +196,7 @@ export class ReservationsService {
     if (serviceIds) {
       const services = await this.serviceRepository.find({
         where: { idservice: In(serviceIds) },
+        relations: ['user'],
       });
 
       if (services.length !== serviceIds.length) {
@@ -154,14 +212,143 @@ export class ReservationsService {
       time: newTime,
       userId: newUserId,
       petId: newPetId,
+      status: newStatus,
       ...rest,
     });
 
-    return this.reservationRepository.save(reservation);
+    const updatedReservation = await this.reservationRepository.save(reservation);
+    
+    // Envoyer des notifications si le statut a changé
+    if (status && status !== oldStatus) {
+      // Notification au client qui a fait la réservation
+      if (reservation.userId) {
+        const formattedDate = new Date(reservation.date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        let notificationMessage = '';
+        let notificationType: 'reservation_approved' | 'reservation_rejected' = 'reservation_approved';
+        
+        if (status === 'approved') {
+          notificationMessage = `Votre réservation du ${formattedDate} à ${reservation.time} a été acceptée`;
+          notificationType = 'reservation_approved';
+        } else if (status === 'rejected') {
+          notificationMessage = `Votre réservation du ${formattedDate} à ${reservation.time} a été refusée`;
+          notificationType = 'reservation_rejected';
+        }
+        
+        if (notificationMessage) {
+          // Créer la notification dans la base de données
+          const notification = await this.notificationsService.createReservationNotification(
+            notificationType,
+            reservation.userId,
+            reservation.idreserv,
+            notificationMessage
+          );
+          
+          // Envoyer la notification en temps réel
+          this.notificationsGateway.sendNotificationToUser(reservation.userId, notification);
+        }
+      }
+    }
+    
+    return updatedReservation;
   }
 
   async remove(id: number) {
     const reservation = await this.findOne(id);
     return this.reservationRepository.remove(reservation);
+  }
+
+  async findByProviderId(providerId: number): Promise<Reservation[]> {
+    // Vérification stricte que providerId est un nombre valide
+    if (providerId === undefined || providerId === null || isNaN(providerId)) {
+      throw new BadRequestException('ID du prestataire invalide');
+    }
+    
+    console.log(`Recherche des réservations pour le prestataire ID: ${providerId}`);
+    
+    // Utilisation de queryBuilder pour joindre les tables et filtrer par providerId
+    // Cette méthode récupère les réservations où le prestataire est associé via les services
+    const reservations = await this.reservationRepository
+      .createQueryBuilder('reservation')
+      .innerJoinAndSelect('reservation.services', 'service')
+      .innerJoinAndSelect('service.user', 'provider', 'provider.id = :providerId', { providerId })
+      .leftJoinAndSelect('reservation.pet', 'pet')
+      .leftJoinAndSelect('reservation.user', 'user')
+      .orderBy('reservation.date', 'DESC')
+      .addOrderBy('reservation.time', 'ASC')
+      .getMany();
+    
+    console.log(`Nombre de réservations trouvées pour le prestataire ID ${providerId}: ${reservations.length}`);
+    return reservations;
+  }
+  
+  async findAllReservationsForProvider(providerId: number): Promise<Reservation[]> {
+    // Vérification stricte que providerId est un nombre valide
+    if (providerId === undefined || providerId === null || isNaN(providerId)) {
+      throw new BadRequestException('ID du prestataire invalide');
+    }
+    
+    console.log(`Recherche de toutes les réservations pour le prestataire ID: ${providerId}`);
+    
+    // Récupérer d'abord tous les services du prestataire
+    const services = await this.serviceRepository.find({
+      where: { userId: providerId }
+    });
+    
+    if (!services || services.length === 0) {
+      console.log(`Aucun service trouvé pour le prestataire ID: ${providerId}`);
+      return [];
+    }
+    
+    const serviceIds = services.map(service => service.idservice);
+    
+    // Utilisation de queryBuilder pour joindre les tables et filtrer par les IDs des services
+    const reservations = await this.reservationRepository
+      .createQueryBuilder('reservation')
+      .innerJoinAndSelect('reservation.services', 'service', 'service.idservice IN (:...serviceIds)', { serviceIds })
+      .leftJoinAndSelect('reservation.pet', 'pet')
+      .leftJoinAndSelect('reservation.user', 'user')
+      .orderBy('reservation.date', 'DESC')
+      .addOrderBy('reservation.time', 'ASC')
+      .getMany();
+    
+    console.log(`Nombre de réservations trouvées pour les services du prestataire ID ${providerId}: ${reservations.length}`);
+    return reservations;
+  }
+  
+  async findByClientId(clientId: number): Promise<Reservation[]> {
+    // Vérification stricte que clientId est un nombre valide
+    if (clientId === undefined || clientId === null || isNaN(clientId)) {
+      throw new BadRequestException(`ID du client invalide: ${clientId}`);
+    }
+    
+    console.log(`Recherche des réservations pour le client ID: ${clientId}`);
+    
+    return this.reservationRepository.find({
+      where: { userId: clientId },
+      relations: ['services', 'pet', 'user'],
+      order: { date: 'DESC', time: 'ASC' }
+    });
+  }
+
+  async findByServiceId(serviceId: number): Promise<Reservation[]> {
+    // Vérification stricte que serviceId est un nombre valide
+    if (serviceId === undefined || serviceId === null || isNaN(serviceId)) {
+      throw new BadRequestException(`ID du service invalide: ${serviceId}`);
+    }
+    
+    console.log(`Recherche des réservations pour le service ID: ${serviceId}`);
+    
+    // Utilisation de queryBuilder pour joindre les tables et filtrer par serviceId
+    const reservations = await this.reservationRepository
+      .createQueryBuilder('reservation')
+      .innerJoinAndSelect('reservation.services', 'service', 'service.idservice = :serviceId', { serviceId })
+      .leftJoinAndSelect('reservation.pet', 'pet')
+      .leftJoinAndSelect('reservation.user', 'user')
+      .orderBy('reservation.date', 'DESC')
+      .addOrderBy('reservation.time', 'ASC')
+      .getMany();
+    
+    console.log(`Nombre de réservations trouvées pour le service ID ${serviceId}: ${reservations.length}`);
+    return reservations;
   }
 }

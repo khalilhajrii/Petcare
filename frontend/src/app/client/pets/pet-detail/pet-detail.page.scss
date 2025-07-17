@@ -1,0 +1,250 @@
+/* Base Styles */
+.pet-form-container {
+  --background: #f8f9fa;
+  padding: 16px;
+}
+
+/* Header */
+.header-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2b2d42;
+  margin: 0;
+}
+
+/* Form Sections */
+.form-section {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-icon {
+  font-size: 24px;
+  color: #6a11cb;
+  margin-right: 12px;
+}
+
+.section-title h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2b2d42;
+  margin: 0 0 4px 0;
+}
+
+.section-title p {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Form Items */
+.form-item {
+  --border-radius: 8px;
+  --padding-start: 3;
+  --padding-end: 0;
+  margin-bottom: 16px;
+}
+
+/* Loading States */
+.loading-container,
+.error-container,
+.no-records {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.loading-container ion-spinner {
+  margin-bottom: 12px;
+}
+
+.error-container ion-icon {
+  margin-bottom: 12px;
+  font-size: 32px;
+}
+
+.no-records ion-icon {
+  margin-bottom: 12px;
+  font-size: 32px;
+  color: #adb5bd;
+}
+
+/* Vaccination Records */
+.vaccination-records {
+  margin-bottom: 16px;
+}
+
+.vaccination-record {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.vaccination-record h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: #2b2d42;
+}
+
+.vaccination-record p {
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.vaccination-record ion-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* Vaccination Form Array */
+.vaccination-form-item {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.vaccination-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.vaccination-form-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #2b2d42;
+}
+
+/* Form Actions */
+.form-actions {
+  margin-top: 24px;
+}
+
+.form-actions ion-button {
+  margin-bottom: 12px;
+  height: 48px;
+}
+
+element.style {
+}
+feuille de style construite
+.item-inner {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: var(--inner-padding-top);
+    padding-bottom: var(--inner-padding-bottom);
+    padding-right: calc(var(--ion-safe-area-right, 0px) + var(--inner-padding-end));
+    padding-left: var(--inner-padding-start);
+    display: -ms-flexbox;
+    display: flex
+;
+    position: relative;
+    -ms-flex: 1;
+    flex: 1;
+    -ms-flex-direction: inherit;
+    flex-direction: inherit;
+    -ms-flex-align: inherit;
+    align-items: inherit;
+    -ms-flex-item-align: stretch;
+    align-self: stretch;
+    min-height: inherit;
+    border-width: var(--inner-border-width);
+    border-style: var(--border-style);
+    border-color: var(--border-color);
+    -webkit-box-shadow: var(--inner-box-shadow);
+    box-shadow: var(--inner-box-shadow);
+    overflow: inherit;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+feuille de style user-agent
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+feuille de style construite
+.item-native {
+    /* border-radius: var(--border-radius); */
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: var(--padding-top);
+    padding-bottom: var(--padding-bottom);
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    text-decoration: inherit;
+    text-indent: inherit;
+    text-overflow: inherit;
+    text-transform: inherit;
+    text-align: inherit;
+    white-space: inherit;
+    /* color: inherit; */
+    padding-right: var(--padding-end);
+    padding-left: calc(var(--padding-start) + var(--ion-safe-area-left, 0px));
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    -ms-flex-align: inherit;
+    align-items: inherit;
+    -ms-flex-pack: inherit;
+    justify-content: inherit;
+    width: 100%;
+    min-height: var(--min-height);
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
+    border-width: var(--border-width);
+    border-style: var(--border-style);
+    border-color: var(--border-color);
+    outline: none;
+    background: var(--background);
+    overflow: inherit;
+    z-index: 1;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: white;
+    color: black;
+}
+.form-item {
+    --border-radius: 8px;
+    --padding-start: 3;
+    --padding-end: 0;
+    margin-bottom: 16px;
+    --background: white;
+    --color: black;
+}
+.vaccination-form-item {
+    background: #f4f4f4;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+}

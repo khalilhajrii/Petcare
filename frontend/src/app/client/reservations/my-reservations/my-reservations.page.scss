@@ -1,0 +1,141 @@
+/* Base Styles */
+.reservations-content {
+  --background: #f8f9fa;
+  --padding-top: 16px;
+  --padding-bottom: 80px;
+}
+
+/* Cards Container */
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 16px;
+}
+
+/* Reservation Card */
+.reservation-card {
+  --background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin: 0;
+}
+
+.card-subtitle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2b2d42;
+}
+
+.card-content {
+  padding-top: 0;
+}
+
+/* Details */
+.reservation-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #495057;
+}
+
+.detail-item ion-icon {
+  color: #6a11cb;
+}
+
+/* Services */
+.services-list h4 {
+  margin: 16px 0 8px 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2b2d42;
+}
+
+.services-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.service-chip {
+  --background: #f1f3f5;
+  --color: #2b2d42;
+}
+
+.service-chip ion-note {
+  color: #6a11cb;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.empty-state ion-icon {
+  font-size: 64px;
+  color: #adb5bd;
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  font-size: 1.2rem;
+  color: #2b2d42;
+  margin: 0 0 8px 0;
+}
+
+.empty-state p {
+  color: #6c757d;
+  margin: 0 0 24px 0;
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.error-container {
+  text-align: center;
+  padding: 0 24px;
+}
+
+.error-container ion-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.error-container p {
+  margin-bottom: 24px;
+}
+
+/* FAB Button */
+ion-fab-button {
+  --background: #6a11cb;
+  --background-activated: #2575fc;
+  margin-bottom: 16px;
+}

@@ -1,0 +1,62 @@
+<div class="roles-container">
+  <div class="roles-header">
+    <h1>Roles Management</h1>
+    <p class="roles-description">View all available roles in the system</p>
+  </div>
+
+  <!-- Error Alert -->
+  <div class="alert alert-danger" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <!-- Roles Card -->
+  <div class="card roles-card">
+    <div class="card-header">
+      <h2>System Roles</h2>
+    </div>
+    <div class="card-body">
+      <!-- Loading Spinner -->
+      <div class="loading-container" *ngIf="loading">
+        <div class="spinner"></div>
+        <p>Loading roles...</p>
+      </div>
+
+      <!-- Roles List -->
+      <div class="roles-list" *ngIf="!loading">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Role Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="roles.length === 0">
+                <td colspan="3" class="text-center">No roles found</td>
+              </tr>
+              <tr *ngFor="let role of roles">
+                <td>{{ role.id }}</td>
+                <td>
+                  <span class="role-badge" [ngClass]="{
+                    'admin-role': role.roleName === 'admin',
+                    'client-role': role.roleName === 'client',
+                    'prestataire-role': role.roleName === 'prestataire'
+                  }">
+                    {{ role.roleName }}
+                  </span>
+                </td>
+                <td>
+                  <span *ngIf="role.roleName === 'admin'">System administrator with full access</span>
+                  <span *ngIf="role.roleName === 'client'">Regular user who can book services</span>
+                  <span *ngIf="role.roleName === 'prestataire'">Service provider who can offer services</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

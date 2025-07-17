@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-toolbar class="header-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/client/dashboard" class="back-button"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="header-title">Nouvelle Réservation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="reservation-content">
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p class="loading-text">Chargement...</p>
+  </div>
+
+  <!-- Reservation Form -->
+  <form *ngIf="!isLoading" class="reservation-form">
+    <ion-card class="reservation-card">
+      <ion-card-header class="card-header">
+        <ion-card-title class="card-title">Détails de la réservation</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content class="card-content">
+        <!-- Date Field -->
+        <ion-item class="form-item" lines="none">
+          <ion-label position="stacked" class="input-label">Date</ion-label>
+          <ion-input 
+            type="date" 
+            [(ngModel)]="reservation.date" 
+            name="date"
+            class="custom-input">
+          </ion-input>
+          <ion-note slot="error" class="error-note" *ngIf="!reservation.date">
+            <ion-icon name="alert-circle-outline"></ion-icon> La date est requise
+          </ion-note>
+        </ion-item>
+
+        <!-- Time Field -->
+        <ion-item class="form-item" lines="none">
+          <ion-label position="stacked" class="input-label">Heure</ion-label>
+          <ion-input 
+            type="time" 
+            [(ngModel)]="reservation.time" 
+            name="time"
+            class="custom-input">
+          </ion-input>
+          <ion-note slot="error" class="error-note" *ngIf="!reservation.time">
+            <ion-icon name="alert-circle-outline"></ion-icon> L'heure est requise
+          </ion-note>
+        </ion-item>
+
+        <!-- Location Field -->
+        <ion-item class="form-item" lines="none">
+          <ion-label position="stacked" class="input-label">Lieu</ion-label>
+          <ion-input 
+            type="text" 
+            [(ngModel)]="reservation.location" 
+            name="location" 
+            placeholder="Entrez l'adresse"
+            class="custom-input">
+          </ion-input>
+          <ion-note slot="error" class="error-note" *ngIf="!reservation.location">
+            <ion-icon name="alert-circle-outline"></ion-icon> Le lieu est requis
+          </ion-note>
+        </ion-item>
+
+        <!-- Pet Selection -->
+        <ion-item class="form-item" lines="none">
+          <ion-label position="stacked" class="input-label">Animal</ion-label>
+          <ion-select 
+            [(ngModel)]="reservation.petId" 
+            name="petId"
+            interface="action-sheet"
+            class="custom-select">
+            <ion-select-option *ngFor="let pet of pets" [value]="pet.idPet">
+              {{ pet.nom }} ({{ pet.type }})
+            </ion-select-option>
+          </ion-select>
+          <ion-note slot="error" class="error-note" *ngIf="!reservation.petId">
+            <ion-icon name="alert-circle-outline"></ion-icon> Veuillez sélectionner un animal
+          </ion-note>
+        </ion-item>
+
+        <!-- Services Section -->
+        <div class="services-section">
+          <ion-label class="section-label">Services</ion-label>
+          <div class="services-grid">
+            <div 
+              *ngFor="let service of services" 
+              class="service-card" 
+              [class.selected]="isServiceSelected(service.idservice)"
+              (click)="toggleService(service.idservice)">
+              <div class="service-icon">
+                <ion-icon name="medkit-outline"></ion-icon>
+              </div>
+              <div class="service-info">
+                <div class="service-name">{{ service.nomservice }}</div>
+                <div class="service-price">{{ service.prixService | currency:'TND':'symbol':'1.2-2' }}</div>
+              </div>
+            </div>
+          </div>
+          <ion-note class="error-message" *ngIf="reservation.serviceIds.length === 0">
+            <ion-icon name="alert-circle-outline"></ion-icon> Veuillez sélectionner au moins un service
+          </ion-note>
+        </div>
+
+        <!-- Submit Button -->
+        <ion-button 
+          expand="block" 
+          (click)="submitReservation()" 
+          [disabled]="submitting"
+          class="submit-button">
+          <ion-spinner *ngIf="submitting" name="lines"></ion-spinner>
+          <span *ngIf="!submitting">Confirmer la réservation</span>
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

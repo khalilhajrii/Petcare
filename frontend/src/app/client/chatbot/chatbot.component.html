@@ -1,0 +1,46 @@
+<!-- Chatbot Icon Button -->
+<div class="chatbot-icon" [class.open]="isOpen" (click)="toggleChat()">
+  <ion-icon [name]="isOpen ? 'close-outline' : 'chatbubble-ellipses-outline'"></ion-icon>
+</div>
+
+<!-- Chatbot Dialog -->
+<div class="chatbot-container" [class.open]="isOpen">
+  <div class="chatbot-header">
+    <div class="chatbot-title">
+      <ion-icon name="paw-outline"></ion-icon>
+      <span>Assistant de Réservation</span>
+    </div>
+    <ion-button fill="clear" class="close-button" (click)="toggleChat()">
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-button>
+  </div>
+  
+  <div class="chatbot-messages">
+    <div *ngFor="let message of messages" 
+         class="message" 
+         [class.user-message]="message.isUser" 
+         [class.bot-message]="!message.isUser">
+      <div class="message-content">
+        <div class="message-text">{{ message.content }}</div>
+        <div class="message-time">{{ message.timestamp | date:'shortTime' }}</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="chatbot-input">
+    <ion-input 
+      placeholder="Tapez votre message ici..." 
+      [(ngModel)]="newMessage"
+      (keyup.enter)="sendMessage()"
+      [disabled]="isLoading"
+    ></ion-input>
+    <ion-button 
+      fill="clear" 
+      class="send-button" 
+      (click)="sendMessage()"
+      [disabled]="isLoading || !newMessage.trim()"
+    >
+      <ion-icon [name]="isLoading ? 'ellipsis-horizontal' : 'send-outline'"></ion-icon>
+    </ion-button>
+  </div>
+</div>

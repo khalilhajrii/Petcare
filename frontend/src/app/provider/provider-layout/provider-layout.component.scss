@@ -1,0 +1,148 @@
+/* Menu Styles */
+.provider-menu {
+  --width: 280px;
+  --ion-background-color: #ffffff;
+}
+
+.menu-header {
+  --background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  --color: white;
+  padding: 20px 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.avatar ion-icon {
+  font-size: 32px;
+  color: white;
+}
+
+.user-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.user-info p {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.menu-content {
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+}
+
+.menu-list {
+  padding: 8px 0;
+}
+
+.menu-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+  --background: transparent;
+  --background-activated: rgba(106, 17, 203, 0.1);
+  --background-hover: rgba(106, 17, 203, 0.05);
+  --border-radius: 8px;
+  margin: 4px 8px;
+}
+
+.menu-item::part(native) {
+  padding-left: 8px;
+}
+
+.item-inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 8px;
+}
+
+.menu-icon {
+  font-size: 1.2rem;
+  margin-right: 16px;
+  color: #6a11cb;
+}
+
+.menu-item ion-label {
+  font-weight: 500;
+  color: #2b2d42;
+}
+
+.menu-item.selected {
+  --background: rgba(106, 17, 203, 0.1);
+}
+
+.menu-item.selected .menu-icon,
+.menu-item.selected ion-label {
+  color: #6a11cb;
+  font-weight: 600;
+}
+
+.logout-item {
+  margin-top: 8px;
+}
+
+.logout-item .menu-icon {
+  color: #f44336;
+}
+
+.logout-item ion-label {
+  color: #f44336;
+}
+
+.menu-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+  margin: 12px 24px;
+}
+
+/* Main Header Styles */
+.main-header {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.main-toolbar {
+  --background: white;
+  --color: #2b2d42;
+  --border-width: 0;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+}
+
+.menu-button ion-icon {
+  font-size: 1.5rem;
+  color: #6a11cb;
+}
+
+.page-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0 16px;
+}
+
+.logout-button ion-icon {
+  color: #6a11cb;
+}
+.menu-list {
+    padding: 8px 0;
+    background: white;
+}

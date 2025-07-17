@@ -1,33 +1,105 @@
 import { Component, OnInit } from '@angular/core';
-import { ProviderService } from '../provider.service';
+import { ProviderService, Service, Reservation } from '../provider.service';
 import { AuthService } from '../../auth/auth.service';
+import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
+
+
 
 @Component({
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, IonicModule, RouterModule],
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-  services: any[] = [];
-  appointments: any[] = [];
+  services: Service[] = [];
+  reservations: Reservation[] = [];
+  isLoading = true;
+  todayDate = new Date().toISOString().split('T')[0];
 
   constructor(private providerService: ProviderService, private auth: AuthService) {}
 
   ngOnInit() {
-    this.loadServices();
-    this.loadAppointments();
+    this.loadData();
   }
 
-  loadServices() {
-    this.providerService.getServices().subscribe(services => this.services = services);
+  loadData() {
+    this.isLoading = true;
+    
+    // Load services
+    this.providerService.getServices().subscribe(services => {
+      this.services = services;
+      
+      // After services are loaded, load reservations
+      this.loadReservations();
+    });
   }
 
-  loadAppointments() {
-    this.providerService.getAppointments().subscribe(appts => this.appointments = appts);
+  loadReservations() {
+    this.providerService.getReservations().subscribe({
+      next: (reservations) => {
+        console.log('Réservations chargées:', reservations);
+        this.reservations = reservations;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading reservations', error);
+        this.isLoading = false;
+      }
+    });
   }
 
-  logout() {
-    this.auth.logout();
+  getUpcomingReservations() {
+    return this.reservations.filter(res => {
+      const reservDate = new Date(res.date);
+      const today = new Date(this.todayDate);
+      // Filtrer uniquement les réservations approuvées avec date future
+      return reservDate > today && res.status === 'approved';
+    }).sort((a, b) => {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    });
   }
+
+  getPastReservations() {
+    return this.reservations.filter(res => {
+      const reservDate = new Date(res.date);
+      const today = new Date(this.todayDate);
+      // Filtrer toutes les réservations avec date passée (approuvées ou non)
+      return reservDate < today;
+    }).sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+  }
+
+  getTodayReservations() {
+    return this.reservations.filter(res => {
+      const reservDate = new Date(res.date).toISOString().split('T')[0];
+      // Filtrer uniquement les réservations approuvées pour aujourd'hui
+      return reservDate === this.todayDate && res.status === 'approved';
+    }).sort((a, b) => {
+      return a.time.localeCompare(b.time);
+    });
+  }
+
+  getServiceNames(services: Service[]): string {
+    return services.map(s => s.nomservice).join(', ');
+  }
+
+  formatDate(dateString: string): string {
+    const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('fr-FR', options);
+  }
+
+  getDateDay(dateString: string): number {
+    return new Date(dateString).getDate();
+  }
+
+  getDateMonth(dateString: string): string {
+    return new Date(dateString).toLocaleDateString('fr-FR', {month: 'short'});
+  }
+
+  // La méthode logout a été déplacée vers le composant de layout
 }

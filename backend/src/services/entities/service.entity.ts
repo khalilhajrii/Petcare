@@ -1,6 +1,6 @@
 import { Reservation } from "src/reservations/entities/reservation.entity";
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-// import { Reservation } from "./reservation.entity";
+import { User } from "src/users/entities/user.entity";
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('service')
 export class Service {
@@ -18,6 +18,12 @@ export class Service {
 
     @Column()
     servicedetail: string;
+    
+    @Column({ nullable: true })
+    userId: number;
+    
+    @ManyToOne(() => User, user => user.services, { nullable: true })
+    user: User;
 
     @ManyToMany(() => Reservation, reservation => reservation.services)
     reservations: Reservation[];

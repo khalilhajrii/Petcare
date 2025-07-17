@@ -1,0 +1,234 @@
+/* Base Styles */
+.profile-content {
+  --background: #f8f9fa;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  color: #000000; /* Ensure base text color is black */
+}
+
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: #000000; /* Black text */
+}
+
+.loading-text {
+  color: #000000; /* Black text */
+  margin-top: 16px;
+}
+
+/* Header */
+.header-container {
+  margin-bottom: 24px;
+  padding: 0 16px;
+}
+
+.profile-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #000000; /* Black text */
+  margin-bottom: 8px;
+}
+
+.profile-subtitle {
+  color: #333333; /* Dark gray for subtitle */
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Cards */
+.info-card,
+.availability-card {
+  --background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  color: #000000; /* Black text */
+}
+
+.card-header {
+  padding: 16px;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000000; /* Black text */
+}
+
+.card-title ion-icon {
+  margin-right: 12px;
+  color: #6a11cb;
+  font-size: 1.4rem;
+}
+
+.card-content {
+  padding: 16px;
+  color: #000000; /* Black text */
+}
+
+/* Form Fields */
+.form-field {
+  margin-bottom: 24px;
+}
+
+.form-item {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+  --border-radius: 8px;
+  color: #000000; /* Black text */
+}
+
+.input-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333333; /* Dark gray for labels */
+  margin-bottom: 8px;
+}
+
+.custom-input {
+  --background: #f8f9fa;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --color: #000000; /* Black text */
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  font-size: 0.95rem;
+}
+
+.custom-input:focus {
+  border-color: #6a11cb;
+  box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.1);
+}
+
+.readonly-input {
+  --background: #f1f3f5;
+  --color: #333333; /* Dark gray for readonly text */
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #d32f2f; /* Darker red for better visibility */
+  margin-top: 6px;
+  padding-left: 8px;
+}
+
+.error-message ion-icon {
+  margin-right: 6px;
+}
+
+/* Availability Section */
+.toggle-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+}
+
+.toggle-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #000000; /* Black text */
+}
+
+.availability-toggle {
+  --background: #e9ecef;
+  --background-checked: #6a11cb;
+  --handle-background: white;
+  --handle-background-checked: white;
+}
+
+.toggle-note {
+  font-size: 0.85rem;
+  color: #333333; /* Dark gray for note */
+  display: block;
+  margin-top: 12px;
+  padding-left: 8px;
+}
+
+/* Submit Button */
+.form-actions {
+  padding: 0 16px;
+}
+
+.submit-button {
+  --background: #6a11cb;
+  --background-activated: #2575fc;
+  --box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2);
+  --color: white; /* White text on colored button */
+  height: 50px;
+  font-weight: 500;
+  margin-top: 16px;
+}
+
+.submit-button:disabled {
+  --background: #e9ecef;
+  --box-shadow: none;
+  color: #666666; /* Gray text for disabled state */
+}
+.toggle-label[_ngcontent-ng-c1112642295] {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #000000;
+    background: white;
+}
+.toggle-wrapper {
+    display: flex
+;
+    position: relative;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-between;
+    height: inherit;
+    transition: background-color 15ms linear;
+    cursor: inherit;
+    background: white;
+}
+
+
+/* Add this to your CSS */
+.white-card {
+  --background: white !important;
+  background: white !important;
+}
+
+/* Update the toggle section styles */
+.availability-card {
+  --background: white; /* White background */
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  color: #000000; /* Black text */
+}
+
+.toggle-item {
+  --background: white; /* White background */
+  --color: #000000; /* Black text */
+}
+
+.toggle-label {
+  color: #000000; /* Black text */
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.toggle-note {
+  color: #333333; /* Dark gray for note */
+  font-size: 0.85rem;
+}
