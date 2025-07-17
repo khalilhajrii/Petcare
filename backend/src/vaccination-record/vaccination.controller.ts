@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { VaccinationRecordsService } from "./vaccination.service";
 import { VaccinationRecord } from "./entities/vaccination-record.entity";
 import { CreateVaccinationRecordDto } from "./dto/create-vaccination-record.dto";

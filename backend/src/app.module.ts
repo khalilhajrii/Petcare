@@ -26,7 +26,7 @@ import { NotificationsModule } from './notifications/notifications.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'database',
       // host: 'database',
       port: 5432,
       username: 'root',

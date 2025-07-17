@@ -110,15 +110,3 @@ jobs:
         name: admin-frontend-security-report
         path: ./reports
         retention-days: 7
-      continue-on-error: true
-    
-    - name: Run Bandit security scan
-      working-directory: ./Model
-      run: bandit -r app -f html -o ../model-security-report.html
-    
-    - name: Upload Model Security Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: model-security-report
-        path: ./model-security-report.html
-        retention-days: 7
