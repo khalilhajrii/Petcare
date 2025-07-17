@@ -17,6 +17,7 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class ClientLayoutComponent implements OnInit {
   pageTitle = 'PetCare';
+  isDashboardPage = false;
 
   constructor(
     private auth: AuthService, 
@@ -29,10 +30,12 @@ export class ClientLayoutComponent implements OnInit {
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.updateTitle();
+      this.isDashboardPage = this.router.url.includes('/dashboard');
     });
     
-    // Set initial title
+    // Set initial title and check if dashboard
     this.updateTitle();
+    this.isDashboardPage = this.router.url.includes('/dashboard');
   }
 
   updateTitle() {

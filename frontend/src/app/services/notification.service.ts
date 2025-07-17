@@ -109,7 +109,12 @@ export class NotificationService {
             this.markAsRead(notification.id);
             // Navigate to reservation details if applicable
             if (notification.reservationId) {
-              // Navigation logic will be implemented later
+              // Check if user is authenticated before navigating
+              const user = this.authService.currentUserValue;
+              if (user && user.id) {
+                // Use window.location to ensure a full page reload which will trigger auth checks
+                window.location.href = `/client/reservations/${notification.reservationId}`;
+              }
             }
           }
         }

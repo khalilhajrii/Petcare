@@ -38,6 +38,8 @@ export class NotificationListComponent implements OnInit, OnDestroy {
     
     // Navigate to reservation details if applicable
     if (notification.reservationId) {
+      // We're already in the client area, so we can use the router directly
+      // The authGuard will protect the route if somehow the user is not authenticated
       this.router.navigate(['/client/reservations', notification.reservationId]);
     }
   }

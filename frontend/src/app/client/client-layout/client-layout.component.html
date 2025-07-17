@@ -84,6 +84,6 @@
     <router-outlet></router-outlet>
   </ion-content>
   
-  <!-- Chatbot Component -->
-  <app-chatbot></app-chatbot>
+  <!-- Chatbot Component - Only shown on dashboard page -->
+  <app-chatbot *ngIf="isDashboardPage"></app-chatbot>
 </div>
