@@ -4,13 +4,14 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { filter } from 'rxjs/operators';
+import { ChatbotComponent } from '../chatbot/chatbot.component';
 
 @Component({
   selector: 'app-client-layout',
   templateUrl: './client-layout.component.html',
   styleUrls: ['./client-layout.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule]
+  imports: [CommonModule, IonicModule, RouterModule, ChatbotComponent]
 })
 export class ClientLayoutComponent implements OnInit {
   pageTitle = 'PetCare';

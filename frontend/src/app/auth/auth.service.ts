@@ -86,6 +86,12 @@ export class AuthService {
           await this._storageService.set('user', response.user);
           console.log('User stored in Ionic Storage');
           
+          // Store email in Ionic Storage for chatbot and other services
+          if (response.user && response.user.email) {
+            console.log('Setting email in storage:', response.user.email);
+            await this._storageService.set('email', response.user.email);
+          }
+          
           // Store userId in localStorage for easy access
           if (response.user && response.user.id) {
             console.log('Setting userId in localStorage:', response.user.id);
@@ -106,6 +112,12 @@ export class AuthService {
       tap(async (response: any) => {
         await this._storageService.set('token', response.access_token);
         await this._storageService.set('user', response.user);
+        
+        // Store email in Ionic Storage for chatbot and other services
+        if (response.user && response.user.email) {
+          console.log('Setting email in storage:', response.user.email);
+          await this._storageService.set('email', response.user.email);
+        }
         
         // Store userId in localStorage for easy access
         if (response.user && response.user.id) {
@@ -140,6 +152,7 @@ export class AuthService {
     console.log('Logging out user');
     await this._storageService.remove('token');
     await this._storageService.remove('user');
+    await this._storageService.remove('email');
     
     // Clear userId from localStorage
     localStorage.removeItem('userId');
