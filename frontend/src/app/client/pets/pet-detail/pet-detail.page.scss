@@ -234,3 +234,17 @@ feuille de style construite
     background: white;
     color: black;
 }
+.form-item {
+    --border-radius: 8px;
+    --padding-start: 3;
+    --padding-end: 0;
+    margin-bottom: 16px;
+    --background: white;
+    --color: black;
+}
+.vaccination-form-item {
+    background: #f4f4f4;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+}

@@ -5,18 +5,24 @@ import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { filter } from 'rxjs/operators';
 import { ChatbotComponent } from '../chatbot/chatbot.component';
+import { NotificationButtonComponent } from '../notifications/notification-button/notification-button.component';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-client-layout',
   templateUrl: './client-layout.component.html',
   styleUrls: ['./client-layout.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, ChatbotComponent]
+  imports: [CommonModule, IonicModule, RouterModule, ChatbotComponent, NotificationButtonComponent]
 })
 export class ClientLayoutComponent implements OnInit {
   pageTitle = 'PetCare';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService, 
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     this.router.events.pipe(

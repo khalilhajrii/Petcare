@@ -9,6 +9,7 @@ import { VaccinationRecord } from './vaccination-record/entities/vaccination-rec
 import { Reservation } from './reservations/entities/reservation.entity';
 import { Service } from './services/entities/service.entity';
 import { Payment } from './payments/entities/payment.entity';
+import { Notification } from './notifications/entities/notification.entity';
 import { PetsModule } from './pets/pet.module';
 import { VaccinationRecordsModule } from './vaccination-record/vaccination.module';
 import { ReservationsModule } from './reservations/reservation.module';
@@ -17,6 +18,7 @@ import { ServicesModule } from './services/services.module';
 import { UsersModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './users/role.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 
 
@@ -32,7 +34,7 @@ import { RoleModule } from './users/role.module';
       database: 'petcare',
       synchronize: true,
       migrationsRun: false,
-      entities: [User, Role, Pet, VaccinationRecord, Reservation, Service, Payment],
+      entities: [User, Role, Pet, VaccinationRecord, Reservation, Service, Payment, Notification],
       logging: true,
       autoLoadEntities: true,
     }),
@@ -43,7 +45,8 @@ import { RoleModule } from './users/role.module';
     // PaymentsModule,
     UsersModule,
     AuthModule,
-    RoleModule
+    RoleModule,
+    NotificationsModule
   ],
   controllers: [AppController],
   providers: [AppService],

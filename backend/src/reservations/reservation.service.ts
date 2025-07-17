@@ -5,6 +5,8 @@ import { Repository, In } from 'typeorm';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { Service } from '../services/entities/service.entity';
+import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationsGateway } from '../notifications/notifications.gateway';
 
 @Injectable()
 export class ReservationsService {
@@ -14,6 +16,9 @@ export class ReservationsService {
 
     @InjectRepository(Service)
     private readonly serviceRepository: Repository<Service>,
+    
+    private readonly notificationsService: NotificationsService,
+    private readonly notificationsGateway: NotificationsGateway,
   ) {}
 
 
@@ -47,6 +52,7 @@ export class ReservationsService {
       where: {
         idservice: In(serviceIds),
       },
+      relations: ['user'],
     });
     
     if (services.length !== serviceIds.length) {
@@ -62,7 +68,47 @@ export class ReservationsService {
       services,
     });
 
-    return this.reservationRepository.save(newReservation);
+    const savedReservation = await this.reservationRepository.save(newReservation);
+    
+    // Envoyer des notifications aux prestataires de services
+    for (const service of services) {
+      if (service.user && service.user.id) {
+        const providerId = service.user.id;
+        const formattedDate = new Date(date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const notificationMessage = `Nouvelle réservation pour votre service "${service.nomservice}" le ${formattedDate} à ${time}`;
+        
+        // Créer la notification dans la base de données
+        const notification = await this.notificationsService.createReservationNotification(
+          'reservation_created',
+          providerId,
+          savedReservation.idreserv,
+          notificationMessage
+        );
+        
+        // Envoyer la notification en temps réel
+        this.notificationsGateway.sendNotificationToProvider(providerId, notification);
+      }
+    }
+    
+    // Envoyer une notification au propriétaire de la réservation (client)
+    if (userId) {
+      const formattedDate = new Date(date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const serviceNames = services.map(service => service.nomservice).join(', ');
+      const notificationMessage = `Votre réservation pour ${serviceNames} le ${formattedDate} à ${time} a été créée avec succès`;
+      
+      // Créer la notification dans la base de données
+      const notification = await this.notificationsService.createReservationNotification(
+        'reservation_created',
+        userId,
+        savedReservation.idreserv,
+        notificationMessage
+      );
+      
+      // Envoyer la notification en temps réel
+      this.notificationsGateway.sendNotificationToUser(userId, notification);
+    }
+    
+    return savedReservation;
  }
 
   
@@ -96,20 +142,22 @@ export class ReservationsService {
   async update(id: number, dto: UpdateReservationDto) {
     const reservation = await this.reservationRepository.findOne({
       where: { idreserv: id },
-      relations: ['services'], // important pour éviter les conflits lors du merge
+      relations: ['services', 'services.user', 'user', 'pet'], // important pour éviter les conflits lors du merge
     });
 
     if (!reservation) {
       throw new NotFoundException(`Réservation ${id} introuvable.`);
     }
 
-    const { date, time, userId, petId, serviceIds, ...rest } = dto;
+    const { date, time, userId, petId, serviceIds, status, ...rest } = dto;
 
     // Vérifier disponibilité si date/time/userId/petId changent
     const newDate = date ?? reservation.date;
     const newTime = time ?? reservation.time;
     const newUserId = userId ?? reservation.userId;
     const newPetId = petId ?? reservation.petId;
+    const oldStatus = reservation.status;
+    const newStatus = status ?? oldStatus;
 
     if (!newTime) {
       throw new BadRequestException("L'heure (time) est requise.");
@@ -148,6 +196,7 @@ export class ReservationsService {
     if (serviceIds) {
       const services = await this.serviceRepository.find({
         where: { idservice: In(serviceIds) },
+        relations: ['user'],
       });
 
       if (services.length !== serviceIds.length) {
@@ -163,10 +212,44 @@ export class ReservationsService {
       time: newTime,
       userId: newUserId,
       petId: newPetId,
+      status: newStatus,
       ...rest,
     });
 
-    return this.reservationRepository.save(reservation);
+    const updatedReservation = await this.reservationRepository.save(reservation);
+    
+    // Envoyer des notifications si le statut a changé
+    if (status && status !== oldStatus) {
+      // Notification au client qui a fait la réservation
+      if (reservation.userId) {
+        const formattedDate = new Date(reservation.date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        let notificationMessage = '';
+        let notificationType: 'reservation_approved' | 'reservation_rejected' = 'reservation_approved';
+        
+        if (status === 'approved') {
+          notificationMessage = `Votre réservation du ${formattedDate} à ${reservation.time} a été acceptée`;
+          notificationType = 'reservation_approved';
+        } else if (status === 'rejected') {
+          notificationMessage = `Votre réservation du ${formattedDate} à ${reservation.time} a été refusée`;
+          notificationType = 'reservation_rejected';
+        }
+        
+        if (notificationMessage) {
+          // Créer la notification dans la base de données
+          const notification = await this.notificationsService.createReservationNotification(
+            notificationType,
+            reservation.userId,
+            reservation.idreserv,
+            notificationMessage
+          );
+          
+          // Envoyer la notification en temps réel
+          this.notificationsGateway.sendNotificationToUser(reservation.userId, notification);
+        }
+      }
+    }
+    
+    return updatedReservation;
   }
 
   async remove(id: number) {

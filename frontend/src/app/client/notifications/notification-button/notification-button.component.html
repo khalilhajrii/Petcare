@@ -1,0 +1,4 @@
+<ion-button (click)="openNotifications($event)" class="notification-button">
+  <ion-icon name="notifications-outline"></ion-icon>
+  <ion-badge *ngIf="unreadCount > 0" color="danger" class="notification-badge">{{ unreadCount }}</ion-badge>
+</ion-button>
