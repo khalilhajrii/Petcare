@@ -25,21 +25,20 @@ This workflow runs tests for both the frontend and backend components of the app
 - Runs linting
 - Executes frontend tests with headless Chrome
 
-### 2. `model-ci.yml` - Model Component CI Pipeline
+### 2. `admin-ci.yml` - Admin Frontend CI Pipeline
 
-This workflow runs tests for the Python-based Model component.
+This workflow runs tests for the admin frontend component.
 
 **Triggers:**
-- Push to `main`, `master`, or `develop` branches (only when files in the `Model/` directory change)
-- Pull requests to `main`, `master`, or `develop` branches (only when files in the `Model/` directory change)
+- Push to `main`, `master`, or `develop` branches (only when files in the `FrontendAdmin/` directory change)
+- Pull requests to `main`, `master`, or `develop` branches (only when files in the `FrontendAdmin/` directory change)
 
 **Jobs:**
 
-#### Model Tests
-- Sets up a PostgreSQL database service
-- Installs Python and dependencies
-- Runs linting with flake8
-- Executes tests with pytest and generates coverage reports
+#### Admin Frontend Tests
+- Installs Node.js and dependencies
+- Runs linting
+- Executes admin frontend tests with headless Chrome
 
 ### 3. `build.yml` - Build Pipeline
 
@@ -61,10 +60,10 @@ This workflow builds all components of the application and saves the build artif
 - Builds the frontend application
 - Archives the build artifacts
 
-#### Build Model
-- Installs Python and dependencies
-- Verifies the model package can be imported
-- Archives the model code
+#### Build Admin Frontend
+- Installs Node.js and dependencies
+- Builds the admin frontend application
+- Archives the build artifacts
 
 ### 4. `security.yml` - Security Scan Pipeline
 
@@ -87,10 +86,32 @@ This workflow scans all components for security vulnerabilities in dependencies.
 - Performs OWASP Dependency-Check
 - Generates and uploads security reports
 
-#### Model Security
-- Checks for vulnerable Python packages with Safety
-- Runs Bandit security scan
+#### Admin Frontend Security
+- Runs npm audit
+- Performs OWASP Dependency-Check
 - Generates and uploads security reports
+
+### 5. `typescript-lint.yml` - TypeScript Linting Pipeline
+
+This workflow runs TypeScript linting on all TypeScript files to catch type errors and other issues early.
+
+**Triggers:**
+- Push to `main`, `master`, or `develop` branches (only when TypeScript files, tsconfig.json, or ESLint configs change)
+- Pull requests to `main`, `master`, or `develop` branches (only when TypeScript files, tsconfig.json, or ESLint configs change)
+
+**Jobs:**
+
+#### Backend Linting
+- Installs Node.js and dependencies
+- Runs ESLint on backend TypeScript files
+
+#### Frontend Linting
+- Installs Node.js and dependencies
+- Runs ESLint on frontend TypeScript files
+
+#### Admin Frontend Linting
+- Installs Node.js and dependencies
+- Runs ESLint on admin frontend TypeScript files
 
 ## Usage
 

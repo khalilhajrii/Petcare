@@ -6,7 +6,7 @@ This directory contains GitHub-specific configuration files for the PetCare appl
 
 ### Workflows
 
-The `workflows/` directory contains GitHub Actions workflow definitions that automate testing, building, and security scanning of the application. See the [Workflows README](./workflows/README.md) for detailed information about each workflow.
+The `workflows/` directory contains GitHub Actions workflow definitions that automate testing, building, security scanning, and linting of the application. The workflows include `ci.yml`, `admin-ci.yml`, `build.yml`, `security.yml`, and `typescript-lint.yml`. See the [Workflows README](./workflows/README.md) for detailed information about each workflow.
 
 ## GitHub Actions Overview
 

@@ -2,7 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { IoAdapter } from '@nestjs/platform-socket.io';
-declare const module: any;
+interface HotModule {
+  hot?: {
+    accept: () => void;
+    dispose: (callback: () => void) => void;
+  };
+}
+
+declare const module: HotModule;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,9 +36,12 @@ async function bootstrap() {
 
 
   await app.listen(process.env.PORT ?? 3000);
+  
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }
 }
-bootstrap();
+
+// Add void operator to handle the floating promise
+void bootstrap();

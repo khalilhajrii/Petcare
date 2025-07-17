@@ -1,13 +1,23 @@
-name: PetCare Build Pipeline
+name: TypeScript Linting
 
 on:
   push:
     branches: [ main, master, develop ]
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/tsconfig.json'
+      - '**/eslint*'
   pull_request:
     branches: [ main, master, develop ]
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '**/tsconfig.json'
+      - '**/eslint*'
 
 jobs:
-  build-backend:
+  lint-backend:
     runs-on: ubuntu-latest
     
     steps:
@@ -24,18 +34,11 @@ jobs:
       working-directory: ./backend
       run: npm ci
     
-    - name: Build Backend
+    - name: Lint Backend
       working-directory: ./backend
-      run: npm run build
-    
-    - name: Archive Backend Build
-      uses: actions/upload-artifact@v4
-      with:
-        name: backend-build
-        path: backend/dist
-        retention-days: 5
+      run: npm run lint
 
-  build-frontend:
+  lint-frontend:
     runs-on: ubuntu-latest
     
     steps:
@@ -52,18 +55,11 @@ jobs:
       working-directory: ./frontend
       run: npm ci
     
-    - name: Build Frontend
+    - name: Lint Frontend
       working-directory: ./frontend
-      run: npm run build
-    
-    - name: Archive Frontend Build
-      uses: actions/upload-artifact@v4
-      with:
-        name: frontend-build
-        path: frontend/www
-        retention-days: 5
+      run: npm run lint
 
-  build-admin-frontend:
+  lint-admin-frontend:
     runs-on: ubuntu-latest
     
     steps:
@@ -80,13 +76,6 @@ jobs:
       working-directory: ./FrontendAdmin
       run: npm ci
     
-    - name: Build Admin Frontend
+    - name: Lint Admin Frontend
       working-directory: ./FrontendAdmin
-      run: npm run build
-    
-    - name: Archive Admin Frontend Build
-      uses: actions/upload-artifact@v4
-      with:
-        name: admin-frontend-build
-        path: FrontendAdmin/dist
-        retention-days: 5
+      run: npm run lint

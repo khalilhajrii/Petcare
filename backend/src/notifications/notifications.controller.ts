@@ -11,7 +11,7 @@ import {
 import { NotificationsService } from './notifications.service';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { RolesGuard } from '../auth/roles.guard';
-import { Roles } from '../auth/roles.decorator';
+// import { Roles } from '../auth/roles.decorator';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('Notifications')
@@ -22,7 +22,7 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Get()
-  async getNotifications(@Request() req) {
+  async getNotifications(@Request() req: { user?: { id: number; email: string; role?: string } }) {
     const userId = req.user?.id;
     if (!userId) {
       throw new BadRequestException('User ID not found in request');
@@ -31,7 +31,7 @@ export class NotificationsController {
   }
 
   @Post(':id/read')
-  async markAsRead(@Param('id') id: string, @Request() req) {
+  async markAsRead(@Param('id') id: string, @Request() req: { user?: { id: number; email: string; role?: string } }) {
     const userId = req.user?.id;
     if (!userId) {
       throw new BadRequestException('User ID not found in request');
@@ -40,7 +40,7 @@ export class NotificationsController {
   }
 
   @Post('read-all')
-  async markAllAsRead(@Request() req) {
+  async markAllAsRead(@Request() req: { user?: { id: number; email: string; role?: string } }) {
     const userId = req.user?.id;
     if (!userId) {
       throw new BadRequestException('User ID not found in request');

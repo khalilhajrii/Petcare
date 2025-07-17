@@ -10,13 +10,14 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
-  @Get('ping')
-  async pingDB(): Promise<string> {
+  @Get('ping-db')
+  async pingDB() {
     try {
       const isConnected = this.dataSource.isInitialized;
-      return isConnected ? 'Database connected ✅' : 'Not connected ❌';
-    } catch (err) {
-      return `Error connecting to DB: ${err.message}`;
+      return { status: 'ok', message: isConnected ? 'Database connection successful' : 'Not connected' };
+    } catch (err: unknown) {
+      const error = err as Error;
+      return { status: 'error', message: error.message };
     }
   }
 }
